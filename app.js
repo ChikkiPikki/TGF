@@ -24,6 +24,6 @@ app.get("/", (req, res)=>{
 	res.render("index.ejs")
 });
 
-app.listen(8080, ()=>{
+app.listen(process.env.PORT, ()=>{
 	console.log("process begun");
 });
