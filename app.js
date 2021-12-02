@@ -10,15 +10,20 @@ app.use(
 		extended:true
 	}));
 app.set("view engine", "ejs");
+app.use("/", express.static("./views"));
+// app.use("img", express.static("./views/img/home"));
+
+
+
+
+
 
 
 
 app.get("/", (req, res)=>{
-	res.render("home", {
-		name: "TecSo Global Foundation"
-	});
+	res.render("index.ejs")
 });
 
-app.listen(process.env.PORT, ()=>{
+app.listen(8080, ()=>{
 	console.log("process begun");
 });
