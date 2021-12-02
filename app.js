@@ -11,6 +11,9 @@ app.use(
 	}));
 app.set("view engine", "ejs");
 app.use("/", express.static("./views"));
+// app.use("/css", express.static("./views/css"));
+// app.use("/js", express.static("./views/js"));
+
 // app.use("img", express.static("./views/img/home"));
 
 
@@ -23,7 +26,11 @@ app.use("/", express.static("./views"));
 app.get("/", (req, res)=>{
 	res.render("index.ejs")
 });
+app.get("img/:img", (req, res)=>{
+	res.send("./views/img/"+req.params.img)
+});
 
-app.listen(process.env.PORT, ()=>{
+
+app.listen(3000, ()=>{
 	console.log("process begun");
 });
