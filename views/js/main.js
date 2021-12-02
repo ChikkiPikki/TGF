@@ -140,8 +140,9 @@
     /*------------------
         Image Popup
     --------------------*/
-    $('.image-popup').magnificPopup({
-        type: 'image'
+    $('.pf-item').magnificPopup({
+        type: 'image',
+        delegate: ''
     });
 
     /*------------------
@@ -150,5 +151,12 @@
     $('.video-popup').magnificPopup({
         type: 'iframe'
     });
+    // $(".pf-item").magnificPopup({
+    //     type: 'image',
+    //     delegate: '.pf-item',
+    //     gallery:{
+    //         enabled: true
+    //     }
+    // });
 
 })(jQuery);
