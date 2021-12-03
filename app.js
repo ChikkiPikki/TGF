@@ -12,13 +12,8 @@ app.use(
 	}));
 app.set("view engine", "ejs");
 app.use("/", express.static("./views"));
-mongoose.connect(ENV.DB , {useNewUrlParser: true, useUnifiedTopology: true}, (err)=>{
-	if (err){
-		mongoose.connect(process.env.DB, {useNewUrlParser: true, useUnifiedTopology: true}, (err)=>{
-			if (err){console.log(err)}
-		});
-	}
-});
+mongoose.connect(process.env.DB, {useNewUrlParser: true, useUnifiedTopology: true}, (err)=>{
+			if (err){console.log(err)}})
 // app.use("/css", express.static("./views/css"));
 // app.use("/js", express.static("./views/js"));
 
