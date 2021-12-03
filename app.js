@@ -2,7 +2,7 @@ var express = require("express");
 var mongoose = require("mongoose");
 var mongodb = require("mongodb");
 var bodyParser = require("body-parser");
-// var ENV = require("./env.js").catch(err => console.log("On Server"));
+var ENV = require("./env.js") //Comment out before deploying to devsev
 
 var app = express();
 
