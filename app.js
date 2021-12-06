@@ -3,6 +3,10 @@ var mongoose = require("mongoose");
 var mongodb = require("mongodb");
 var bodyParser = require("body-parser");
 var path = require("path");
+var dotenv = require("dotenv");
+// dotenv.config("./.env", (err)=>{
+// 	if(err){console.log(err)}
+// });
 
 var app = express();
 
@@ -63,6 +67,6 @@ app.post("/query", (req, res)=>{
 });
 
 
-app.listen(process.env.PORT || ENV.PORT, ()=>{
+app.listen(process.env.PORT, ()=>{
 	console.log("process begun");
 });
