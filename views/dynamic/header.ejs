@@ -1,0 +1,40 @@
+<header>
+  <nav>
+    <div class="container">
+      <ul class="nav-list">
+        <li class="nav-logo">
+          <div class="logo">
+            <i class="fab fa-sass"></i>
+          </div>
+          <button class="btn" id="nav-toggle">
+          <i class="fa fa-bars"></i></button>
+        </li>
+        
+        <li class="nav-link">About<i class="fa fa-chevron-up"></i>
+          <ul class="nav-drop">
+            <li>Our Team</li>
+            <li>Our Process</li>
+            <li>History</li>
+          </ul>
+        </li>
+        
+        <li class="nav-link">Work<i class="fa fa-chevron-up"></i>
+          <ul class="nav-drop">
+            <li>Portfolio</li>
+            <li>Showcase</li>
+          </ul>
+        </li>
+         
+        <li class="nav-link">Contact</li>
+        <li class="nav-item"><button class="btn">Sign in</button></li>
+        
+      </ul>
+    </div>
+  </nav>
+</header>
+<script type="text/javascript">$(document).ready(() => {
+   $('#nav-toggle').click(() => {
+     $(".nav-item").toggle(100);
+     $(".nav-link").toggle(100);
+   });
+});</script>

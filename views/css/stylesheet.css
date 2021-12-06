@@ -1,0 +1,158 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Poppins:wght@300&display=swap");
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #fafafa; }
+
+.container {
+  max-width: 1000px;
+  padding: 0 4rem;
+  margin: 0 auto; }
+
+ul,
+li {
+  list-style: none; }
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-shadow: 0 4px 16px #e1e5ee;
+  font-family: "Poppins", sans-serif;
+  background: white; }
+  nav .nav-list {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2rem; }
+    nav .nav-list .nav-logo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-right: auto; }
+      nav .nav-list .nav-logo .logo {
+        font-size: 2.5rem;
+        cursor: pointer;
+        transition: color 0.2s; }
+        nav .nav-list .nav-logo .logo:hover, nav .nav-list .nav-logo .logo:focus {
+          color: hotpink;
+          text-shadow: 0 0 3rem hotpink; }
+      nav .nav-list .nav-logo #nav-toggle {
+        display: none; }
+    nav .nav-list .nav-link {
+      flex-shrink: 0;
+      flex-grow: 0;
+      font-weight: bold;
+      padding: 1.5rem 1.8rem;
+      position: relative;
+      cursor: pointer; }
+      nav .nav-list .nav-link i {
+        position: absolute;
+        right: 0;
+        top: 40%;
+        transition: transform 0.3s; }
+      nav .nav-list .nav-link:after {
+        position: absolute;
+        content: "";
+        width: 0%;
+        height: 0.3em;
+        background: hotpink;
+        border-radius: 4px;
+        bottom: 1em;
+        left: 1.6em;
+        transition: width 0.3s; }
+      nav .nav-list .nav-link:hover::after {
+        width: 60%; }
+      nav .nav-list .nav-link:hover ul {
+        opacity: 1;
+        visibility: visible; }
+      nav .nav-list .nav-link:hover i {
+        transform: rotate(180deg); }
+      nav .nav-list .nav-link .nav-drop {
+        position: absolute;
+        top: 4rem;
+        box-shadow: 0 4px 16px #e1e5ee;
+        background-color: white;
+        border-radius: 4px;
+        border: 1px solid #e1e5ee;
+        width: 12rem;
+        padding: 0.5rem;
+        margin-left: -1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: 300ms ease-out; }
+        nav .nav-list .nav-link .nav-drop li {
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background 0.1s; }
+          nav .nav-list .nav-link .nav-drop li:hover, nav .nav-list .nav-link .nav-drop li:focus {
+            background: rgba(255, 105, 180, 0.2); }
+  nav .btn {
+    border: none;
+    outline: transparent;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background: #ffe9f4;
+    color: #e90074;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.1s; }
+    nav .btn .outline {
+      background: inherit;
+      border: 2px solid #ffe9f4; }
+    nav .btn:hover {
+      background: #ffb6da; }
+    nav .btn:focus {
+      text-shadow: 0 0 18px hotpink;
+      outline: 4px solid #ffcfe7; }
+    nav .btn:active {
+      transform: scale(0.98); }
+
+@media screen and (min-width: 768px) {
+  nav .nav-list .nav-item {
+    display: flex !important; }
+  nav .nav-list .nav-link {
+    display: flex !important; } }
+
+@media screen and (max-width: 768px) {
+  nav {
+    padding: 1rem 0; }
+    nav .nav-list {
+      display: block; }
+      nav .nav-list .nav-logo #nav-toggle {
+        display: block; }
+      nav .nav-list .nav-link {
+        padding: 1.5rem 0; }
+        nav .nav-list .nav-link i {
+          position: absolute;
+          right: 1rem;
+          top: 1.8rem; }
+        nav .nav-list .nav-link .nav-drop {
+          top: 1rem;
+          box-shadow: unset;
+          width: unset;
+          margin-left: -1rem;
+          opacity: 0;
+          visibility: hidden; }
+        nav .nav-list .nav-link:after {
+          top: 3em;
+          left: 0.08em;
+          transition: width 0.3s; }
+        nav .nav-list .nav-link:hover::after {
+          width: 4em; }
+        nav .nav-list .nav-link:hover ul {
+          position: relative;
+          opacity: 1;
+          visibility: visible; } }

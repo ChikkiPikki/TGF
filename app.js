@@ -2,7 +2,7 @@ var express = require("express");
 var mongoose = require("mongoose");
 var mongodb = require("mongodb");
 var bodyParser = require("body-parser");
-var ENV = require("./env.js") //Comment out before deploying to devsev
+var path = require("path");
 
 var app = express();
 
@@ -11,13 +11,13 @@ app.use(
 		extended:true
 	}));
 app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, '/views/dynamic'));
 app.use("/", express.static("./views"));
+
 mongoose.connect(process.env.DB, {useNewUrlParser: true, useUnifiedTopology: true}, (err)=>{
 			if (err){console.log(err)}})
-// app.use("/css", express.static("./views/css"));
-// app.use("/js", express.static("./views/js"));
 
-// app.use("img", express.static("./views/img/home"));
+//Importing mongodb and mongoose schemas from models folder
 var Query = require("./models/Query.js");
 
 
@@ -41,7 +41,7 @@ app.get("/", (req, res)=>{
 	});
 	// Query.save()
 
-	res.render("index.ejs")
+	res.render("home.ejs")
 });
 app.get("img/:img", (req, res)=>{
 	res.send("./views/img/"+req.params.img)

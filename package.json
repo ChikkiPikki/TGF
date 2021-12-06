@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "scss": "node-sass --watch views/scss/stylesheet.scss -o views/css/"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +15,7 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "mongodb": "^4.1.4",
-    "mongoose": "^6.0.14"
+    "mongoose": "^6.0.14",
+    "node-sass": "^6.0.1"
   }
 }
