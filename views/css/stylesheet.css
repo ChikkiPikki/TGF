@@ -349,3 +349,9 @@ a {
     width: 30%
   }
 }
+html, body {
+  overflow-x: hidden;
+}
+body {
+  position: relative
+}
