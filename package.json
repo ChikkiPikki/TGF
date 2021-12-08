@@ -4,8 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "scss": "node-sass --watch views/scss/stylesheet.scss -o views/css/"
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",

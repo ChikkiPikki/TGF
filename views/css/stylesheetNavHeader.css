@@ -1,9 +1,9 @@
-/*@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600&display=swap");*/
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600&display=swap");
 
 /*========== VARIABLES CSS ==========*/
 :root {
   --header-height: 3.5rem;
-  --nav-width: 219px;
+  --nav-width: 250px;
 
   /*========== Colors ==========*/
   --first-color: #6923D0;
@@ -59,10 +59,12 @@ a {
 }
 
 .fav__logo {
-  max-width: 50%;
-  height: 50%;
+  /*max-width: 50%;*/
+  /*height: 50%;*/
   /*height: 50px;*/
   /*width: 50px;*/
+  height: 80px;
+  width: 160px;
 }
 
 /*========== HEADER ==========*/
@@ -271,7 +273,7 @@ a {
 @media screen and (max-width: 768px){
   #fav__logo_{
     height: 65px;
-    width: 80px;
+    width: 100%;
 }
 }
 .header__logo{
@@ -302,7 +304,7 @@ a {
   .header__img {
     width: 40px;
     height: 40px;
-    order: 1;
+    order: -1;
   }
   .nav {
     left: 0;
@@ -345,8 +347,12 @@ a {
     opacity: 1;
   }
   #fav__logo_{
-    height: 30%;
-    width: 30%
+    display: none;
+  }
+  .nav:hover #fav__logo_{
+    height: 65px;
+    width: 100%;
+    display: block;
   }
 }
 html, body {
@@ -355,3 +361,7 @@ html, body {
 body {
   position: relative
 }
+
+
+
+
