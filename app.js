@@ -4,9 +4,9 @@ var mongodb = require("mongodb");
 var bodyParser = require("body-parser");
 var path = require("path");
 var dotenv = require("dotenv");
-// dotenv.config("./.env", (err)=>{
-// 	if(err){console.log(err)}
-// });
+dotenv.config("./.env", (err)=>{
+	if(err){console.log(err)}
+});
 
 var app = express();
 

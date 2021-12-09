@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&family=Nunito:ital,wght@0,200;0,300;1,200;1,300&display=swap');
+.homeSideText{
+	margin-top: 50px;
+	font-family: 'Fuzzy Bubbles', cursive;
+	color: #4056a1;
+
+}
+
+@media only screen and (max-width: 786px){
+	.homeSideText{
+	margin-left: 30px;
+
+
+	}
+}
+html, body {
+  overflow-x: hidden;
+}
+body {
+  position: relative;
+  background-color: #EFE2BA;
+}
