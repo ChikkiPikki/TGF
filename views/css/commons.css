@@ -19,4 +19,16 @@ html, body {
 body {
   position: relative;
   background-color: #EFE2BA;
+
 }
+::-webkit-scrollbar              { width: 12px; transition: width 0.2s;}
+::-webkit-scrollbar-button       { /* 2 */}
+::-webkit-scrollbar-track        { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px; }
+::-webkit-scrollbar-track-piece  { /* 4 */ }
+::-webkit-scrollbar-thumb        {  border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+background-color: lightblue;}
+::-webkit-scrollbar-corner       { /* 6 */background-color: red; }
+::-webkit-resizer                { /* 7 */ }
+::-webkit-scrollbar:hover{width:30px; };
