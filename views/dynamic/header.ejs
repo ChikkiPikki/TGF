@@ -93,7 +93,8 @@
 <!--========== CONTENTS ==========-->
 <!--========== MAIN JS ==========-->
 <script type="text/javascript">
-   const showMenu = (headerToggle, navbarId) => {
+ 
+  const showMenu = (headerToggle, navbarId) => {
    const toggleBtn = document.getElementById(headerToggle),
    nav = document.getElementById(navbarId)
    
@@ -111,12 +112,30 @@
    
    /*==================== LINK ACTIVE ====================*/
    const linkColor = document.querySelectorAll('.nav__link')
-   
    function colorLink() {
    linkColor.forEach(l => l.classList.remove('active'))
    this.classList.add('active')
    }
+   $("#header-toggle").click(function(e){
+      $("navbar").toggleClass("show-menu");
+      e.stopPropagation();
+
+   })
+   $('#navbar').click(function(e){
+    e.stopPropagation();
+});
+   $('body,html').click(function(e){
+   $('#navbar').removeClass('show-menu');
+   $("#header-toggle").removeClass("bx-x");
+
+
+   // e.stopPropagation() is not to be used here
+});
+
    
    linkColor.forEach(l => l.addEventListener('click', colorLink))
+
+   
+
    
 </script>
