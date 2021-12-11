@@ -48,8 +48,10 @@ $('.carousel').on('touchstart', function(event){
 //.spinner-border
 
 $(document).ready(() => {
+  $("#body").show();
+
   
-    $(".spinner-border").css("display", "none");
+    $(".spinner-border").hide();
   
 });
 
