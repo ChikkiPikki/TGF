@@ -18,9 +18,21 @@ html, body {
 }
 body {
   position: relative;
-  background-color: #EFE2BA;
+  background-color: #D9ED92;
+
 
 }
+
+.font__fuzzy{
+	font-family: 'Fuzzy Bubbles', cursive;
+	color: #000000;
+}
+
+.font__nunito{
+	font-family: 'Nunito' !important;
+	font-weight: 300;
+}
+
 ::-webkit-scrollbar              { width: 12px;}
 ::-webkit-scrollbar-button       { /* 2 */}
 ::-webkit-scrollbar-track        { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
@@ -32,3 +44,4 @@ background-color: #ffffffff;}
 ::-webkit-scrollbar-corner       { /* 6 */background-color: red; }
 ::-webkit-resizer                { /* 7 */ }
 /*::-webkit-scrollbar:hover{width:30px; };*/
+

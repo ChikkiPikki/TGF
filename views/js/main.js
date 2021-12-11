@@ -45,4 +45,13 @@ $('.carousel').on('touchstart', function(event){
     });
 });
 
+//.spinner-border
+
+document.onreadystatechange = () => {
+  if (document.readyState === 'complete') {
+    // document ready
+    $(".spinner-border").css("display", "none");
+  }
+};
+
 // $(".nav").bcSwipe({threshold: 50});

@@ -47,3 +47,9 @@
   margin-right: 40px;
 }
 }
+
+
+.carousel-item > img {
+  height: inherit;
+  width: inherit;
+}
