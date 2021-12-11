@@ -1,15 +1,25 @@
 #carouselIndicator{
   height: 70%;
-  width: auto;
+  width: 100%;
   margin-top: 60px;
   border-radius: 100%;
+  margin-left: 39px;
 
 
 }
+
 .w-100 {
-  border-radius: 40px;
+  /*border-radius: 50px;*/
   padding: 30px;
+  /*overflow: hidden;*/
+  object-fit: contain;
 } 
+.carousel-item{
+  /*width:100%;*/
+  /*height: inherit;*/
+  height: inherit;
+  width: inherit;
+}
 .carBut{
   /*margin: 20px;*/
   margin-top: 27%;
@@ -35,6 +45,7 @@
     width: 100%;
     border-radius: 0%;
     margin-top: 0px;
+    margin: auto;
   }
   .homeTopRow{
     margin: 0;

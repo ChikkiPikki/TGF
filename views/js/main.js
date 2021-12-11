@@ -48,11 +48,18 @@ $('.carousel').on('touchstart', function(event){
 //.spinner-border
 
 $(document).ready(() => {
-  $("#body").show();
-
+  // $("#body").show();
   
-    $(".spinner-border").hide();
+    $(".spinner-border").css("display", "none");
   
 });
 
 // $(".nav").bcSwipe({threshold: 50});
+
+$('#owl-carousel').owlCarousel({
+    loop: true,
+    margin: 30,
+    dots: true,
+    nav: true,
+    items: 2,
+})

@@ -12,7 +12,7 @@
   --text-color: #58555E;
   --text-color-light: #A5A1AA;
   --body-color: #F9F6FD;
-  --container-color: #FFFFFF;
+  --container-color: #ffffff;
 
   /*========== Font and typography ==========*/
   --body-font: 'Nunito', sans-serif;
@@ -42,8 +42,8 @@
 }
 
 body {
-  margin: var(--header-height) 0 0 0;
-  padding: 1rem 1rem 0;
+  /*margin: var(--header-height) 0 0 0;*/
+  /*padding: 1rem 1rem 0;*/
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   background-color: var(--body-color);
@@ -77,6 +77,7 @@ a {
   box-shadow: 0 1px 0 rgba(22, 8, 43, 0.1);
   padding: 0 1rem;
   z-index: var(--z-fixed);
+
 }
 
 .header__container {
@@ -275,8 +276,8 @@ a {
 
 @media screen and (max-width: 768px){
   #fav__logo_{
-    height: 65px;
-    width: 100%;
+    height: 70%;
+    width: 70%;
 }
 }
 .header__img{
@@ -290,7 +291,7 @@ a {
 @media screen and (min-width: 768px) {
 
   body {
-    padding: 1rem 3rem 0 6rem;
+    /*padding: 1rem 3rem 0 6rem;*/
   }
   .header {
     padding: 0 3rem 0 6rem;
@@ -316,6 +317,7 @@ a {
   .nav {
     left: 0;
     padding: 1.2rem 1.5rem 0;
+
     width: 68px; /* Reduced navbar */
   }
   .nav__items {
