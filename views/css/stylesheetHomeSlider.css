@@ -17,8 +17,7 @@
 .carousel-item{
   /*width:100%;*/
   /*height: inherit;*/
-  height: inherit;
-  width: inherit;
+  
 }
 .carBut{
   /*margin: 20px;*/
@@ -59,8 +58,17 @@
 }
 }
 
+.carousel-item{
+  height: 120vh;
+  /*max-width: ;*/
+  width: 100%;
+}
 
 .carousel-item > img {
-  height: inherit;
-  width: inherit;
+  max-height: 900px  !important;
+  width: 100% !important; 
+  object-fit: cover;
+  object-position: center;
+
 }
+
