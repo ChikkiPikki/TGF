@@ -62,4 +62,9 @@ $('#owl-carousel').owlCarousel({
     dots: true,
     nav: true,
     items: 2,
-})
+});
+
+
+if(!document.querySelector('nav').classList.contains('show-menu')){
+  $(".vision_mission").css("margin-left", "20px");
+}

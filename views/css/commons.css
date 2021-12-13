@@ -53,7 +53,7 @@ footer{
 }
 
 .font__nunito{
-	font-family: 'Nunito' !important;
+	font-family: 'Poppins' !important;
 	font-weight: 300;
 }
 
@@ -336,4 +336,22 @@ footer .bottom-details .bottom_text{
   footer .content .link-boxes .input-box{
     width: 100%;
   }
+}
+
+.vision_mission{
+  margin-top: 17%;
+}
+@media(min-width: 768px){
+  .vision_mission{
+  margin-left: 80px !important;
+  margin-top: 10%;
+
+
+  }
+}
+.display-1{
+  font-size: 15vh;
+  justify-content: center;
+  
+
 }

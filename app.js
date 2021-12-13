@@ -7,6 +7,7 @@ var dotenv = require("dotenv");
 dotenv.config("./.env", (err)=>{
 	if(err){console.log(err)}
 });
+const ejsLint = require('ejs-lint');
 
 var app = express();
 
@@ -65,6 +66,10 @@ app.post("/query", (req, res)=>{
 	});
 	Query.save();
 });
+
+app.get("/about", (req, res)=>{
+	res.render("about.ejs");
+})
 
 
 app.listen(process.env.PORT, ()=>{
