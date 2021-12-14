@@ -65,6 +65,9 @@ $('#owl-carousel').owlCarousel({
 });
 
 
-if(!document.querySelector('nav').classList.contains('show-menu')){
-  $(".vision_mission").css("margin-left", "20px");
-}
+
+
+// document.querySelector('.nav__link').forEach(
+//   this.classList.remove("active"), (err)=>{
+//     if(err){continue}
+//   });
