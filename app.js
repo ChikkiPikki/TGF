@@ -72,6 +72,6 @@ app.get("/about", (req, res)=>{
 })
 
 
-app.listen(process.env.PORT, ()=>{
+app.listen(process.env.PORT, process.env.IP, ()=>{
 	console.log("process begun");
 });
