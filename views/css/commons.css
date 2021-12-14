@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Actor&family=Fuzzy+Bubbles:wght@400;700&family=Nunito:ital,wght@0,200;0,300;1,200;1,300&family=Poppins:ital,wght@0,200;0,300;1,100&display=swap');
-
+img{
+  image-rendering: crisp-edges;
+}
 
 @media only screen and (max-width: 786px){
 	.homeSideText{
@@ -24,6 +26,8 @@ body {
 @media only screen and (max-width: 992px){
   #home-content{
   padding-left: 190px;
+  padding-right: 190px;
+
 }
 }
 .ack{
@@ -31,7 +35,7 @@ body {
   /*display: inline;*/
   font-size: 6vw !important;
 }
-@media only screen and (max-width: 600px){
+@media only screen and (max-width: 768px){
   #home-content{
   padding-left: 50px;
   padding-right: 50px;
