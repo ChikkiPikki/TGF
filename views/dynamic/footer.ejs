@@ -41,8 +41,8 @@
                     <div class="fs-widget">
                         <h5>Contact Us</h5>
                         <p><i class="fa fa-address-card"></i> 401, Benison Complex, Opp Shiv Mahal Palace, Old Padra Road, Vadodara-390007, Gujarat.</p>
-                        <p id="email"><i class="fa fa-envelope"></i>Email:<a href="">  tgf@tecsoglobal.com</a></p>
-                        <p ><i class="fa fa-phone"></i> <a href="" id="contact">+ (91) 98989 98390</a></p>
+                        <p class="email"><i class="fa fa-envelope"></i>Email:<a href="">  tgf@tecsoglobal.com</a></p>
+                        <p ><i class="fa fa-phone"></i> <a href="" class="phone">+ (91) 98989 98390</a></p>
                     </div>
                 </div>
                 
@@ -59,10 +59,10 @@
     </footer>
 <script type="text/javascript">
     document.getElementById("year").innerHTML = new Date().getFullYear();
-    $("#contact").click(function(){
+    $(".contact").click(function(){
           window.location.href = 'tel:+(91)9898998390' 
     });
-    $("#email").click(function(){
+    $(".email").click(function(){
         window.location.href = 'mailto:tgf@tecsoglobal.com'
     });
 </script>

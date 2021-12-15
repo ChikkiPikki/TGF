@@ -18,7 +18,7 @@ var app = express();
 
 app.use(
 	bodyParser.urlencoded({
-		extended:false
+		extended:true
 	}));
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
@@ -38,7 +38,7 @@ var multer = require('multer');
   
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-    cb(null, 'src/');
+    cb(null, __dirname+"/src");
     },
     filename: function(req, file, cb) {
      cb(null, new Date().toISOString().replace(/:/g, '-')+ file.originalname);
@@ -55,35 +55,11 @@ var upload = multer({ storage: storage });
 
 
 app.get("/", (req, res)=>{
-	Query.create({
-		name:"Tanay",
-		email: "tststs@tststs.com"
-	}, (err)=>{
-		if(err){console.log(err)};
-
-		console.log("hi");
-
-	});
-	// Query.save()
-
 	res.render("home.ejs")
 });
 
 
-app.post("/query", (req, res)=>{
-	Query.create({
-		name: req.body.name,
-		email: req.body.email,
-		location: req.body.city,
-		date: new Date(),
-		query: req.body.query
-	}, (err)=>{
-		if(err){
-			console.log(err);
-		}
-	});
-	Query.save();
-});
+
 
 app.get("/about", (req, res)=>{
 	res.render("about.ejs");
@@ -93,15 +69,62 @@ app.get("/contact", (req, res)=>{
 	res.render("contact.ejs");
 });
 
+app.post("/queryposted", (req, res)=>{
+	var today = new Date();
+	var query = {
+		name: req.body.name,
+		title: req.body.title,
+		message: req.body.message,
+		email: req.body.email,
+		date: String(today)
+	}
+	console.log(query);
+	Query.create(query, (err, objj)=>{
+		if(err){console.log(err)}
+			else{
+				objj.save()
+				res.render("contact.ejs", {message: "Your message has been received, we will get in touch soon"})
+			}
+	})
+})
+
 app.get("/admin", (req, res)=>{
 	Image.find({}, (err, items)=>{
 		if(err){console.log(err)}
 		else{
-			res.render("admin.ejs", {items: items});
+			Query.find({}, (err, querie)=>{
+				if(err){console.log(err)}
+					else{
+			res.render("admin.ejs", {images: items, queries: querie});
+
+					}
+			})
+
 		}
 	})
 
 	
+});
+var directory = __dirname+"/src";
+
+app.get("/clear", (req, res)=>{
+	 
+
+
+
+fs.readdir(directory, (err, files) => {
+  if (err) throw err;
+
+  for (const file of files) {
+    fs.unlink(path.join(directory, file), err => {
+      if (err) throw err;
+    });
+  }
+});
+			
+			res.redirect("/admin");
+	
+
 });
 
 app.post('/test', upload.single('image'), (req, res, next) => {
