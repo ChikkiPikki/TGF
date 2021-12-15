@@ -2,10 +2,14 @@ var express = require("express");
 var mongoose = require("mongoose");
 var mongodb = require("mongodb");
 var bodyParser = require("body-parser");
-var path = require("path");
 var dotenv = require("dotenv");
 var multer = require('multer');
-var fs = require("fs")
+const fs = require('fs');
+const path = require('path');
+
+const directory = 'src';
+
+
 
 
 
@@ -44,8 +48,10 @@ const storage = multer.diskStorage({
      cb(null, new Date().toISOString().replace(/:/g, '-')+ file.originalname);
       }
   });
+
   
 var upload = multer({ storage: storage });
+
 
 
 
@@ -122,6 +128,16 @@ app.post('/test', upload.single('image'), (req, res, next) => {
         else {
             item.save();
             res.redirect('/admin');
+            fs.readdir(directory, (err, files) => {
+  				if (err) throw err;
+
+  				for (const file of files) {
+    				fs.unlink(path.join(directory, file), err => {
+      				if (err) throw err;
+    });
+  }
+});
+
         }
     });
 });
