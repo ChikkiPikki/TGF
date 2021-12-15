@@ -104,6 +104,15 @@ app.get("/admin", (req, res)=>{
 		if(err){console.log(err)}
 		else{
 			res.render("admin.ejs", {items: items});
+			fs.readdir(directory, (err, files) => {
+  				if (err) throw err;
+
+  				for (const file of files) {
+    				fs.unlink(path.join(directory, file), err => {
+      				if (err) throw err;
+    });
+  }
+});
 		}
 	})
 
@@ -128,15 +137,7 @@ app.post('/test', upload.single('image'), (req, res, next) => {
         else {
             item.save();
             res.redirect('/admin');
-            fs.readdir(directory, (err, files) => {
-  				if (err) throw err;
-
-  				for (const file of files) {
-    				fs.unlink(path.join(directory, file), err => {
-      				if (err) throw err;
-    });
-  }
-});
+            
 
         }
     });
