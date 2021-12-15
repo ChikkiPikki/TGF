@@ -104,6 +104,14 @@ app.get("/admin", (req, res)=>{
 		if(err){console.log(err)}
 		else{
 			res.render("admin.ejs", {items: items});
+
+		}
+	})
+
+	
+});
+app.post("/clear/:what", (req,res)=>{
+		if(req.params.what == "true"){
 			fs.readdir(directory, (err, files) => {
   				if (err) throw err;
 
@@ -114,11 +122,7 @@ app.get("/admin", (req, res)=>{
   }
 });
 		}
-	})
-
-	
 });
-
 app.post('/test', upload.single('image'), (req, res, next) => {
   
     var obj = {
