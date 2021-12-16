@@ -196,7 +196,7 @@ app.get("/admin", connectEnsureLogin.ensureLoggedIn(),  (req, res) => {
                 else {
                     res.render("admin.ejs", {
                         images: items,
-                        queries: querie
+                        queries:  querie.reverse()
                     });
 
                 }
