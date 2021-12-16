@@ -6,6 +6,11 @@ var path = require("path");
 var dotenv = require("dotenv");
 var multer = require('multer');
 var fs = require("fs");
+var multer = require('multer');
+
+const session = require('express-session');  // session middleware
+const passport = require('passport');  // authentication
+const connectEnsureLogin = require('connect-ensure-login'); //authorization
 var nodemailer = require("nodemailer");
 const Razorpay = require("razorpay");
 const {
@@ -50,13 +55,30 @@ mongoose.connect(process.env.DB, {
     }
 })
 
-//Importing mongodb and mongoose schemas from models folder
+//Importing routes, mongodb and mongoose schemas from models folder
 var Query = require("./models/Query.js");
 var Admin = require("./models/Admin.js");
 var Image = require("./models/ImageSchema.js");
 
 
-var multer = require('multer');
+app.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 60 * 60 * 1000*72 } // 3 days
+}));
+// Admin.register({username: process.env.TGF, active: false}, process.env.TGFP)
+
+// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(Admin.createStrategy());
+passport.serializeUser(Admin.serializeUser());
+passport.deserializeUser(Admin.deserializeUser());
+
+
+
+
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -71,6 +93,9 @@ var upload = multer({
     storage: storage
 });
 
+var routes = require("./loginRouter.js");
+
+app.use(routes); 
 
 app.get("/", (req, res) => {
     res.render("home.ejs")
@@ -87,7 +112,7 @@ app.get("/contact", (req, res) => {
 app.post("/queryposted", (req, res) => {
     var today = new Date().toLocaleString('en-US', { timeZone: 'Asia/India' });
 
-console.log(formatter.format(new Date()));
+
     var query = {
         name: req.body.name,
         title: req.body.title,
@@ -158,7 +183,7 @@ console.log(formatter.format(new Date()));
 })
 
 
-app.get("/admin", (req, res) => {
+app.get("/admin", connectEnsureLogin.ensureLoggedIn(),  (req, res) => {
     Image.find({}, (err, items) => {
         if (err) {
             console.log(err)
