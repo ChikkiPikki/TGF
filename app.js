@@ -7,6 +7,8 @@ var dotenv = require("dotenv");
 var multer = require('multer');
 var fs = require("fs");
 var multer = require('multer');
+const flash = require('connect-flash');
+
 
 const session = require('express-session');  // session middleware
 const passport = require('passport');  // authentication
@@ -33,7 +35,6 @@ google.options({
 oAuth2Client.setCredentials({
     refresh_token: process.env.OAUTH_REFRESH_TOKEN
 })
-
 
 var app = express();
 
@@ -75,7 +76,7 @@ app.use(passport.session());
 passport.use(Admin.createStrategy());
 passport.serializeUser(Admin.serializeUser());
 passport.deserializeUser(Admin.deserializeUser());
-
+app.use(flash());
 
 
 
@@ -106,11 +107,14 @@ app.get("/about", (req, res) => {
 });
 
 app.get("/contact", (req, res) => {
-    res.render("contact.ejs");
+    const message = req.flash('message');
+    res.render("contact.ejs", {message: message});
+
+
 });
 
 app.post("/queryposted", (req, res) => {
-    var today = new Date().toLocaleString('en-US', { timeZone: 'Asia/India' });
+    var today = new Date()
 
 
     var query = {
@@ -128,9 +132,8 @@ app.post("/queryposted", (req, res) => {
         else {
 
             objj.save()
-            res.render("contact.ejs", {
-                message: "Your message has been received, we will get in touch soon"
-            });
+            req.flash("message", "Your message has been received, we will get in touch soon.");
+            res.redirect("/contact")
 
             async function sendMail() {
                 try {
@@ -305,8 +308,9 @@ app.get("/donate", (req, res)=>{
 
 
 
-
-
+app.get("*", (req, res)=>{
+    res.render("404.ejs")
+})
 
 
 

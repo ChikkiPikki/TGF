@@ -3,13 +3,22 @@
 * {
   box-sizing: border-box;
 }
-
+#message{
+  background-color: lightgreen;
+  color: black;
+  font-size: 1rem;
+  margin-right: 3rem;
+  margin-left: 3rem;
+}
 body {
   
   color: #212d31;
   /*font-family: 'Roboto', sans-serif;*/
 }
-
+.img__span>img{
+  height: 10%;
+  width: 10%;
+}
 .contain {
   background-color: #eee;
   max-width: 1170px;
@@ -556,17 +565,19 @@ footer .bottom-details .bottom_text{
 }
 }
 iframe{
-  margin-top: 6rem;
+  margin: auto;
   padding-left: 0rem ;
-  margin-left: 0px;
   width: 100vh;
   height: 80vh;
   margin-bottom: 2rem;  
-  align-content: center;
+  /*align-content: center;*/
 }
 footer{
   justify-content: center;
 }
+
+
+
 .display-1{
   justify-content: center;
   font-family: 'Actor', sans-serif !important;
@@ -574,11 +585,39 @@ footer{
   
 
 }
+@media(max-width: 800px){
+  iframe{
+    width: 50vh;
+    height: 70vh;
+    margin-right: 2rem !important;
+  }
+}
+
+@media(min-width: 800px){
+  iframe{
+    width: 100vh;
+    height: 80vh;
+    padding-right: 30px;
+  padding-right: 1rem;
+
+  }
+}
+
+@media(max-width: 600px){
+  iframe{
+    width: 40vh;
+    height: 60vh;
+    padding-right: 30px;
+  }
+}
+
 @media(max-width: 768px){
   footer{
     padding-left: 0rem;
     padding-right: 3.7rem;
   }
+
+  
 }
 div{
   white-space: normal;

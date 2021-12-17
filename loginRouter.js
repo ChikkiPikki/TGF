@@ -9,11 +9,15 @@ router.post("/login", passport.authenticate('local', {failureRedirect:'/login', 
 
 });
 
-router.get("/adminLogin", (req, res)=>{
-	res.render("adminLogin.ejs")
-});
+
  router.get("/login", (req, res)=>{
+ 	if (req.isAuthenticated()) {
+  		res.redirect("/admin")
+} else {
+  // The user is logged out
  	res.render("adminLogin.ejs");
+
+}
  })
 
 
