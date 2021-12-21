@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Apply | TecSo Foundation</title>
+	<%- include("dynamicCommons.ejs") %>
+</head>
+<body>
+
+	<div class="page-content">
+		<center> <% if(message){ %>
+ 		 <div id="message"><%= message %></div>
+ 		 <% } %></center>
+
+
+		<h1 class="display-1 ack">Apply for the post of Volunteer/Intern</h1>
+		<div class="contain">
+
+  <div class="wrapper">
+
+    <div class="form">
+      <h4>Apply</h4>
+      <h2 class="form-headline">We will get in touch soon soon</h2>
+      <form id="submit-form" class="contact-form"  action="/apply/volunteer" method="POST" enctype="multipart/form-data">
+        <p>
+          <input id="name" name="name"  class="form-input" type="text" placeholder="Your Name*">
+          <small class="name-error"></small>
+        </p>
+        <p>
+          <input id="email" name="email"  class="form-input" type="email" placeholder="Your Email*">
+          <small class="name-error"></small>
+        </p>
+        <p>
+          <input id="phone" name="phone"  class="form-input" type="number" maxlength="10" placeholder="Your Phone Number*">
+          
+        </p>
+        <p class="full-width">
+          <textarea  minlength="20"  name="description" id="description" cols="30" rows="7" placeholder="Describe your expertise/interest*" required></textarea>
+          <small></small>
+        </p>
+        <p class="full-width">
+        	<label for="image">Upload your CV</label>
+				<input type="file" class="form-control" id="cv"
+					name="cv" value="">
+        </p>
+        
+        <p class="full-width">
+          <input type="submit" class="submit-btn" value="Submit" onclick="checkValidations()">
+          <button class="reset-btn" onclick="reset()">Reset</button>
+        </p>
+      </form>
+    </div>
+
+    <div class="contacts contact-wrapper">
+
+      <ul>
+        
+        <span class="hightlight-contact-info">
+          <li class="email-info" class=""><i class="fa fa-envelope" aria-hidden="true"></i> 
+          	<a href="" class="email">tgf@tecsoglobal.com</a></li>
+          <li><i class="fa fa-phone" aria-hidden="true"></i> <span class="highlight-text phone"> <a class="phone" href="">+ (91) 98989 98390</a></span></li>
+        </span>
+      </ul>
+    </div>
+  </div>
+</div>
+	</div>
+
+</body>
+</html>

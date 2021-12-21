@@ -14,17 +14,25 @@ router.post("/login", passport.authenticate('local', {failureRedirect:'/login', 
  	if (req.isAuthenticated()) {
   		res.redirect("/admin")
 } else {
-  // The user is logged out
  	res.render("adminLogin.ejs");
-
 }
  })
 
 
+//Admin controls
+//	1. Volunteering requests
+//	2. Volunteers' approval
+//	3. Donations
+//	4. Queries
+//	4. Site images
+//	5. Blogs
 
-router.get("/admin/dashboard/:page", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
-	res.render(req.params.page);
-});
+
+
+
+
+
+
 
 
 

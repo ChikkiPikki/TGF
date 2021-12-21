@@ -7,14 +7,14 @@ var dotenv = require("dotenv");
 var multer = require('multer');
 var fs = require("fs");
 var multer = require('multer');
+// var multer2 = require("multer");
 const flash = require('connect-flash');
-
-
 const session = require('express-session');  // session middleware
 const passport = require('passport');  // authentication
 const connectEnsureLogin = require('connect-ensure-login'); //authorization
 var nodemailer = require("nodemailer");
 const Razorpay = require("razorpay");
+var Binary = require('mongodb').Binary;
 const {
     google
 } = require("googleapis")
@@ -26,6 +26,7 @@ dotenv.config("./.env", (err) => {
         console.log(err)
     }
 });
+
 
 const oAuth2Client = new google.auth.OAuth2(process.env.OAUTH_CLIENTID, process.env.OAUTH_CLIENT_SECRET, "https://developers.google.com/oauthplayground")
 google.options({
@@ -48,8 +49,11 @@ app.set('views', path.join(__dirname, '/views/dynamic'));
 app.use("/", express.static("./views"));
 
 mongoose.connect(process.env.DB, {
+     // useCreateIndex: true,
+    // useFindAndModify: true,
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    // autoIndex: true,
 }, (err) => {
     if (err) {
         console.log(err)
@@ -60,6 +64,8 @@ mongoose.connect(process.env.DB, {
 var Query = require("./models/Query.js");
 var Admin = require("./models/Admin.js");
 var Image = require("./models/ImageSchema.js");
+var Blog = require("./models/Blog.js");
+var Volunteer = require("./models/Volunteer.js");
 
 
 app.use(session({
@@ -83,35 +89,99 @@ app.use(flash());
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, __dirname + "/src");
+        cb(null, __dirname + "/src/img");
     },
     filename: function (req, file, cb) {
         cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
     }
 });
 
+const pdfStorage = multer.diskStorage({
+  destination: function (req, file, cb)  {
+    cb(null, __dirname + "/src/cv");
+  },
+  filename: function(req, file, cb) {
+    cb(console.log("hi"), new Date().toISOString().replace(/:/g, '-') + file.originalname);
+  },
+});
+
+
+
 var upload = multer({
     storage: storage
 });
+var pdfUpload = multer({
+    storage: pdfStorage
+})
 
-var routes = require("./loginRouter.js");
 
-app.use(routes); 
+
+
+
+var loginRoutes = require("./loginRouter.js");
+var adminRoutes = require("./adminRouter.js");
+
+app.use(loginRoutes);
+// app.use(adminRoutes); 
 
 app.get("/", (req, res) => {
     res.render("home.ejs")
 });
-
+app.get("/admin/dashboard/volunteers/applications", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    
+        Volunteer.find({approved: false}, (err, volunteee)=>{
+            if(err){res.redirect('back')}
+            else{
+                res.render("volunteerApplications.ejs", {volunteers: volunteee.reverse()})
+            }
+        })
+    
+    
+});
 app.get("/about", (req, res) => {
     res.render("about.ejs");
 });
 
 app.get("/contact", (req, res) => {
-    const message = req.flash('message');
+    var message = req.flash('message');
     res.render("contact.ejs", {message: message});
 
 
 });
+app.get("/apply/volunteer", (req, res)=>{
+    var message = req.flash("message");
+    res.render("volunteerApplication.ejs", {message: message});
+});
+app.post("/apply/volunteer", pdfUpload.single("cv"), (req, res, next)=>{
+    var today = new Date()
+    // application/pdf
+    console.log("hi")
+    var objjj = {
+        name: req.body.name,
+        description: req.body.description,
+        email: req.body.email,
+        phone: req.body.phone,
+        approved: false,
+        date: String(today),
+        cv: {
+            data: fs.readFileSync(path.join(__dirname + '/src/cv/' + req.file.filename)),
+            contentType: 'application/pdf'
+        }
+    }
+
+    Volunteer.create(objjj, (err, item) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+
+            item.save();
+            req.flash("message", "Your application has been received, we will get in touch soon.");
+            res.redirect('/apply/volunteer');
+        }
+    });
+
+})
 
 app.post("/queryposted", (req, res) => {
     var today = new Date()
@@ -132,30 +202,7 @@ app.post("/queryposted", (req, res) => {
         else {
 
             objj.save()
-            req.flash("message", "Your message has been received, we will get in touch soon.");
-            res.redirect("/contact")
-
-            async function sendMail() {
-                try {
-                    const accessToken = await oAuth2Client.getAccessToken();
-                    console.log(accessToken)
-                    // const refreshToken = await oAuth2Client.getRefreshToken();
-                    const transport = nodemailer.createTransport({
-                        service: 'gmail',
-                        host: 'oauth2.googleapis.com',
-                        auth: {
-                            type: 'OAuth2',
-                            user: process.env.USER,
-                            clientId: process.env.OAUTH_CLIENTID,
-                            clientSecret: process.env.OAUTH_CLIENT_SECRET,
-                            refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-                            refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-                            accessToken: accessToken
-                        }
-                    });
-
-
-                    const mailOptions = {
+            var mailOptions = {
                         from: "Queries - TGF <" + process.env.USER + ">",
                         to: process.env.ADMIN,
                         subject: 'New Query',
@@ -163,16 +210,11 @@ app.post("/queryposted", (req, res) => {
                         html: '<div><h3>' + objj.title + '</h3><p>' + objj.message + '</p><br><b>Name:' + objj.name + "<br><b>Email:<a href=mailto:" + objj.email + ">" + query.email + "</a><br><b>Date:</b>" + String(objj.date) + "<hr></div>"
 
                     };
-
-                    const result = await transport.sendMail(mailOptions);
-                    return result;
-                }
-                catch (error) {
-                    return error + "\nerrorororor";
-                }
-            }
-            sendMail()
-                .then((result) => console.log('Email sent...', result))
+            sendMail(mailOptions)
+                .then((result) => {
+                    req.flash("message", "Your message has been received, we will get in touch soon.");
+            res.redirect("/contact")
+                })
                 .catch((error) => console.log("errorororor"));
             // var mailDetails = {
             //     from: process.env.USER,
@@ -211,23 +253,12 @@ app.get("/admin", connectEnsureLogin.ensureLoggedIn(),  (req, res) => {
 
 });
 
-app.get("/clear", (req, res) => {
 
 
-    fs.readdir(directory, (err, files) => {
-        if (err) throw err;
-
-        for (const file of files) {
-            fs.unlink(path.join(directory, file), err => {
-                if (err) throw err;
-            });
-        }
-    });
-
-    res.redirect("/admin");
 
 
-});
+
+
 
 app.post('/test', upload.single('image'), (req, res, next) => {
 
@@ -235,7 +266,7 @@ app.post('/test', upload.single('image'), (req, res, next) => {
         name: req.body.name,
         desc: req.body.desc,
         img: {
-            data: fs.readFileSync(path.join(__dirname + '/src/' + req.file.filename)), //Change this to an appropriate
+            data: fs.readFileSync(path.join(__dirname + '/src/img/' + req.file.filename)), //Change this to an appropriate
             //image file identifier synatx
             contentType: 'image/png'
         }
@@ -289,29 +320,35 @@ app.get("/donate", (req, res)=>{
 
 
 
+async function sendMail(options) {
+                try {
+                    const accessToken = await oAuth2Client.getAccessToken();
+                    console.log(accessToken)
+                    // const refreshToken = await oAuth2Client.getRefreshToken();
+                    const transport = nodemailer.createTransport({
+                        service: 'gmail',
+                        host: 'oauth2.googleapis.com',
+                        auth: {
+                            type: 'OAuth2',
+                            user: process.env.USER,
+                            clientId: process.env.OAUTH_CLIENTID,
+                            clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                            refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+                            refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+                            accessToken: accessToken
+                        }
+                    });
 
 
+                    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.get("*", (req, res)=>{
-    res.render("404.ejs")
-})
-
+                    const result = await transport.sendMail(options);
+                    return result;
+                }
+                catch (error) {
+                    return error + "\nerrorororor";
+                }
+            }
 
 
 app.listen(process.env.PORT, process.env.IP, () => {
