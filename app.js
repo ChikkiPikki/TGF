@@ -90,8 +90,7 @@ const storage = multer.diskStorage({
     }
 });
 
-<<<<<<< HEAD
-=======
+
 const pdfStorage = multer.diskStorage({
   destination: function (req, file, cb)  {
     cb(null, __dirname + "/src/cv");
@@ -113,31 +112,20 @@ const profStorage = multer.diskStorage({
 
 
 
->>>>>>> 893274a (Add profile pics of users, add blog schema)
 var upload = multer({
     storage: storage
 });
 
-<<<<<<< HEAD
-var routes = require("./loginRouter.js");
-=======
+
 var profUpload = multer({
     storage: profStorage
 })
->>>>>>> 893274a (Add profile pics of users, add blog schema)
-
-<<<<<<< HEAD
 
 
 
-// var loginRoutes = require("./loginRouter.js");
-// var adminRoutes = require("./adminRouter.js");
 
-// app.use(loginRoutes);
-// app.use(adminRoutes); 
-=======
-app.use(routes); 
->>>>>>> 8fb00fc (Revert "Add volunteer applications")
+
+
 
 app.get("/", (req, res) => {
     res.render("home.ejs")
@@ -153,7 +141,6 @@ app.get("/contact", (req, res) => {
 
 
 });
-<<<<<<< HEAD
 app.get("/apply/volunteer", (req, res)=>{
     var message = req.flash("message");
     res.render("volunteers/volunteerApplication.ejs", {message: message});
@@ -195,8 +182,8 @@ app.post("/apply/volunteer",  pdfUpload.fields([
     });
 
 })
-=======
->>>>>>> 8fb00fc (Revert "Add volunteer applications")
+
+
 
 app.post("/queryposted", (req, res) => {
     var today = new Date()
@@ -354,14 +341,9 @@ app.get("/donate", (req, res)=>{
 
 
 
-<<<<<<< HEAD
-                    const result = await transport.sendMail(options);
-                    return result;
-                }
-                catch (error) {
-                    return error + "\nerrorororor";
-                }
-            }
+
+            
+        
 app.post("/login", passport.authenticate('local', {failureRedirect:'/login', successRedirect: '/admin'}), (req, res)=>{
 
 });
@@ -480,8 +462,6 @@ app.post("/clear/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
             }
     })
 });
-<<<<<<< HEAD
-=======
 
 
 
@@ -502,12 +482,10 @@ app.get("*", (req, res)=>{
     res.render("404.ejs")
 })
 
->>>>>>> 8fb00fc (Revert "Add volunteer applications")
-=======
+
 app.post("/clear/cache", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     
 });
->>>>>>> cd87eac (Add src file)
 
 
 app.listen(process.env.PORT, process.env.IP, () => {
