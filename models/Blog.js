@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
-
+var Image = require("./ImageSchema.js");
+var Volunteer = require("./Volunteer.js")
 
 var Blog = new mongoose.Schema({
 	name: String,
@@ -13,7 +14,7 @@ var Blog = new mongoose.Schema({
 	}],
 	volunteers: [{
 		id: mongoose.Schema.Types.ObjectId,
-		ref: 'volunteer'
+		ref: 'Volunteer'
 	}]
 })
 
