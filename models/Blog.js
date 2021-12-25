@@ -8,12 +8,12 @@ var Blog = new mongoose.Schema({
 	content: [{
 		para: String,
 		img:[{
-			id:mongoose.Schema.Types.ObjectId,
+			type:mongoose.Schema.Types.ObjectId,
 			ref: 'Image'
 		}]
 	}],
 	volunteers: [{
-		id: mongoose.Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Volunteer'
 	}]
 })
