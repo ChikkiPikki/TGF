@@ -14,7 +14,15 @@ var Volunteer = new mongoose.Schema({
 	cv: {
 		data: Buffer,
 		contentType: String
-	}
+	},
+	profilePic:{
+		data: Buffer,
+		contentType: String
+	},
+	blogs:[{
+		id:mongoose.Schema.Types.ObjectId,
+		ref: 'Blog'
+	}]
 
 
 })

@@ -2,6 +2,12 @@
 <html>
 <head>
 	<title> <%= volunteer.name %> | TecSo Foundation</title>
+  <style type="text/css">
+    img{
+      height: 30%;
+      width: 30%;
+    }
+  </style>
 	<%- include("../dynamicCommons.ejs") %>
 </head>
 <body>
@@ -10,6 +16,7 @@
 	<div class="page-content">
 		<div class="container">
 			<h1 class="display-1 acl"><%- volunteer.name %> </h1>
+      <img src="data:<%=volunteer.profilePic.contentType%>;base64,<%=volunteer.profilePic.data.toString('base64')%>">
 			<div class="contain">
 
   <div class="wrapper">

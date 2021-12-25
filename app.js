@@ -90,11 +90,41 @@ const storage = multer.diskStorage({
     }
 });
 
+<<<<<<< HEAD
+=======
+const pdfStorage = multer.diskStorage({
+  destination: function (req, file, cb)  {
+    cb(null, __dirname + "/src/cv");
+  },
+  filename: function(req, file, cb) {
+    cb(console.log("hi"), new Date().toISOString().replace(/:/g, '-') + file.originalname);
+  },
+});
+
+const profStorage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, __dirname+ "/src/img/profile");
+
+    },
+    filename: function(req, file, cb){
+        cb(null, req.body.name + new Date().toISOString().replace(/:/g, '-') + file.originalname)
+    }
+})
+
+
+
+>>>>>>> 893274a (Add profile pics of users, add blog schema)
 var upload = multer({
     storage: storage
 });
 
+<<<<<<< HEAD
 var routes = require("./loginRouter.js");
+=======
+var profUpload = multer({
+    storage: profStorage
+})
+>>>>>>> 893274a (Add profile pics of users, add blog schema)
 
 <<<<<<< HEAD
 
@@ -128,19 +158,27 @@ app.get("/apply/volunteer", (req, res)=>{
     var message = req.flash("message");
     res.render("volunteers/volunteerApplication.ejs", {message: message});
 });
-app.post("/apply/volunteer", pdfUpload.single("cv"), (req, res, next)=>{
+app.post("/apply/volunteer",  pdfUpload.fields([
+    {name: "cv", maxCount: 1 },{name: "img", maxCount: 1}
+]), (req, res, next)=>{
     var today = new Date()
     // application/pdf
-    console.log("hi")
+    console.log(req.files);
+    console.log("hi");
     var objjj = {
         name: req.body.name,
         description: req.body.description,
         email: req.body.email,
         phone: req.body.phone,
         date: String(today),
+
         cv: {
-            data: fs.readFileSync(path.join(__dirname + '/src/cv/' + req.file.filename)),
+            data: fs.readFileSync(req.files.cv[0].path),
             contentType: 'application/pdf'
+        },
+        profilePic:{
+            data: fs.readFileSync(req.files.img[0].path),
+            contentType: req.files.img[0].mimetype
         }
     }
 
