@@ -1,5 +1,8 @@
 var mongoose = require("mongoose");
 var Blog = require("./Blog.js");
+var Image = require("./ImageSchema.js");
+
+
 var Volunteer = new mongoose.Schema({
 	name: String,
 	description: String,
