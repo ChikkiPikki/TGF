@@ -39,7 +39,7 @@
 		<% images.forEach(function(image) { %>
 			<div class="row">
 				<div class="container col-sm-12 col-lg-6">
-					<img src="data:image/<%=image.img.contentType%>;base64,
+					<img src="data:<%=image.img.contentType%>;base64,
 					<%=image.img.data.toString('base64')%>">
 				</div>
 				

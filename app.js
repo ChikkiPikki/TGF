@@ -480,6 +480,7 @@ app.post("/clear/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
             }
     })
 });
+<<<<<<< HEAD
 =======
 
 
@@ -502,6 +503,11 @@ app.get("*", (req, res)=>{
 })
 
 >>>>>>> 8fb00fc (Revert "Add volunteer applications")
+=======
+app.post("/clear/cache", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    
+});
+>>>>>>> cd87eac (Add src file)
 
 
 app.listen(process.env.PORT, process.env.IP, () => {
