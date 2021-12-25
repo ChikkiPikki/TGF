@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-
+var Blog = require("./Blog.js");
 var Volunteer = new mongoose.Schema({
 	name: String,
 	description: String,
