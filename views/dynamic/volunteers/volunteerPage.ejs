@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> <%= volunteer.name %> | TecSo Foundation</title>
+	<%- include("../dynamicCommons.ejs") %>
+</head>
+<body>
+	<%- include("../header.ejs") %>
+
+	<div class="page-content">
+		<div class="container">
+			<h1 class="display-1 acl"><%- volunteer.name %> </h1>
+			<div class="contain">
+
+  <div class="wrapper">
+
+    <div class="form">
+      <form id="submit-form" class="contact-form"  action="/admin/dashboard/volunteers/<%= volunteer._id %>" method="POST">
+        <p>
+          <input id="name" name="name"  class="form-input" type="text" placeholder="Name*" value="<%= volunteer.name %>">
+          <small class="name-error"></small>
+        </p>
+        <p>
+          <input id="email" name="email"  class="form-input" type="email" placeholder="Email*" value="<%= volunteer.email %>">
+          <small class="name-error"></small>
+        </p>
+        <p>
+          <input id="role" name="role"  class="form-input" type="text" placeholder="Role*" value="<%= volunteer.role %>">
+          <small class="name-error"></small>
+        </p>
+        <p>
+          <input id="phone" name="phone"  class="form-input" type="number" maxlength="10" placeholder="Phone Number*" value="<%= volunteer.phone %>">
+          
+        </p>
+        <p>
+        	<label for="approved">Approve</label>
+        	<input type="text" id="approved" name="approved" value="<%= volunteer.approved %>" >
+        </p>
+        <p class="full-width">
+          <textarea   minlength="20"  name="description" id="description" cols="30" rows="7" placeholder="Description*"  required><%=volunteer.description%></textarea>
+          <small></small>
+        </p>        
+        <p class="full-width">
+          <input type="submit" class="submit-btn" value="Submit" onclick="checkValidations()">
+          <button class="reset-btn" onclick="reset()">Reset</button>
+        </p>
+      </form>
+      <form  action="/admin/dashboard/volunteers/<%=volunteer._id%>/delete" method="POST">
+      	<input type="submit" class="submit-btn" value="DELETE"></form>
+    </div>
+  </div>
+</div>
+		</div>
+	</div>
+
+	<%- include("../footer.ejs") %>
+
+</body>
+</html>

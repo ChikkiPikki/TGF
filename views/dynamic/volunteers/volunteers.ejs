@@ -4,14 +4,14 @@
 <html>
 <head>
 	<title>Volunteer Applications | TecSo Foundation</title>
-	<%- include("dynamicCommons.ejs") %>
+	<%- include("../dynamicCommons.ejs") %>
 </head>
 <body>
-	<%- include("header.ejs") %>
+	<%- include("../header.ejs") %>
 
 <div class="page-content">
 	<h1 class="display-1 ack">
-		Volunteer Applications
+		Active (Approved) Volunteers 
 	</h1>
 	<br>
 	<ol><center>
@@ -20,16 +20,17 @@
 			<h1 class="display-4 ack"><%= volunteer.name %></h1>
 			<p><%= volunteer.description %></p><br>
 			<b>Email:</b><a href="mailto:<%= volunteer.email %>" > <%= volunteer.email %></a><br>
-			<b>Number:</b><a href="tel:<%= volunteer.phone %>"></a><br>
+			<b>Number:</b><a href="tel:<%= volunteer.phone %>"> <%= volunteer.phone %></a><br>
 			<b>Date:</b> <%= volunteer.date %><br>
 			<b>CV:</b><embed  type="application/pdf" style="height:500px; width: 100%;" src="data:application/pdf;base64,
-					<%= volunteer.cv.data.toString('base64') %>"></embed>
+					<%= volunteer.cv.data.toString('base64') %>"></embed><br>
+					<a href="/admin/dashboard/volunteers/<%= volunteer._id %>" class="btn btn-warning">Edit</a>
 					<hr>
 </div>
 		<%})%></center>
 	</ul>
 </div>
-	<%- include("footer.ejs") %>
+	<%- include("../footer.ejs") %>
 
 	
 

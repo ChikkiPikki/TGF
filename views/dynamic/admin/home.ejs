@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin | TecSo Foundation</title>
+	<%- include("../dynamicCommons.ejs") %>
+	<style type="text/css">
+		.container{
+			border: 3px solid black;
+			padding: 30px;
+		}
+
+	</style>
+</head>
+<body>
+	<%- include("../header.ejs")%>
+	<div class="page-content">
+		<h1 class="display-1 ack">Site Controls</h1>
+		<div class="row">
+			<div class="container  col-lg-3 col-md-6 col-sm-12">
+				<a class="btn btn-outline-success" href="/admin/dashboard/volunteers">Volunteers</a><br>
+				<a class="btn btn-outline-success" href="/admin/dashboard/volunteers/applications">Volunteer Applications</a>
+			</div>
+			<div class="container col-sm-12 col-md-6 col-lg-3">
+				<a class="btn btn-outline-success" href="/admin/dashboard/images">Site Images and Their Locations</a>
+			</div>
+			<div class="container col-lg-3 col-md-6 col-sm-12">
+				<a class="btn btn-outline-success" href="/admin/dashboard/queries">Site Queries</a>
+			</div>
+			<div class="container col-sm-12 col-md-6 col-lg-3 col-sm-12">
+				<a class="btn btn-outline-success" href="/admin/dashboard/traffic">Site Traffic</a>
+			</div>
+		</div>
+	</div>
+	<%- include("../footer.ejs") %>
+	<%- include("adminControls.ejs") %>
+</body>
+</html>

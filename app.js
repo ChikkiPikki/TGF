@@ -118,26 +118,16 @@ var pdfUpload = multer({
 
 
 
-var loginRoutes = require("./loginRouter.js");
-var adminRoutes = require("./adminRouter.js");
+// var loginRoutes = require("./loginRouter.js");
+// var adminRoutes = require("./adminRouter.js");
 
-app.use(loginRoutes);
+// app.use(loginRoutes);
 // app.use(adminRoutes); 
 
 app.get("/", (req, res) => {
     res.render("home.ejs")
 });
-app.get("/admin/dashboard/volunteers/applications", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
-    
-        Volunteer.find({approved: false}, (err, volunteee)=>{
-            if(err){res.redirect('back')}
-            else{
-                res.render("volunteerApplications.ejs", {volunteers: volunteee.reverse()})
-            }
-        })
-    
-    
-});
+
 app.get("/about", (req, res) => {
     res.render("about.ejs");
 });
@@ -150,7 +140,7 @@ app.get("/contact", (req, res) => {
 });
 app.get("/apply/volunteer", (req, res)=>{
     var message = req.flash("message");
-    res.render("volunteerApplication.ejs", {message: message});
+    res.render("volunteers/volunteerApplication.ejs", {message: message});
 });
 app.post("/apply/volunteer", pdfUpload.single("cv"), (req, res, next)=>{
     var today = new Date()
@@ -161,7 +151,6 @@ app.post("/apply/volunteer", pdfUpload.single("cv"), (req, res, next)=>{
         description: req.body.description,
         email: req.body.email,
         phone: req.body.phone,
-        approved: false,
         date: String(today),
         cv: {
             data: fs.readFileSync(path.join(__dirname + '/src/cv/' + req.file.filename)),
@@ -228,30 +217,6 @@ app.post("/queryposted", (req, res) => {
 })
 
 
-app.get("/admin", connectEnsureLogin.ensureLoggedIn(),  (req, res) => {
-    Image.find({}, (err, items) => {
-        if (err) {
-            console.log(err)
-        }
-        else {
-            Query.find({}, (err, querie) => {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    res.render("admin.ejs", {
-                        images: items,
-                        queries:  querie.reverse()
-                    });
-
-                }
-            })
-
-        }
-    })
-
-
-});
 
 
 
@@ -260,11 +225,12 @@ app.get("/admin", connectEnsureLogin.ensureLoggedIn(),  (req, res) => {
 
 
 
-app.post('/test', upload.single('image'), (req, res, next) => {
+app.post('/images', connectEnsureLogin.ensureLoggedIn(), upload.single('image'), (req, res, next) => {
 
     var obj = {
         name: req.body.name,
         desc: req.body.desc,
+        location: req.body.location,
         img: {
             data: fs.readFileSync(path.join(__dirname + '/src/img/' + req.file.filename)), //Change this to an appropriate
             //image file identifier synatx
@@ -349,6 +315,124 @@ async function sendMail(options) {
                     return error + "\nerrorororor";
                 }
             }
+app.post("/login", passport.authenticate('local', {failureRedirect:'/login', successRedirect: '/admin'}), (req, res)=>{
+
+});
+
+
+ app.get("/login", (req, res)=>{
+    if (req.isAuthenticated()) {
+        res.redirect("/admin")
+} else {
+    res.render("adminLogin.ejs");
+}
+ })
+
+
+//Admin controls
+//  1. Volunteering requests
+//  2. Volunteers' approval
+//  3. Donations
+//  4. Queries
+//  4. Site images
+//  5. Blogs
+
+app.get("/admin/dashboard/volunteers/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
+        res.render("volunteers/volunteers.ejs", {volunteers: volunteers.reverse()})
+    })
+})
+
+app.get("/admin/dashboard/volunteers/applications", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    
+        Volunteer.find({approved: undefined}, (err, volunteee)=>{
+            if(err){res.redirect('back')}
+            else{
+                res.render("volunteers/volunteerApplications.ejs", {volunteers: volunteee.reverse()})
+            }
+        })
+});
+
+app.get("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    var iddd = req.params.id
+    Volunteer.findById(iddd, (err, volunteer)=>{
+        if(err){req.flash("error", err.message); res.redirect("back"); console.log(err)}
+            else{
+                res.render("volunteers/volunteerPage.ejs", {volunteer: volunteer});
+
+            }
+    });
+});
+
+app.post("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    var idd =req.params.id;
+    Volunteer.findByIdAndUpdate(idd, {
+        description: req.body.description,
+        role: req.body.role,
+        approved: req.body.approved,
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone
+    }, (err, volunteer)=>{
+        if(err){req.flash("error", err.message); res.redirect("back"); console.log(err)}
+        else{
+            volunteer.save()
+            console.log("HI "+volunteer.approved)
+            res.redirect("/admin/dashboard/volunteers/")
+        }
+    })
+})
+app.post("/admin/dashboard/volunteers/:id/delete", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Volunteer.findOneAndDelete({_id:req.params.id}, (err)=>{
+        if(err){req.flash("err", err.message); res.redirect("back")}
+        else{
+            res.redirect("/admin/dashboard/volunteers")
+        }
+    });
+});
+
+
+
+app.get("/admin/dashboard/volunteers", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
+        console.log(volunteers)
+        res.render("volunteers/volunteers.ejs", {volunteers: volunteers})
+    })
+})
+
+
+app.get("/admin", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    res.render("admin/home.ejs");
+});
+app.get("/admin/dashboard/images", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+     Image.find({}, (err, items) => {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            res.render("admin/images.ejs", {images: items.reverse()});
+        }
+})});
+app.get("/admin/dashboard/traffic", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    res.render("admin/traffic.ejs");
+});
+
+app.get("/admin/dashboard/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Query.find({}, (err, queries)=>{
+        if(err){req.flash("err", err.message)}
+            else{
+                res.render("admin/queries.ejs", {queries: queries.reverse()})
+            }
+    })
+});
+app.post("/clear/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Query.deleteMany({}, (err)=>{
+        if(err){console.log(err)}
+            else{
+                res.redirect("/admin")
+            }
+    })
+});
 
 
 app.listen(process.env.PORT, process.env.IP, () => {

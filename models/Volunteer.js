@@ -5,7 +5,7 @@ var Volunteer = new mongoose.Schema({
 	description: String,
 	email: String,
 	role: String,
-	approved: Boolean,
+	approved: String,
 	date: String,
 	hours: Number,
 	task: String,
