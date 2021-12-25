@@ -23,8 +23,9 @@ var Volunteer = new mongoose.Schema({
 		contentType: String
 	},
 	blogs:[{
-		type:mongoose.Schema.Types.ObjectId,
-		ref: 'Blog'
+		id:{type:mongoose.Schema.Types.ObjectId,
+		ref: 'Blog'},
+		name: String
 	}]
 
 
