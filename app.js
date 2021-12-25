@@ -7,14 +7,14 @@ var dotenv = require("dotenv");
 var multer = require('multer');
 var fs = require("fs");
 var multer = require('multer');
+// var multer2 = require("multer");
 const flash = require('connect-flash');
-
-
 const session = require('express-session');  // session middleware
 const passport = require('passport');  // authentication
 const connectEnsureLogin = require('connect-ensure-login'); //authorization
 var nodemailer = require("nodemailer");
 const Razorpay = require("razorpay");
+var Binary = require('mongodb').Binary;
 const {
     google
 } = require("googleapis")
@@ -26,6 +26,7 @@ dotenv.config("./.env", (err) => {
         console.log(err)
     }
 });
+
 
 const oAuth2Client = new google.auth.OAuth2(process.env.OAUTH_CLIENTID, process.env.OAUTH_CLIENT_SECRET, "https://developers.google.com/oauthplayground")
 google.options({
@@ -48,8 +49,11 @@ app.set('views', path.join(__dirname, '/views/dynamic'));
 app.use("/", express.static("./views"));
 
 mongoose.connect(process.env.DB, {
+     // useCreateIndex: true,
+    // useFindAndModify: true,
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    // autoIndex: true,
 }, (err) => {
     if (err) {
         console.log(err)
@@ -60,6 +64,8 @@ mongoose.connect(process.env.DB, {
 var Query = require("./models/Query.js");
 var Admin = require("./models/Admin.js");
 var Image = require("./models/ImageSchema.js");
+var Blog = require("./models/Blog.js");
+var Volunteer = require("./models/Volunteer.js");
 
 
 app.use(session({
@@ -83,7 +89,7 @@ app.use(flash());
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, __dirname + "/src");
+        cb(null, __dirname + "/src/img");
     },
     filename: function (req, file, cb) {
         cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
@@ -115,11 +121,19 @@ const profStorage = multer.diskStorage({
 var upload = multer({
     storage: storage
 });
+var pdfUpload = multer({
+    storage: pdfStorage
+})
+
 
 
 var profUpload = multer({
     storage: profStorage
 })
+
+
+
+
 
 
 
@@ -136,7 +150,7 @@ app.get("/about", (req, res) => {
 });
 
 app.get("/contact", (req, res) => {
-    const message = req.flash('message');
+    var message = req.flash('message');
     res.render("contact.ejs", {message: message});
 
 
@@ -204,30 +218,7 @@ app.post("/queryposted", (req, res) => {
         else {
 
             objj.save()
-            req.flash("message", "Your message has been received, we will get in touch soon.");
-            res.redirect("/contact")
-
-            async function sendMail() {
-                try {
-                    const accessToken = await oAuth2Client.getAccessToken();
-                    console.log(accessToken)
-                    // const refreshToken = await oAuth2Client.getRefreshToken();
-                    const transport = nodemailer.createTransport({
-                        service: 'gmail',
-                        host: 'oauth2.googleapis.com',
-                        auth: {
-                            type: 'OAuth2',
-                            user: process.env.USER,
-                            clientId: process.env.OAUTH_CLIENTID,
-                            clientSecret: process.env.OAUTH_CLIENT_SECRET,
-                            refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-                            refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-                            accessToken: accessToken
-                        }
-                    });
-
-
-                    const mailOptions = {
+            var mailOptions = {
                         from: "Queries - TGF <" + process.env.USER + ">",
                         to: process.env.ADMIN,
                         subject: 'New Query',
@@ -235,16 +226,11 @@ app.post("/queryposted", (req, res) => {
                         html: '<div><h3>' + objj.title + '</h3><p>' + objj.message + '</p><br><b>Name:' + objj.name + "<br><b>Email:<a href=mailto:" + objj.email + ">" + query.email + "</a><br><b>Date:</b>" + String(objj.date) + "<hr></div>"
 
                     };
-
-                    const result = await transport.sendMail(mailOptions);
-                    return result;
-                }
-                catch (error) {
-                    return error + "\nerrorororor";
-                }
-            }
-            sendMail()
-                .then((result) => console.log('Email sent...', result))
+            sendMail(mailOptions)
+                .then((result) => {
+                    req.flash("message", "Your message has been received, we will get in touch soon.");
+            res.redirect("/contact")
+                })
                 .catch((error) => console.log("errorororor"));
             // var mailDetails = {
             //     from: process.env.USER,
@@ -259,23 +245,11 @@ app.post("/queryposted", (req, res) => {
 
 
 
-app.get("/clear", (req, res) => {
 
 
-    fs.readdir(directory, (err, files) => {
-        if (err) throw err;
-
-        for (const file of files) {
-            fs.unlink(path.join(directory, file), err => {
-                if (err) throw err;
-            });
-        }
-    });
-
-    res.redirect("/admin");
 
 
-});
+
 
 app.post('/images', connectEnsureLogin.ensureLoggedIn(), upload.single('image'), (req, res, next) => {
 
@@ -284,7 +258,7 @@ app.post('/images', connectEnsureLogin.ensureLoggedIn(), upload.single('image'),
         desc: req.body.desc,
         location: req.body.location,
         img: {
-            data: fs.readFileSync(path.join(__dirname + '/src/' + req.file.filename)), //Change this to an appropriate
+            data: fs.readFileSync(path.join(__dirname + '/src/img/' + req.file.filename)), //Change this to an appropriate
             //image file identifier synatx
             contentType: 'image/png'
         }
@@ -338,8 +312,38 @@ app.get("/donate", (req, res)=>{
 
 
 
+async function sendMail(options) {
+                try {
+                    const accessToken = await oAuth2Client.getAccessToken();
+                    console.log(accessToken)
+                    // const refreshToken = await oAuth2Client.getRefreshToken();
+                    const transport = nodemailer.createTransport({
+                        service: 'gmail',
+                        host: 'oauth2.googleapis.com',
+                        auth: {
+                            type: 'OAuth2',
+                            user: process.env.USER,
+                            clientId: process.env.OAUTH_CLIENTID,
+                            clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                            refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+                            refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+                            accessToken: accessToken
+                        }
+                    });
 
 
+                    
+
+                    const result = await transport.sendMail(options);
+                    return result;
+                }
+                catch (error) {
+                    return error + "\nerrorororor";
+                }
+            }
+app.post("/login", passport.authenticate('local', {failureRedirect:'/login', successRedirect: '/admin'}), (req, res)=>{
+
+});
 
 
             
@@ -356,7 +360,6 @@ app.post("/login", passport.authenticate('local', {failureRedirect:'/login', suc
     res.render("adminLogin.ejs");
 }
  })
-
 
 //Admin controls
 //  1. Volunteering requests
@@ -466,26 +469,115 @@ app.post("/clear/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
 
 
 
+//Admin controls
+//  1. Volunteering requests
+//  2. Volunteers' approval
+//  3. Donations
+//  4. Queries
+//  4. Site images
+//  5. Blogs
+
+app.get("/admin/dashboard/volunteers/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
+        res.render("volunteers/volunteers.ejs", {volunteers: volunteers.reverse()})
+    })
+})
+
+app.get("/admin/dashboard/volunteers/applications", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    
+        Volunteer.find({approved: undefined}, (err, volunteee)=>{
+            if(err){res.redirect('back')}
+            else{
+                res.render("volunteers/volunteerApplications.ejs", {volunteers: volunteee.reverse()})
+            }
+        })
+});
+
+app.get("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    var iddd = req.params.id
+    Volunteer.findById(iddd, (err, volunteer)=>{
+        if(err){req.flash("error", err.message); res.redirect("back"); console.log(err)}
+            else{
+                res.render("volunteers/volunteerPage.ejs", {volunteer: volunteer});
+
+            }
+    });
+});
+
+app.post("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    var idd =req.params.id;
+    Volunteer.findByIdAndUpdate(idd, {
+        description: req.body.description,
+        role: req.body.role,
+        approved: req.body.approved,
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone
+    }, (err, volunteer)=>{
+        if(err){req.flash("error", err.message); res.redirect("back"); console.log(err)}
+        else{
+            volunteer.save()
+            console.log("HI "+volunteer.approved)
+            res.redirect("/admin/dashboard/volunteers/")
+        }
+    })
+})
+app.post("/admin/dashboard/volunteers/:id/delete", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Volunteer.findOneAndDelete({_id:req.params.id}, (err)=>{
+        if(err){req.flash("err", err.message); res.redirect("back")}
+        else{
+            res.redirect("/admin/dashboard/volunteers")
+        }
+    });
+});
 
 
 
-
-
-
-
-
-
-
-
-
-app.get("*", (req, res)=>{
-    res.render("404.ejs")
+app.get("/admin/dashboard/volunteers", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
+        console.log(volunteers)
+        res.render("volunteers/volunteers.ejs", {volunteers: volunteers})
+    })
 })
 
 
+app.get("/admin", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    res.render("admin/home.ejs");
+});
+app.get("/admin/dashboard/images", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+     Image.find({}, (err, items) => {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            res.render("admin/images.ejs", {images: items.reverse()});
+        }
+})});
+app.get("/admin/dashboard/traffic", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    res.render("admin/traffic.ejs");
+});
+
+app.get("/admin/dashboard/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Query.find({}, (err, queries)=>{
+        if(err){req.flash("err", err.message)}
+            else{
+                res.render("admin/queries.ejs", {queries: queries.reverse()})
+            }
+    })
+});
+app.post("/clear/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Query.deleteMany({}, (err)=>{
+        if(err){console.log(err)}
+            else{
+                res.redirect("/admin")
+            }
+    })
+});
 app.post("/clear/cache", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     
 });
+
+
 
 
 app.listen(process.env.PORT, process.env.IP, () => {
