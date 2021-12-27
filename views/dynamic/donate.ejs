@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Donate | TecSo Foundation</title>
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<%- include("dynamicCommons.ejs") %>
+	<script type="text/javascript">
+		$("document").ready(function(){
+			$("form").submit(function(event){
+				var name = $("#name").val();
+				var amount = $("#amount").val();
+				var email = $("#email").val();
+				var phone = $("#phone").val();
+
+				var formData = {
+					amount: amount,
+                	name: name,
+                	email: email,
+                	phone: phone
+				}
+				$.ajax({
+				      type: "POST",
+				      url: "/donate",
+				      data: formData,
+				      dataType: "json",
+				      encode: true,
+				    }).done(function (data) {
+				      $("button").show();
+
+
+var options = {
+    "key": data.key, // Enter the Key ID generated from the Dashboard
+    "amount": data.donation.amount , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "TecSo Foundation",
+    "description": "Donation to TecSo Global Foundation",
+    "image": "/static/siteFavicon.png",
+    "order_id": data.donation.orderId , //This is a sample Order ID. Pass the `id` obtained in the previous step
+    "handler": function (response){
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature);
+        $.ajax({
+        	type: "POST",
+        	url: "/donate/verify",
+        	data: {response: response, order_id: data.donation.orderId},
+        	encode: true,
+        }).done(function(res){
+        	console.log(res)
+        	if(res!=='verified'){
+$("#message").text("Invalid request, please try again");
+console.log("heyyy")
+        	}else{
+
+        		window.location.href = "/thankyou/"+data.donation.orderId;
+
+
+        	}
+        })
+    },
+    "prefill": {
+        "name":  data.donation.name,
+        "email":  data.donation.email,
+        "contact": data.donation.phone 
+    },
+    
+    "theme": {
+        "color": "#00ff00"
+    }
+};
+var rzp1 = new Razorpay(options);
+				      
+    rzp1.open();
+rzp1.on('payment.failed', function (response){
+
+        alert(response.error.description);
+
+});
+
+
+
+
+
+				    });
+
+    				event.preventDefault();
+			})
+		})
+	</script>
+</head>
+<body>
+	<%- include("header.ejs") %>
+	<div class="page-content">
+		 
+		<h1 class="display-1 ack">Donate</h1>
+
+		<div class="container">
+		<div class="contain">
+		  <div class="wrapper">
+		    <div class="form">
+		      <h2 class="form-headline">We would let you know on your mail when your donation has been used for a noble cause or event</h2>
+		      <form id="submit-form" class="contact-form" >
+		        <p>
+		          <input id="name" name="name"  class="form-input" type="text" placeholder="Your Name*">
+		          <small class="name-error"></small>
+		        </p>
+		        <p>
+		          <input id="email" name="email"  class="form-input" type="email" placeholder="Your Email*">
+		          <small class="name-error"></small>
+		        </p>
+		        <p>
+		          <input id="amount" name="amount"  min=50 class="form-input" type="number" placeholder="Amount (in Rupees)*">
+		          <small class="name-error"></small>
+		        </p>
+		        <p>
+		          <input id="phone" name="phone" minlength="10" maxlength="12" class="form-input" type="number" placeholder="Your phone number*">
+		          <small class="name-error"></small>
+		        </p>
+		        <p class="full-width">
+		          <input type="submit" class="submit-btn " id ="rzp-button1" value="Pay" onclick="">
+		          <button class="reset-btn"  id="" onclick="reset()">Reset</button>
+		        </p>
+		      </form>
+
+		    <div class="contacts contact-wrapper">
+
+		      <ul>
+		        
+		        <span class="hightlight-contact-info">
+		          <li class="email-info" class=""><i class="fa fa-envelope" aria-hidden="true"></i> 
+		          	<a href="" class="email">tgf@tecsoglobal.com</a></li>
+		          <li><i class="fa fa-phone" aria-hidden="true"></i> <span class="highlight-text phone"> <a class="phone" href="">+ (91) 98989 98390</a></span></li>
+		        </span>
+		      </ul>
+		    </div>
+		  </div>
+		</div>
+		</div>
+	</div></div>
+	<%- include("footer.ejs") %>
+</body>
+</html>

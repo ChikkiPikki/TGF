@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Thank You! | TecSo Foundation</title>
+	<%- include("dynamicCommons.ejs") %>
+</head>
+<body>
+	<%- include("header.ejs") %>
+	<div class="page-content">
+		<h4 class=" ack">Dear <%= donation.name %></h1>
+		<div class="container"><p class="fade">
+			Your donation has been received and verified.
+			We thank you from the bottom our hearts for your Rupees <%= donation.amount / 100%> donation.
+			Your donation will be used in our future projects and ventures towards the betterment of the youth.
+		</p>
+		<p class="fade">You will receive a notification on your email when your donation has been put to use in the betterment of the people. It will contain a link to the event blog, where you will be credited for your contribution.</p>
+		<p class="fade">Thank you for making someone's life better.</p>
+		<p class="fade">To know more about our ventures, our mission, and our work, please get in touch by visiting the following page.</p>
+		<ul>
+			<li>
+				<a href="/contact" class="btn btn-outline-info">Contact us</a>
+			</li>
+		</ul>
+	</div>
+	</div>
+	<%- include("footer.ejs") %>
+
+</body>
+</html>
