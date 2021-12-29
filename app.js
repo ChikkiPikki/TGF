@@ -65,7 +65,7 @@ mongoose.connect(process.env.DB, {
 var Query = require("./models/Query.js");
 var Admin = require("./models/Admin.js");
 var Image = require("./models/ImageSchema.js");
-var Blog = require("./models/Blog.js");
+var Event = require("./models/Event.js");
 var Volunteer = require("./models/Volunteer.js");
 var Donation = require("./models/Donation.js");
 
@@ -608,7 +608,8 @@ app.post("/donate", (req, res)=>{
                 email: req.body.email,
                 orderId: order.id,
                 completed: false,
-                phone: req.body.phone
+                phone: req.body.phone,
+                utilised: false
             }, (err, entity)=>{
                 if(err){req.flash("err", err.message); res.redirect("/donate")}
                 else{
@@ -629,7 +630,9 @@ app.post("/donate/verify", (req, res)=>{
     var generated_signature = hmac.digest("hex");
     if(generated_signature==req.body.response.razorpay_signature){
 
-        Donation.findOneAndUpdate({orderId : req.body.order_id}, {completed: true})
+        Donation.findOneAndUpdate({orderId : req.body.order_id}, {completed: true}, (err, donation)=>{
+            donation.save()
+        })
         Donation.findOne({orderId: req.body.order_id}, (err, donation)=>{
             if(err){res.redirect("/donate")}
                 else{
@@ -650,10 +653,129 @@ app.get("/thankyou/:id", (req, res)=>{
                 res.render("thankyou.ejs", {donation: donation})
             }
     })
+});
+
+
+app.get("/admin/dashboard/donations", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Donation.find({completed: true, utilised:false}, (err, donations)=>{
+        if(err){
+            console.log(err)
+        } else{
+            Event.find({published: false}, (err, events)=>{
+                if(err){console.log(err)}
+                    else{
+                        console.log(events)
+            res.render("admin/donations.ejs", {donations: donations, events: events})
+
+                    }
+            })
+        }
+    });
+})
+
+app.post("/admin/dashboard/donations/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Event.findById(req.body.event, (err, event)=>{
+        if(err){console.log(err)}
+            else{
+                Donation.findById(req.params.id, (err, donation)=>{
+                    if(err || donation.utilised==true){res.redirect("/admin/dashboard/donations")}
+                        else{
+                            donation.id = event._id;
+                            donation.save();
+                            donation.utilised = true;
+                            donation.save()
+                            event.donations.push(donation)
+                            event.save()
+                            console.log(event.donations)
+                            res.redirect("/admin/dashboard/donations/")
+                        }
+                })
+            }
+    }); 
 })
 
 
+//Events
+app.get("/admin/dashboard/events/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    var message = req.flash("message");
 
-app.listen(process.env.PORT, process.env.IP, () => {
+    Event.find({}, (err, events)=>{
+        if(err){res.redirect("back")}
+            else{
+                res.render("admin/events.ejs", {events: events.reverse(), message: message})
+            }
+    })
+});
+
+
+
+
+app.get("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    res.render("admin/newEvent.ejs")
+})
+
+
+app.post("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    console.log(req.body.event)
+    Event.create(req.body.event, (err, event)=>{
+
+        if(err){console.log(err)}
+            else{
+                event.save();
+                req.flash("message", "Event created!")
+                res.redirect("/admin/dashboard/events/")
+            }
+    })
+});
+app.get("/admin/dashboard/events/:id/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Event.findById(req.params.id, (err, event)=>{
+        if(err){console.log(err)}
+            else{
+                Volunteer.find({approved: 'Yes'}, (err, volunteers)=>{
+                    if(err){console.log(err)}
+                        else{
+                            res.render("admin/eventPage.ejs", {event: event, volunteers: volunteers})
+                        }
+                })
+                
+            }
+    })
+})
+
+app.post("/admin/dashboard/events/:id/delete", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Event.findByIdAndDelete(req.params.id, (err)=>{
+        if(err){console.log(err)}
+            else{
+                req.flash("message", "Event removed")
+                res.redirect("/admin/dashboard/events")
+            }
+    })
+});
+app.post("/admin/dashboard/events/:id/publish", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    Event.findByIdAndUpdate(req.params.id, {published:true},  (err, event)=>{
+        if(err){console.log(err)}
+            else{
+                req.flash("message", "Event published")
+                res.redirect("/admin/dashboard/events")
+            }
+    })
+});
+
+app.post("/admin/dashboard/events/:id/edit", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+    var volunteers = req.body.volunteers
+    console.log(volunteers)
+    Event.findByIdAndUpdate(req.params.id, {
+
+
+    },  (err, event)=>{
+        if(err){console.log(err)}
+            else{
+                req.flash("message", "Event edited");
+                res.redirect("/admin/dashboard/events");
+            }
+    })
+});
+
+app.listen(process.env.PORT, () => {
     console.log("process begun");
 });

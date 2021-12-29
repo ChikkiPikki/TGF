@@ -8,7 +8,8 @@ var Donation = new mongoose.Schema({
 	email: String,
 	orderId: String,
 	completed: Boolean,
-	phone: Number
+	phone: Number,
+	utilised: Boolean
 });
 
 module.exports = mongoose.model("Donation", Donation);

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Events | TecSo Foundation</title>
+	<%- include("../dynamicCommons.ejs") %>
+</head>
+<body>
+	<%- include("../header.ejs") %>
+
+  	<div class="page-content">
+  		<center> 
+        <% if(message){ %>
+  		<div id="message"><%= message %></div>
+  		<% } %>
+  		<div class="row">
+  			<%events.forEach(function(event, index){%>
+  				<div class="container">
+  				<h1 class="display-1 ack"><%=event.name%></h1>
+          <%event.content.paragraphs.forEach(function(para, i){%>
+          <p><%=para%></p><br>
+          <%})%>
+          <a href="/admin/dashboard/events/<%=event._id%>" class="btn btn-outline-warning">See more</a>
+          <hr>  
+  				</div>
+  			<%})%>
+  		</div>
+  		</center>
+  	</div>
+
+
+	<%- include("../footer.ejs") %>
+
+</body>
+</html>

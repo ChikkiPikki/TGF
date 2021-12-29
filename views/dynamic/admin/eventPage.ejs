@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%=event.name%> | TecSo Global Foundation</title>
+	<%- include("../dynamicCommons.ejs") %>
+	<style type="text/css">
+		img{height: 70px; height:70px;}
+	</style>
+</head>
+<body>
+
+	<div class="page-content">
+		<h1 class="display-1 ack"><%=event.name%></h1>
+		<form class="contact-form"  action="/admin/dashboard/events/<%=event._id%>/edit" method="POST">
+			<div class="volunteers">
+				<h3>Volunteers invloved</h3>
+				<%volunteers.forEach(function(volunteer, index){%>
+				<img src="data:<%=volunteer.profilePic.contentType%>;base64,<%=volunteer.profilePic.data.toString('base64')%>">
+				<%=volunteer.name%>
+				<input type="checkbox" name="volunteers[<%=volunteer._id%>]">
+				<%})%>
+			</div>
+			<button class="btn btn-warning" type="submit">Submit</button>
+		</form>
+
+
+		<form class="contact-form" action="/admin/dashboard/events/<%=event._id%>/delete" method="POST">
+			<button type="submit">Delete Event</button>
+			
+		</form>
+		<form class="contact-form" action="/admin/dashboard/events/<%=event._id%>/publish" method="POST">
+			<button type="submit">Publish Event</button>
+			
+		</form>
+	</div>
+<%- include("../footer.ejs")%>
+<%- include("adminControls.ejs")%>
+</body>
+</html>

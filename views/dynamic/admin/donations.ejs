@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Donations | TecSo Foundation</title>
+	<%- include("../dynamicCommons.ejs") %>
+	
+</head>
+<body>
+	<%- include("../header.ejs") %>
+	<div class="page-content">
+		<h1 class="display-1 ack">Non-utilised Donations</h1>
+		<div class="container">
+
+			<% donations.forEach(function(donation){ %>
+			<form class="<%= donation._id %>" action="/admin/dashboard/donations/<%= donation._id %>" method="POST">
+				<b>Name:</b> <%= donation.name %><br>
+				<b>Email:</b> <a href="<%= donation.email %>"> <%= donation.email %> </a><br>
+				<b>Amount:</b> <%= donation.amount %><br>
+				<b>Date:</b> <%= donation.date %><br>
+				<b>Event:</b>
+				<select name="event">
+					<!-- access as req.body.event -->
+					<% events.forEach(function(event){%>
+					<option value="<%= event._id%>"><%= event.name %></option>
+					<%})%>
+				</select>
+				<button class="btn btn-outline-success" type="submit">Utilise</button>
+				
+			</form>
+				<hr>
+			<%})%>
+		</div>
+	</div>
+
+
+	<%- include("../footer.ejs") %>
+	<%- include("adminControls.ejs") %>
+
+</body>
+</html>

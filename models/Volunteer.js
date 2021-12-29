@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var Blog = require("./Blog.js");
+var Event = require("./Event.js");
 var Image = require("./ImageSchema.js");
 
 
@@ -22,9 +22,9 @@ var Volunteer = new mongoose.Schema({
 		data: Buffer,
 		contentType: String
 	},
-	blogs:[{
+	events:[{
 		id:{type:mongoose.Schema.Types.ObjectId,
-		ref: 'Blog'},
+		ref: 'Event'},
 		name: String
 	}]
 

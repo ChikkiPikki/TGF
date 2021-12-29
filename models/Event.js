@@ -3,20 +3,20 @@ var Image = require("./ImageSchema.js");
 var Volunteer = require("./Volunteer.js")
 var Donation = require("./Donation.js")
 
-var Blog = new mongoose.Schema({
+var Event = new mongoose.Schema({
 	name: String,
 	date: String,
-	content: [{
-		para: String,
+	published: Boolean,
+	content: {
+		paragraphs: [
+			String
+		],
 		img:[{
-			id:{
-				type:mongoose.Schema.Types.ObjectId,
-			ref: 'Image'
-			},
 			data: Buffer,
 			contentType: String
+			//add context 
 		}]
-	}],
+	},
 	volunteers: [{
 		id:{
 			type: mongoose.Schema.Types.ObjectId,
@@ -36,4 +36,4 @@ var Blog = new mongoose.Schema({
 	}]
 })
 
-module.exports = mongoose.model('Blog', Blog);
+module.exports = mongoose.model('Event', Event);
