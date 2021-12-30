@@ -232,6 +232,7 @@ app.post("/queryposted", (req, res) => {
                 .then((result) => {
                     req.flash("message", "Your message has been received, we will get in touch soon.");
             res.redirect("/contact")
+            console.log(result)
                 })
                 .catch((error) => console.log("errorororor"));
             // var mailDetails = {
@@ -253,7 +254,7 @@ app.post("/queryposted", (req, res) => {
 
 
 
-app.post('/images', connectEnsureLogin.ensureLoggedIn(), upload.single('image'), (req, res, next) => {
+app.post('/images',  upload.single('image'), (req, res, next) => {
 
     var obj = {
         name: req.body.name,
@@ -371,13 +372,13 @@ app.post("/login", passport.authenticate('local', {failureRedirect:'/login', suc
 //  4. Site images
 //  5. Blogs
 
-app.get("/admin/dashboard/volunteers/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/volunteers/",  (req, res)=>{
     Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
         res.render("volunteers/volunteers.ejs", {volunteers: volunteers.reverse()})
     })
 })
 
-app.get("/admin/dashboard/volunteers/applications", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/volunteers/applications",  (req, res)=>{
     
         Volunteer.find({approved: undefined}, (err, volunteee)=>{
             if(err){res.redirect('back')}
@@ -387,7 +388,7 @@ app.get("/admin/dashboard/volunteers/applications", connectEnsureLogin.ensureLog
         })
 });
 
-app.get("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/volunteers/:id",  (req, res)=>{
     var iddd = req.params.id
     Volunteer.findById(iddd, (err, volunteer)=>{
         if(err){req.flash("error", err.message); res.redirect("back"); console.log(err)}
@@ -398,7 +399,7 @@ app.get("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), 
     });
 });
 
-app.post("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.post("/admin/dashboard/volunteers/:id",  (req, res)=>{
     var idd =req.params.id;
     Volunteer.findByIdAndUpdate(idd, {
         description: req.body.description,
@@ -416,7 +417,7 @@ app.post("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(),
         }
     })
 })
-app.post("/admin/dashboard/volunteers/:id/delete", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.post("/admin/dashboard/volunteers/:id/delete",  (req, res)=>{
     Volunteer.findOneAndDelete({_id:req.params.id}, (err)=>{
         if(err){req.flash("err", err.message); res.redirect("back")}
         else{
@@ -427,7 +428,7 @@ app.post("/admin/dashboard/volunteers/:id/delete", connectEnsureLogin.ensureLogg
 
 
 
-app.get("/admin/dashboard/volunteers", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/volunteers",  (req, res)=>{
     Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
         console.log(volunteers)
         res.render("volunteers/volunteers.ejs", {volunteers: volunteers})
@@ -435,10 +436,10 @@ app.get("/admin/dashboard/volunteers", connectEnsureLogin.ensureLoggedIn(), (req
 })
 
 
-app.get("/admin", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin",  (req, res)=>{
     res.render("admin/home.ejs");
 });
-app.get("/admin/dashboard/images", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/images",  (req, res)=>{
      Image.find({}, (err, items) => {
         if (err) {
             console.log(err)
@@ -447,11 +448,11 @@ app.get("/admin/dashboard/images", connectEnsureLogin.ensureLoggedIn(), (req, re
             res.render("admin/images.ejs", {images: items.reverse()});
         }
 })});
-app.get("/admin/dashboard/traffic", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/traffic",  (req, res)=>{
     res.render("admin/traffic.ejs");
 });
 
-app.get("/admin/dashboard/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/queries",  (req, res)=>{
     Query.find({}, (err, queries)=>{
         if(err){req.flash("err", err.message)}
             else{
@@ -459,7 +460,7 @@ app.get("/admin/dashboard/queries", connectEnsureLogin.ensureLoggedIn(), (req, r
             }
     })
 });
-app.post("/clear/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.post("/clear/queries",  (req, res)=>{
     Query.deleteMany({}, (err)=>{
         if(err){console.log(err)}
             else{
@@ -479,13 +480,13 @@ app.post("/clear/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
 //  4. Site images
 //  5. Blogs
 
-app.get("/admin/dashboard/volunteers/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/volunteers/",  (req, res)=>{
     Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
         res.render("volunteers/volunteers.ejs", {volunteers: volunteers.reverse()})
     })
 })
 
-app.get("/admin/dashboard/volunteers/applications", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/volunteers/applications",  (req, res)=>{
     
         Volunteer.find({approved: undefined}, (err, volunteee)=>{
             if(err){res.redirect('back')}
@@ -495,7 +496,7 @@ app.get("/admin/dashboard/volunteers/applications", connectEnsureLogin.ensureLog
         })
 });
 
-app.get("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/volunteers/:id",  (req, res)=>{
     var iddd = req.params.id
     Volunteer.findById(iddd, (err, volunteer)=>{
         if(err){req.flash("error", err.message); res.redirect("back"); console.log(err)}
@@ -506,7 +507,7 @@ app.get("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), 
     });
 });
 
-app.post("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.post("/admin/dashboard/volunteers/:id",  (req, res)=>{
     var idd =req.params.id;
     Volunteer.findByIdAndUpdate(idd, {
         description: req.body.description,
@@ -524,7 +525,7 @@ app.post("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(),
         }
     })
 })
-app.post("/admin/dashboard/volunteers/:id/delete", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.post("/admin/dashboard/volunteers/:id/delete",  (req, res)=>{
     Volunteer.findOneAndDelete({_id:req.params.id}, (err)=>{
         if(err){req.flash("err", err.message); res.redirect("back")}
         else{
@@ -535,7 +536,7 @@ app.post("/admin/dashboard/volunteers/:id/delete", connectEnsureLogin.ensureLogg
 
 
 
-app.get("/admin/dashboard/volunteers", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/volunteers",  (req, res)=>{
     Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
         console.log(volunteers)
         res.render("volunteers/volunteers.ejs", {volunteers: volunteers})
@@ -543,10 +544,10 @@ app.get("/admin/dashboard/volunteers", connectEnsureLogin.ensureLoggedIn(), (req
 })
 
 
-app.get("/admin", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin",  (req, res)=>{
     res.render("admin/home.ejs");
 });
-app.get("/admin/dashboard/images", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/images",  (req, res)=>{
      Image.find({}, (err, items) => {
         if (err) {
             console.log(err)
@@ -555,11 +556,11 @@ app.get("/admin/dashboard/images", connectEnsureLogin.ensureLoggedIn(), (req, re
             res.render("admin/images.ejs", {images: items.reverse()});
         }
 })});
-app.get("/admin/dashboard/traffic", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/traffic",  (req, res)=>{
     res.render("admin/traffic.ejs");
 });
 
-app.get("/admin/dashboard/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/queries",  (req, res)=>{
     Query.find({}, (err, queries)=>{
         if(err){req.flash("err", err.message)}
             else{
@@ -567,7 +568,7 @@ app.get("/admin/dashboard/queries", connectEnsureLogin.ensureLoggedIn(), (req, r
             }
     })
 });
-app.post("/clear/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.post("/clear/queries",  (req, res)=>{
     Query.deleteMany({}, (err)=>{
         if(err){console.log(err)}
             else{
@@ -575,7 +576,7 @@ app.post("/clear/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
             }
     })
 });
-app.post("/clear/cache", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.post("/clear/cache",  (req, res)=>{
     
 });
 
@@ -593,7 +594,11 @@ app.post("/donate", (req, res)=>{
     var options = {
         amount: req.body.amount*100,
         currency: 'INR',
-        receipt: 'normal_donation'
+        receipt: 'normal_donation',
+        notes:{
+            phone: req.body.phone,
+            email: req.body.email
+        }
     }
     instance.orders.create(options, (err, order)=>{
 
@@ -656,7 +661,7 @@ app.get("/thankyou/:id", (req, res)=>{
 });
 
 
-app.get("/admin/dashboard/donations", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/donations",  (req, res)=>{
     Donation.find({completed: true, utilised:false}, (err, donations)=>{
         if(err){
             console.log(err)
@@ -673,21 +678,19 @@ app.get("/admin/dashboard/donations", connectEnsureLogin.ensureLoggedIn(), (req,
     });
 })
 
-app.post("/admin/dashboard/donations/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.post("/admin/dashboard/donations/:id",  (req, res)=>{
     Event.findById(req.body.event, (err, event)=>{
         if(err){console.log(err)}
             else{
-                Donation.findById(req.params.id, (err, donation)=>{
-                    if(err || donation.utilised==true){res.redirect("/admin/dashboard/donations")}
+                Donation.findByIdAndUpdate(req.params.id, {utilised: true}, (err, donation)=>{
+                    if(err){res.redirect("/admin/dashboard/donations")}
                         else{
-                            donation.id = event._id;
-                            donation.save();
-                            donation.utilised = true;
-                            donation.save()
                             event.donations.push(donation)
-                            event.save()
-                            console.log(event.donations)
-                            res.redirect("/admin/dashboard/donations/")
+                                        event.save();
+                                        res.redirect("/admin/dashboard/donations")
+                                    
+                            
+
                         }
                 })
             }
@@ -696,7 +699,7 @@ app.post("/admin/dashboard/donations/:id", connectEnsureLogin.ensureLoggedIn(), 
 
 
 //Events
-app.get("/admin/dashboard/events/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/events/",  (req, res)=>{
     var message = req.flash("message");
 
     Event.find({}, (err, events)=>{
@@ -710,31 +713,46 @@ app.get("/admin/dashboard/events/", connectEnsureLogin.ensureLoggedIn(), (req, r
 
 
 
-app.get("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/events/create",  (req, res)=>{
     res.render("admin/newEvent.ejs")
 })
 
 
-app.post("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.post("/admin/dashboard/events/create",  (req, res)=>{
     console.log(req.body.event)
     Event.create(req.body.event, (err, event)=>{
 
         if(err){console.log(err)}
             else{
+
+                event.published = false;
                 event.save();
                 req.flash("message", "Event created!")
-                res.redirect("/admin/dashboard/events/")
+                res.redirect("/admin/dashboard/events/"+event._id+"/")
             }
     })
 });
-app.get("/admin/dashboard/events/:id/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.get("/admin/dashboard/events/:id/",  (req, res)=>{
+    var message = req.flash("message")
     Event.findById(req.params.id, (err, event)=>{
         if(err){console.log(err)}
             else{
                 Volunteer.find({approved: 'Yes'}, (err, volunteers)=>{
                     if(err){console.log(err)}
                         else{
-                            res.render("admin/eventPage.ejs", {event: event, volunteers: volunteers})
+                            var voluntees = []
+                            volunteers.forEach(function(volunteer){
+                                voluntees.push({
+                                    _id: volunteer._id,
+                                    name: volunteer.name,
+                                    role: volunteer.role,
+                                    profilePic: {
+                                        data: volunteer.profilePic.data,
+                                        contentType: volunteer.profilePic.contentType
+                                    }
+                                })
+                            })
+                            res.render("admin/eventPage.ejs", {event: event, volunteers: voluntees, message: message})
                         }
                 })
                 
@@ -742,7 +760,9 @@ app.get("/admin/dashboard/events/:id/", connectEnsureLogin.ensureLoggedIn(), (re
     })
 })
 
-app.post("/admin/dashboard/events/:id/delete", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+
+
+app.post("/admin/dashboard/events/:id/delete",  (req, res)=>{
     Event.findByIdAndDelete(req.params.id, (err)=>{
         if(err){console.log(err)}
             else{
@@ -751,30 +771,30 @@ app.post("/admin/dashboard/events/:id/delete", connectEnsureLogin.ensureLoggedIn
             }
     })
 });
-app.post("/admin/dashboard/events/:id/publish", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+app.post("/admin/dashboard/events/:id/publish",  (req, res)=>{
     Event.findByIdAndUpdate(req.params.id, {published:true},  (err, event)=>{
         if(err){console.log(err)}
             else{
-                req.flash("message", "Event published")
+                event.donations.forEach(function(donation){
+                    console.log(donation)
+                    var mailOptions = {
+                        from: "Donation - TecSo Foundation <" + process.env.USER + ">",
+                        to: donation.email,
+                        subject: 'Your contribution towards '+event.name,
+                        text: 'Dear '+donation.name+". We cannot thank you enough for your Rupees "+donation.amount +" contribution towards "+event.name+". It gives us immense pleasure to let you know that your donation has been utilised in this event. To know more about the event, please visit https://tecsoglobalfoundation.herokuapp.com/events/" +event._id+". Thank you, once again. Yours truly TecSo Foundation Team", 
+                        html: '<h1>Dear '+donation.name+".</h1> <p> We cannot thank you enough for your Rupees "+donation.amount +" contribution towards "+event.name+".</p> <p>It gives us immense pleasure to let you know that your donation has been utilised in this event.</p><br> To know more about the event, please visit <a href='https://tecsoglobalfoundation.herokuapp.com/events/" +event._id+"'>here</a>.<p> Thank you, once again.</p> <br><hr>Yours truly <br> <h3>The TecSo Foundation Team</h3>", 
+                        
+                    };
+                    console.log(mailOptions)
+            sendMail(mailOptions).then((result)=>console.log(result))
+                })
+                req.flash("Event published")
                 res.redirect("/admin/dashboard/events")
             }
     })
 });
 
-app.post("/admin/dashboard/events/:id/edit", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
-    var volunteers = req.body.volunteers
-    console.log(volunteers)
-    Event.findByIdAndUpdate(req.params.id, {
 
-
-    },  (err, event)=>{
-        if(err){console.log(err)}
-            else{
-                req.flash("message", "Event edited");
-                res.redirect("/admin/dashboard/events");
-            }
-    })
-});
 
 app.listen(process.env.PORT, () => {
     console.log("process begun");

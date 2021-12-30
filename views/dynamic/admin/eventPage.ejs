@@ -10,18 +10,32 @@
 <body>
 
 	<div class="page-content">
+		<center> 
+        <% if(message){ %>
+  		<div id="message"><%= message %></div>
+  		<% } %></center>
 		<h1 class="display-1 ack"><%=event.name%></h1>
-		<form class="contact-form"  action="/admin/dashboard/events/<%=event._id%>/edit" method="POST">
+		<div class="contact-form" >
 			<div class="volunteers">
 				<h3>Volunteers invloved</h3>
 				<%volunteers.forEach(function(volunteer, index){%>
-				<img src="data:<%=volunteer.profilePic.contentType%>;base64,<%=volunteer.profilePic.data.toString('base64')%>">
-				<%=volunteer.name%>
-				<input type="checkbox" name="volunteers[<%=volunteer._id%>]">
+					<img src="data:<%=volunteer.profilePic.contentType%>;base64,<%=volunteer.profilePic.data.toString('base64')%>">
+					<%=volunteer.name%>
+					<input type="checkbox" id="<%=volunteer._id%>" value="true"><br><br>
 				<%})%>
 			</div>
-			<button class="btn btn-warning" type="submit">Submit</button>
-		</form>
+			<button class="btn btn-warning submit" type="submit">Submit</button><br><hr>
+			<h3>Donations</h3>
+			<ul>
+				<%event.donations.forEach(function(donation){%>
+				<li><h3><%=donation.name%></h3>
+				<p><b>Amount: </b><%=donation.amount%></p></li><hr><br>
+
+
+			<%})%>
+			</ul>
+			
+		</div>
 
 
 		<form class="contact-form" action="/admin/dashboard/events/<%=event._id%>/delete" method="POST">
@@ -33,6 +47,33 @@
 			
 		</form>
 	</div>
+	<script type="text/javascript">
+		$(".submit").click(function(event){
+			var volunteersData = [];
+
+			<% volunteers.forEach(function(volunteer, index){ %>
+				if($("#<%=volunteer._id%>").val()=="true"){
+					volunteersData.push({
+						id: "<%=volunteer._id%>",
+						name: "<%=volunteer.name%>",
+						role: "<%=volunteer.role%>"
+					})
+				}
+
+			<%})%>
+			console.log(volunteersData)
+			var volunteers=volunteersData
+		})
+
+			
+		// var i = 0;
+		// 		function addPara(){
+		// 			$(".text").append("<label for='"+String(i)+"'>Paragraph"+String(i+1)+"</label><textarea class='form-input' id="+String(i)+" name=event[content][paragraphs][" + String(i) + "]></textarea><br>")
+		// 			i = i+1;
+		// 			console.log($(".date").val())
+		// 		}
+		// 		})
+	</script>
 <%- include("../footer.ejs")%>
 <%- include("adminControls.ejs")%>
 </body>
