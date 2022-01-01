@@ -687,9 +687,6 @@ app.post("/admin/dashboard/donations/:id", connectEnsureLogin.ensureLoggedIn(), 
                             event.donations.push(donation)
                                         event.save();
                                         res.redirect("/admin/dashboard/donations")
-                                    
-                            
-
                         }
                 })
             }
@@ -717,13 +714,27 @@ app.get("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), (
 })
 
 
-app.post("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
-    console.log(req.body.event)
-    Event.create(req.body.event, (err, event)=>{
+app.post("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), upload.array("images"), (req, res)=>{
+    console.log(req.body.event);
+    var eventObj = req.body.event;
+    var imgs = [];
+    req.files.forEach(function(img, index){
+         imgs.push({
+                data:fs.readFileSync(path.join(__dirname + '/src/img/' + img.filename)), 
+                contentType: img.mimetype
+            })
+    });
+    eventObj.content.img = imgs;
+
+
+
+
+    // eventObj.content.img = image object array
+    Event.create(eventObj, (err, event)=>{
 
         if(err){console.log(err)}
             else{
-
+                
                 event.published = false;
                 event.save();
                 req.flash("message", "Event created!")
@@ -731,8 +742,10 @@ app.post("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), 
             }
     })
 });
+
 app.get("/admin/dashboard/events/:id/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     var message = req.flash("message")
+
     Event.findById(req.params.id, (err, event)=>{
         if(err){console.log(err)}
             else{
@@ -770,8 +783,21 @@ app.post("/admin/dashboard/events/:id/delete", connectEnsureLogin.ensureLoggedIn
             }
     })
 });
+
+app.post("/test", (req, res)=>{
+    console.log(req.body)
+});
+
 app.post("/admin/dashboard/events/:id/publish", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
-    Event.findByIdAndUpdate(req.params.id, {published:true},  (err, event)=>{
+res.header("Access-Control-Allow-Credentials", true);
+res.header("Access-Control-Allow-Headers","*");
+res.header("")
+console.log(req.body)
+    var finalEvent = {
+        volunteers: req.body,
+        published: true
+    }
+    Event.findByIdAndUpdate(req.params.id, finalEvent,  (err, event)=>{
         if(err){console.log(err)}
             else{
                 event.donations.forEach(function(donation){
@@ -784,14 +810,37 @@ app.post("/admin/dashboard/events/:id/publish", connectEnsureLogin.ensureLoggedI
                         
                     };
                     console.log(mailOptions)
-            sendMail(mailOptions).then((result)=>console.log(result))
+                    sendMail(mailOptions).then((result)=>console.log(result))
                 })
-                req.flash("Event published")
-                res.redirect("/admin/dashboard/events")
+                req.flash("Event published");
+                res.send("done");
             }
     })
 });
+//Actual Events
+app.get("/events/:id", (req, res)=>{
+    Event.findById(req.params.id, (err, event)=>{
+        if(err){res.redirect("/")}
+            else{
+                var volunteersArr = [];
+                event.volunteers.forEach(function(volunteer){
+                    console.log(volunteer)
+                    Volunteer.findById(volunteer.id, (err, volunteer)=>{
+                        if(err){console.log(err)}
+                            else{
 
+                                volunteersArr.push({
+                                    name: volunteer.name,
+                                    role: volunteer.role,
+                                    profilePic: volunteer.profilePic
+                                })
+                            }
+                    })
+                })
+                res.render("event.ejs",{event: event, volunteers: volunteersArr})
+            }
+    })
+});
 
 
 app.listen(process.env.PORT, () => {

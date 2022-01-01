@@ -21,19 +21,18 @@
 				<%volunteers.forEach(function(volunteer, index){%>
 					<img src="data:<%=volunteer.profilePic.contentType%>;base64,<%=volunteer.profilePic.data.toString('base64')%>">
 					<%=volunteer.name%>
-					<input type="checkbox" id="<%=volunteer._id%>" value="true"><br><br>
+					<input type="checkbox" id="<%=volunteer._id%>" value="<%=volunteer._id%>"><br><br>
 				<%})%>
 			</div>
-			<button class="btn btn-warning submit" type="submit">Submit</button><br><hr>
 			<h3>Donations</h3>
 			<ul>
 				<%event.donations.forEach(function(donation){%>
 				<li><h3><%=donation.name%></h3>
 				<p><b>Amount: </b><%=donation.amount%></p></li><hr><br>
-
-
 			<%})%>
 			</ul>
+			<button type="submit" class="submit">Publish Event</button>
+			
 			
 		</div>
 
@@ -42,27 +41,39 @@
 			<button type="submit">Delete Event</button>
 			
 		</form>
-		<form class="contact-form" action="/admin/dashboard/events/<%=event._id%>/publish" method="POST">
-			<button type="submit">Publish Event</button>
-			
-		</form>
 	</div>
 	<script type="text/javascript">
 		$(".submit").click(function(event){
 			var volunteersData = [];
 
 			<% volunteers.forEach(function(volunteer, index){ %>
-				if($("#<%=volunteer._id%>").val()=="true"){
+
+				if($("#<%=volunteer._id%>").is(':checked')){
 					volunteersData.push({
 						id: "<%=volunteer._id%>",
-						name: "<%=volunteer.name%>",
-						role: "<%=volunteer.role%>"
+
+
 					})
 				}
 
 			<%})%>
 			console.log(volunteersData)
 			var volunteers=volunteersData
+
+			$.ajax({
+	            url: '/admin/dashboard/events/<%=event._id%>/publish',
+	            type: 'post',
+	            dataType: 'json',
+	            contentType: 'application/json',
+	           	xhrFields:{
+	           		withCredentials: true
+	           	},
+	            data: JSON.stringify(volunteers)
+       	 	})
+       	 	$( document ).ajaxStop(function() {
+  				window.location.href="/events/<%=event._id%>"
+			});
+
 		})
 
 			

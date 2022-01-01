@@ -23,7 +23,11 @@ var Event = new mongoose.Schema({
 			ref: 'Volunteer'
 		},
 		name: String,
-		role: String
+		role: String,
+		profilePic:{
+			data: Buffer,
+			contentType: String
+		}
 	}],
 	donations:[{
 		id:{
