@@ -565,7 +565,7 @@ app.get("/admin/dashboard/queries", connectEnsureLogin.ensureLoggedIn(), (req, r
             else{
                 res.render("admin/queries.ejs", {queries: queries.reverse()})
             }
-    })
+    });
 });
 app.post("/clear/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Query.deleteMany({}, (err)=>{
