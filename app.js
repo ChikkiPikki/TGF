@@ -232,7 +232,6 @@ app.post("/queryposted", (req, res) => {
                 .then((result) => {
                     req.flash("message", "Your message has been received, we will get in touch soon.");
             res.redirect("/contact")
-            console.log(result)
                 })
                 .catch((error) => console.log("errorororor"));
             // var mailDetails = {
@@ -254,7 +253,7 @@ app.post("/queryposted", (req, res) => {
 
 
 
-app.post('/images',  upload.single('image'), (req, res, next) => {
+app.post('/images', connectEnsureLogin.ensureLoggedIn(), upload.single('image'), (req, res, next) => {
 
     var obj = {
         name: req.body.name,
@@ -372,13 +371,13 @@ app.post("/login", passport.authenticate('local', {failureRedirect:'/login', suc
 //  4. Site images
 //  5. Blogs
 
-app.get("/admin/dashboard/volunteers/",  (req, res)=>{
+app.get("/admin/dashboard/volunteers/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
         res.render("volunteers/volunteers.ejs", {volunteers: volunteers.reverse()})
     })
 })
 
-app.get("/admin/dashboard/volunteers/applications",  (req, res)=>{
+app.get("/admin/dashboard/volunteers/applications", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     
         Volunteer.find({approved: undefined}, (err, volunteee)=>{
             if(err){res.redirect('back')}
@@ -388,7 +387,7 @@ app.get("/admin/dashboard/volunteers/applications",  (req, res)=>{
         })
 });
 
-app.get("/admin/dashboard/volunteers/:id",  (req, res)=>{
+app.get("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     var iddd = req.params.id
     Volunteer.findById(iddd, (err, volunteer)=>{
         if(err){req.flash("error", err.message); res.redirect("back"); console.log(err)}
@@ -399,7 +398,7 @@ app.get("/admin/dashboard/volunteers/:id",  (req, res)=>{
     });
 });
 
-app.post("/admin/dashboard/volunteers/:id",  (req, res)=>{
+app.post("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     var idd =req.params.id;
     Volunteer.findByIdAndUpdate(idd, {
         description: req.body.description,
@@ -417,7 +416,7 @@ app.post("/admin/dashboard/volunteers/:id",  (req, res)=>{
         }
     })
 })
-app.post("/admin/dashboard/volunteers/:id/delete",  (req, res)=>{
+app.post("/admin/dashboard/volunteers/:id/delete", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Volunteer.findOneAndDelete({_id:req.params.id}, (err)=>{
         if(err){req.flash("err", err.message); res.redirect("back")}
         else{
@@ -428,7 +427,7 @@ app.post("/admin/dashboard/volunteers/:id/delete",  (req, res)=>{
 
 
 
-app.get("/admin/dashboard/volunteers",  (req, res)=>{
+app.get("/admin/dashboard/volunteers", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
         console.log(volunteers)
         res.render("volunteers/volunteers.ejs", {volunteers: volunteers})
@@ -436,10 +435,10 @@ app.get("/admin/dashboard/volunteers",  (req, res)=>{
 })
 
 
-app.get("/admin",  (req, res)=>{
+app.get("/admin", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     res.render("admin/home.ejs");
 });
-app.get("/admin/dashboard/images",  (req, res)=>{
+app.get("/admin/dashboard/images", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
      Image.find({}, (err, items) => {
         if (err) {
             console.log(err)
@@ -448,11 +447,11 @@ app.get("/admin/dashboard/images",  (req, res)=>{
             res.render("admin/images.ejs", {images: items.reverse()});
         }
 })});
-app.get("/admin/dashboard/traffic",  (req, res)=>{
+app.get("/admin/dashboard/traffic", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     res.render("admin/traffic.ejs");
 });
 
-app.get("/admin/dashboard/queries",  (req, res)=>{
+app.get("/admin/dashboard/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Query.find({}, (err, queries)=>{
         if(err){req.flash("err", err.message)}
             else{
@@ -460,7 +459,7 @@ app.get("/admin/dashboard/queries",  (req, res)=>{
             }
     })
 });
-app.post("/clear/queries",  (req, res)=>{
+app.post("/clear/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Query.deleteMany({}, (err)=>{
         if(err){console.log(err)}
             else{
@@ -480,13 +479,13 @@ app.post("/clear/queries",  (req, res)=>{
 //  4. Site images
 //  5. Blogs
 
-app.get("/admin/dashboard/volunteers/",  (req, res)=>{
+app.get("/admin/dashboard/volunteers/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
         res.render("volunteers/volunteers.ejs", {volunteers: volunteers.reverse()})
     })
 })
 
-app.get("/admin/dashboard/volunteers/applications",  (req, res)=>{
+app.get("/admin/dashboard/volunteers/applications", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     
         Volunteer.find({approved: undefined}, (err, volunteee)=>{
             if(err){res.redirect('back')}
@@ -496,7 +495,7 @@ app.get("/admin/dashboard/volunteers/applications",  (req, res)=>{
         })
 });
 
-app.get("/admin/dashboard/volunteers/:id",  (req, res)=>{
+app.get("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     var iddd = req.params.id
     Volunteer.findById(iddd, (err, volunteer)=>{
         if(err){req.flash("error", err.message); res.redirect("back"); console.log(err)}
@@ -507,7 +506,7 @@ app.get("/admin/dashboard/volunteers/:id",  (req, res)=>{
     });
 });
 
-app.post("/admin/dashboard/volunteers/:id",  (req, res)=>{
+app.post("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     var idd =req.params.id;
     Volunteer.findByIdAndUpdate(idd, {
         description: req.body.description,
@@ -525,7 +524,7 @@ app.post("/admin/dashboard/volunteers/:id",  (req, res)=>{
         }
     })
 })
-app.post("/admin/dashboard/volunteers/:id/delete",  (req, res)=>{
+app.post("/admin/dashboard/volunteers/:id/delete", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Volunteer.findOneAndDelete({_id:req.params.id}, (err)=>{
         if(err){req.flash("err", err.message); res.redirect("back")}
         else{
@@ -536,7 +535,7 @@ app.post("/admin/dashboard/volunteers/:id/delete",  (req, res)=>{
 
 
 
-app.get("/admin/dashboard/volunteers",  (req, res)=>{
+app.get("/admin/dashboard/volunteers", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
         console.log(volunteers)
         res.render("volunteers/volunteers.ejs", {volunteers: volunteers})
@@ -544,10 +543,10 @@ app.get("/admin/dashboard/volunteers",  (req, res)=>{
 })
 
 
-app.get("/admin",  (req, res)=>{
+app.get("/admin", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     res.render("admin/home.ejs");
 });
-app.get("/admin/dashboard/images",  (req, res)=>{
+app.get("/admin/dashboard/images", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
      Image.find({}, (err, items) => {
         if (err) {
             console.log(err)
@@ -556,11 +555,11 @@ app.get("/admin/dashboard/images",  (req, res)=>{
             res.render("admin/images.ejs", {images: items.reverse()});
         }
 })});
-app.get("/admin/dashboard/traffic",  (req, res)=>{
+app.get("/admin/dashboard/traffic", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     res.render("admin/traffic.ejs");
 });
 
-app.get("/admin/dashboard/queries",  (req, res)=>{
+app.get("/admin/dashboard/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Query.find({}, (err, queries)=>{
         if(err){req.flash("err", err.message)}
             else{
@@ -568,7 +567,7 @@ app.get("/admin/dashboard/queries",  (req, res)=>{
             }
     })
 });
-app.post("/clear/queries",  (req, res)=>{
+app.post("/clear/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Query.deleteMany({}, (err)=>{
         if(err){console.log(err)}
             else{
@@ -576,7 +575,7 @@ app.post("/clear/queries",  (req, res)=>{
             }
     })
 });
-app.post("/clear/cache",  (req, res)=>{
+app.post("/clear/cache", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     
 });
 
@@ -661,7 +660,7 @@ app.get("/thankyou/:id", (req, res)=>{
 });
 
 
-app.get("/admin/dashboard/donations",  (req, res)=>{
+app.get("/admin/dashboard/donations", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Donation.find({completed: true, utilised:false}, (err, donations)=>{
         if(err){
             console.log(err)
@@ -678,7 +677,7 @@ app.get("/admin/dashboard/donations",  (req, res)=>{
     });
 })
 
-app.post("/admin/dashboard/donations/:id",  (req, res)=>{
+app.post("/admin/dashboard/donations/:id", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Event.findById(req.body.event, (err, event)=>{
         if(err){console.log(err)}
             else{
@@ -699,10 +698,10 @@ app.post("/admin/dashboard/donations/:id",  (req, res)=>{
 
 
 //Events
-app.get("/admin/dashboard/events/",  (req, res)=>{
+app.get("/admin/dashboard/events/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     var message = req.flash("message");
 
-    Event.find({}, (err, events)=>{
+    Event.find({published: false}, (err, events)=>{
         if(err){res.redirect("back")}
             else{
                 res.render("admin/events.ejs", {events: events.reverse(), message: message})
@@ -713,12 +712,12 @@ app.get("/admin/dashboard/events/",  (req, res)=>{
 
 
 
-app.get("/admin/dashboard/events/create",  (req, res)=>{
+app.get("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     res.render("admin/newEvent.ejs")
 })
 
 
-app.post("/admin/dashboard/events/create",  (req, res)=>{
+app.post("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     console.log(req.body.event)
     Event.create(req.body.event, (err, event)=>{
 
@@ -732,7 +731,7 @@ app.post("/admin/dashboard/events/create",  (req, res)=>{
             }
     })
 });
-app.get("/admin/dashboard/events/:id/",  (req, res)=>{
+app.get("/admin/dashboard/events/:id/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     var message = req.flash("message")
     Event.findById(req.params.id, (err, event)=>{
         if(err){console.log(err)}
@@ -762,7 +761,7 @@ app.get("/admin/dashboard/events/:id/",  (req, res)=>{
 
 
 
-app.post("/admin/dashboard/events/:id/delete",  (req, res)=>{
+app.post("/admin/dashboard/events/:id/delete", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Event.findByIdAndDelete(req.params.id, (err)=>{
         if(err){console.log(err)}
             else{
@@ -771,12 +770,11 @@ app.post("/admin/dashboard/events/:id/delete",  (req, res)=>{
             }
     })
 });
-app.post("/admin/dashboard/events/:id/publish",  (req, res)=>{
+app.post("/admin/dashboard/events/:id/publish", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Event.findByIdAndUpdate(req.params.id, {published:true},  (err, event)=>{
         if(err){console.log(err)}
             else{
                 event.donations.forEach(function(donation){
-                    console.log(donation)
                     var mailOptions = {
                         from: "Donation - TecSo Foundation <" + process.env.USER + ">",
                         to: donation.email,
