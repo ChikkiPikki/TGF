@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome | TecSo Global Foundation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <%-include("dynamicCommons.ejs")%>
+    <style type="text/css">
+        @media only screen and (min-width: 768px){
+            .owl-carousel{
+                  height: 70%;
+  width: 100%;
+  margin-top: 60px;
+  border-radius: 100%;
+  margin-left: 39px;
+            }
+
+        }
+        .owl-carousel{
+            width: 100%;
+
+        }
+         .carousel-wrap {
+    width: 1000px;
+    margin: auto;
+    position: relative;
+  }
+  .owl-carousel .owl-nav{
+    overflow: hidden;
+    height: 0px;
+  }
+
+  .owl-theme .owl-dots .owl-dot.active span, 
+  .owl-theme .owl-dots .owl-dot:hover span {
+      background: #2caae1;
+  }
+
+
+  .owl-carousel .item {
+      text-align: center;
+  }
+  .owl-carousel .nav-btn{
+      height: 47px;
+      position: absolute;
+      width: 26px;
+      cursor: pointer;
+      top: 100px !important;
+  }
+
+  .owl-carousel .owl-prev.disabled,
+  .owl-carousel .owl-next.disabled{
+    pointer-events: none;
+    opacity: 0.2;
+  }
+
+  .owl-carousel .prev-slide{
+      background: url(/static/arr.png) no-repeat scroll 0 0;
+      left: -33px;
+  }
+  .owl-carousel .next-slide{
+      background: url(/static/arr.png) no-repeat scroll -24px 0px;
+      right: -33px;
+  }
+  .owl-carousel .prev-slide:hover{
+     background-position: 0px -53px;
+  }
+  .owl-carousel .next-slide:hover{
+    background-position: -24px -53px;
+  }
+
+  span.img-text {
+    text-decoration: none;
+    outline: none;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    cursor: pointer;
+    width: 100%;
+    font-size: 23px;
+    display: block;
+    text-transform: capitalize;
+  }
+  span.img-text:hover {
+    color: #2caae1;
+  }
+    </style>
+</head>
+<body>
+    <%-include("header.ejs")%>
+    
+    <div class="owl-carousel owl-theme">
+        <div class="carousel-item item active active">
+      <img class="d-block h-100 w-100" src="../static/home/slider1.jpeg" alt="First slide">
+      <div class="carousel-caption d-none d-md-block">
+        <h1>Hello</h1>
+      </div>
+    </div>
+    <div class="carousel-item item active">
+      <img class="d-block h-100 w-100" src="../static/home/slider2.jpeg" alt="Second slide">
+      <div class="carousel-caption d-none d-md-block">
+        <h2>Hello</h2>
+      </div>
+    </div>
+    <div class="carousel-item item active">
+      <img class="d-block h-100 w-100" src="../static/home/slider3.jpeg" alt="Third slide">
+      <div class="carousel-caption d-none d-md-block">
+        hi
+      </div>
+    </div>
+    <div class="carousel-item item active">
+      <img class="d-block h-100 w-100" src="../static/home/slider4.jpeg" alt="Fourth slide">
+      <div class="carousel-caption d-none d-md-block">
+        hi
+      </div>
+    </div>
+    <div class="carousel-item item active">
+      <img class="d-block h-100 w-100" src="../static/home/slider5.jpeg" alt="Fifth slide">
+      <div class="carousel-caption d-none d-md-block">
+        hi
+      </div>
+    </div>
+    <div class="carousel-item item active">
+      <img class="d-block h-100 w-100" src="../static/home/slider6.jpeg" alt="Sixth slide">
+      <div class="carousel-caption d-none d-md-block">
+        hi
+      </div>
+    </div>
+    </div>
+        <div style="position: absolute; width: 100%; height:150vh;" id="particles-js"></div>
+
+    <div class="page-content">
+            
+        <h1 class="display-1 ack" style="" >Acknowledgements</h1>
+      
+    <div class="row">
+     <div class="container col-sm-12 col-md-12 col-lg-6">
+      <div class="row">
+        <div class="container col-sm-12 col-md-6 col-lg-6">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+        <div class="container col-sm-12 col-md-6 col-lg-6">
+           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+      </div>
+      <hr>
+     <div class="row">
+        <div class="container col-sm-12 col-md-6 col-lg-6">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+        <div class="container col-sm-12 col-md-6 col-lg-6">
+           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+      </div>
+    </div>
+
+      
+
+         
+     </div>
+
+    </div> 
+    <%-include("footer.ejs")%>     
+<script src="/js/particles.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+   $('.owl-carousel').owlCarousel({
+    loop:true,
+
+    responsiveClass:true,
+    autoplay:true,
+    autoplayTimeout:1000,
+    autoplayHoverPause:true,
+    nav: true,
+    navText: ["<img>","<img src='/static/arr.png'>"],
+    smartSpeed: 500,
+    responsive:{
+        0:{
+            items:1,
+            nav:true
+        },
+        600:{
+            items:1,
+            nav:false
+        },
+        1000:{
+            items:1,
+            nav:true,
+            loop:true
+        }
+    }
+})
+particlesJS.load('particles-js', '/js/particles.json', function() {
+  console.log('callback - particles.js config loaded');
+});
+</script>
+</body>
+</html>

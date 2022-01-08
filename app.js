@@ -144,22 +144,22 @@ var profUpload = multer({
 
 
 app.get("/", (req, res) => {
-    res.render("home.ejs")
+    res.render("test.ejs", {page:"home"})
 });
 
 app.get("/about", (req, res) => {
-    res.render("about.ejs");
+    res.render("about.ejs", {page: "about"});
 });
 
 app.get("/contact", (req, res) => {
     var message = req.flash('message');
-    res.render("contact.ejs", {message: message});
+    res.render("contact.ejs", {message: message, page: "contact"});
 
 
 });
 app.get("/apply/volunteer", (req, res)=>{
     var message = req.flash("message");
-    res.render("volunteers/volunteerApplication.ejs", {message: message});
+    res.render("volunteers/volunteerApplication.ejs", {message: message, page: "apply"});
 });
 app.post("/apply/volunteer",  pdfUpload.fields([
     {name: "cv", maxCount: 1 },{name: "img", maxCount: 1}
@@ -305,10 +305,12 @@ app.post('/images', connectEnsureLogin.ensureLoggedIn(), upload.single('image'),
 // instance.orders.create(options, function(err, order) {
 //   console.log(order);
 // });
-
+app.get("/testing", (req, res)=>{
+    res.render("test.ejs", {page: "testing"});
+})
 
 app.get("/donate", (req, res)=>{
-    res.render("donate.ejs");
+    res.render("donate.ejs", {page: "donate"});
 })
 
 
@@ -350,16 +352,13 @@ app.post("/login", passport.authenticate('local', {failureRedirect:'/login', suc
 
             
         
-app.post("/login", passport.authenticate('local', {failureRedirect:'/login', successRedirect: '/admin'}), (req, res)=>{
-
-});
 
 
  app.get("/login", (req, res)=>{
     if (req.isAuthenticated()) {
         res.redirect("/admin")
 } else {
-    res.render("adminLogin.ejs");
+    res.render("adminLogin.ejs", {page: "admin"});
 }
  })
 
@@ -373,7 +372,7 @@ app.post("/login", passport.authenticate('local', {failureRedirect:'/login', suc
 
 app.get("/admin/dashboard/volunteers/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
-        res.render("volunteers/volunteers.ejs", {volunteers: volunteers.reverse()})
+        res.render("volunteers/volunteers.ejs", {volunteers: volunteers.reverse(), page:"Volunteers"})
     })
 })
 
@@ -382,7 +381,7 @@ app.get("/admin/dashboard/volunteers/applications", connectEnsureLogin.ensureLog
         Volunteer.find({approved: undefined}, (err, volunteee)=>{
             if(err){res.redirect('back')}
             else{
-                res.render("volunteers/volunteerApplications.ejs", {volunteers: volunteee.reverse()})
+                res.render("volunteers/volunteerApplications.ejs", {volunteers: volunteee.reverse(), page:"Volunteer applications"})
             }
         })
 });
@@ -392,7 +391,7 @@ app.get("/admin/dashboard/volunteers/:id", connectEnsureLogin.ensureLoggedIn(), 
     Volunteer.findById(iddd, (err, volunteer)=>{
         if(err){req.flash("error", err.message); res.redirect("back"); console.log(err)}
             else{
-                res.render("volunteers/volunteerPage.ejs", {volunteer: volunteer});
+                res.render("volunteers/volunteerPage.ejs", {volunteer: volunteer, page: volunteer.name});
 
             }
     });
@@ -430,13 +429,13 @@ app.post("/admin/dashboard/volunteers/:id/delete", connectEnsureLogin.ensureLogg
 app.get("/admin/dashboard/volunteers", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
         console.log(volunteers)
-        res.render("volunteers/volunteers.ejs", {volunteers: volunteers})
+        res.render("volunteers/volunteers.ejs", {volunteers: volunteers, page:"Volunteers"})
     })
 })
 
 
 app.get("/admin", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
-    res.render("admin/home.ejs");
+    res.render("admin/home.ejs", {page: "Admin"});
 });
 app.get("/admin/dashboard/images", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
      Image.find({}, (err, items) => {
@@ -444,18 +443,18 @@ app.get("/admin/dashboard/images", connectEnsureLogin.ensureLoggedIn(), (req, re
             console.log(err)
         }
         else {
-            res.render("admin/images.ejs", {images: items.reverse()});
+            res.render("admin/images.ejs", {images: items.reverse(), page:"Site Images"});
         }
 })});
 app.get("/admin/dashboard/traffic", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
-    res.render("admin/traffic.ejs");
+    res.render("admin/traffic.ejs", {page: "Site traffic"});
 });
 
 app.get("/admin/dashboard/queries", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Query.find({}, (err, queries)=>{
         if(err){req.flash("err", err.message)}
             else{
-                res.render("admin/queries.ejs", {queries: queries.reverse()})
+                res.render("admin/queries.ejs", {queries: queries.reverse(), page:"Site Queries"})
             }
     })
 });

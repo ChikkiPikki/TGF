@@ -58,13 +58,7 @@ $(".contact-form").submit(function(e) {
 });
 // $(".nav").bcSwipe({threshold: 50});
 
-$('#owl-carousel').owlCarousel({
-    loop: true,
-    margin: 30,
-    dots: true,
-    nav: true,
-    items: 2,
-});
+
 const nameEl = document.querySelector("#name");
 const emailEl = document.querySelector("#email");
 const companyNameEl = document.querySelector("#company-name");
