@@ -37,7 +37,8 @@ var Event = new mongoose.Schema({
 		name: String,
 		amount: Number,
 		email: String
-	}]
+	}],
+	type: String
 })
 
 module.exports = mongoose.model('Event', Event);

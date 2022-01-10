@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>Welcome | TecSo Global Foundation</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <%-include("dynamicCommons.ejs")%>
+    <%- include("dynamicCommons.ejs") %>
     <style type="text/css">
         @media only screen and (min-width: 768px){
             .owl-carousel{
@@ -83,9 +84,19 @@
   span.img-text:hover {
     color: #2caae1;
   }
+
+
+.width100{
+
+}
+
+
+
+
     </style>
 </head>
 <body>
+    <%-include("commonAssets/loader.ejs")%>
     <%-include("header.ejs")%>
     
     <div class="owl-carousel owl-theme">
@@ -126,12 +137,12 @@
       </div>
     </div>
     </div>
-        <div style="position: absolute; width: 100%; height:150vh;" id="particles-js"></div>
 
     <div class="page-content">
             
-        <h1 class="display-1 ack" style="" >Acknowledgements</h1>
+        <h1 class="ack display-1" >Acknowledgements</h1>
       
+        <div style="position: absolute; width: 100%; height:100vh; margin-top: 10px;" id="particles-js"></div>
     <div class="row">
      <div class="container col-sm-12 col-md-12 col-lg-6">
       <div class="row">
@@ -143,6 +154,7 @@
           cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
           proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </div>
+
         <div class="container col-sm-12 col-md-6 col-lg-6">
            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -175,10 +187,41 @@
 
       
 
-         
+         <br><br>
      </div>
-
+     <!-- Recent Events -->
+     <hr>
+     <h1 class="ack display-1">Our Recent Events</h1>
+     <div class="row ">
+         <div class="container events col-lg-4 col-md-6 col-sm-12">
+             <%-include("commonAssets/eventCard.ejs")%>
+         </div>
+         <div class="container events col-lg-4 col-md-6 col-sm-12">
+             <%-include("commonAssets/eventCard.ejs")%>
+         </div>
+         <div class="container events col-lg-4 col-md-6 col-sm-12">
+             <%-include("commonAssets/eventCard.ejs")%>
+         </div>
+         <div class="container events col-lg-4 col-md-6 col-sm-12">
+             <%-include("commonAssets/eventCard.ejs")%>
+         </div>
+     </div><br><hr>
+ <div class="count1">
+        <%-include("commonAssets/numberCounter.ejs")%>
+    </div>
     </div> 
+   
+       <script type="text/javascript">
+$(window).load(function() {
+  $('.post-module').hover(function() {
+    $(this).find('.description').stop().animate({
+      height: "toggle",
+      opacity: "toggle"
+    }, 300);
+  });
+});
+    </script>   <br><br><hr>
+
     <%-include("footer.ejs")%>     
 <script src="/js/particles.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

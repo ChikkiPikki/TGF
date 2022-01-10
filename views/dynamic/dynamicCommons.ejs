@@ -17,6 +17,10 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
   />
+  <script type="text/javascript">
+window.onload = function(){ document.getElementById("loading").style.display = "none" }
+
+  </script>
 
     <style type="text/css">
     	@font-face { font-family: newtext; src: url('../src/newtext.otf'); } 
@@ -35,7 +39,7 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js" integrity="sha512-qa1o08MA0596eSNsnkRv5vuGloSKUhY09O31MY2OJpODjUVlaL0GOJJcyt7J7Z61FiEgHMgBkH04ZJ+vcuLs/w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 
 
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjgF-YwYvHfyHkLhlsNtHmXuOYll7eutQ"></script>
@@ -43,7 +47,7 @@
   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha512-YUkaLm+KJ5lQXDBdqBqk7EVhJAdxRnVdT2vtCzwPHSweCzyMgYV/tgGF4/dCyqtCC2eCphz0lRQgatGVdfR0ww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
-    <script src="/js/jquery-3.3.1.min.js"></script>
+
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery.magnific-popup.min.js"></script>
     <script src="/js/isotope.pkgd.min.js"></script>
@@ -64,7 +68,9 @@
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css'>
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css'>
 <style type="text/css">
+#loading {width: 100%;height: 100%;top: 0px;left: 0px;position: fixed;display: block; z-index: 99}
 
+#loading-image {position: absolute;top: 40%;left: 45%;z-index: 100} 
 .floatingButtonWrap {
     display: block;
     position: fixed;

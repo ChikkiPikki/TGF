@@ -143,10 +143,18 @@ var profUpload = multer({
 
 
 
-app.get("/", (req, res) => {
-    res.render("test.ejs", {page:"home"})
-});
-
+// app.get("/", (req, res) => {
+//     Event.find({}, (err, events)=>{
+//         if(err){console.log(err)}
+//             else{
+//                 res.render("test.ejs")
+//             }
+//     })
+    
+// });
+app.get("/", (req, res)=>{
+    res.render("test.ejs")
+})
 app.get("/about", (req, res) => {
     res.render("about.ejs", {page: "about"});
 });
