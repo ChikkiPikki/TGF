@@ -18,27 +18,51 @@
 		<div class="contact-form" >
 			<div class="volunteers">
 				<h3>Volunteers invloved</h3>
-				<%volunteers.forEach(function(volunteer, index){%>
-					<img src="data:<%=volunteer.profilePic.contentType%>;base64,<%=volunteer.profilePic.data.toString('base64')%>">
-					<%=volunteer.name%>
+				<div class="row">
+					
+						<%volunteers.forEach(function(volunteer, index){%>
+						<div class="container col-lg-3 col-md-6 com-sm-12" style="border: 6px solid lightgreen; padding: 30px; border-radius: 15px;">
+					<img src="data:<%=volunteer.profilePic.contentType%>;base64,<%=volunteer.profilePic.data.toString('base64')%>"><br>
+					<%=volunteer.name%><br><%= " ("+volunteer.role%>)
 					<input type="checkbox" id="<%=volunteer._id%>" value="<%=volunteer._id%>"><br><br>
-				<%})%>
-			</div>
-			<h3>Donations</h3>
-			<ul>
-				<%event.donations.forEach(function(donation){%>
-				<li><h3><%=donation.name%></h3>
-				<p><b>Amount: </b><%=donation.amount%></p></li><hr><br>
-			<%})%>
-			</ul>
-			<button type="submit" class="submit">Publish Event</button>
-			
-			
-		</div>
+					</div>
 
+				<%})%>
+				</div>
+
+				
+			</div>
+			<br><hr><br>
+			<h3>Donations</h3>
+			<div class="row">
+				<%var total=0%>
+					<%event.donations.forEach(function(donation){total=total+Number(donation.amount); %>
+					
+				<div class="container col-lg-3 col-md-6 col-sm-12" style="border: 6px solid lightblue;margin:30px; padding: 30px; border-radius: 15px;">
+
+				<h5><%=donation.name%></h5>
+				<p><b>Amount: </b><%=donation.amount/100%></p>
+				<a href="mailto:<%=donation.email%>"><%=donation.email%></a>
+				</div><br><hr>
+				
+			<%})%><br><br><hr><br>
+						<div class="container" style="margin-right: 30%; margin-top: 30px;">
+							
+							<div style="border: 6px solid pink; padding: 10px; border-radius: 15px; width: 20%;">Total Amount: <%=total/100%> </div><br>
+			<a href="/admin/dashboard/donations" class="btn btn-outline-success">Add more</a>
+				
+			</div><hr>
+			<br>
+</div>
+
+<hr>
+			<button type="submit" class="submit btn btn-success">Publish Event</button><br><br><Br>
+			
+			
+		
 
 		<form class="contact-form" action="/admin/dashboard/events/<%=event._id%>/delete" method="POST">
-			<button type="submit">Delete Event</button>
+			<button type="submit" class="btn btn-danger">Delete Event</button>
 			
 		</form>
 	</div>
@@ -84,7 +108,7 @@
 		// 			console.log($(".date").val())
 		// 		}
 		// 		})
-	</script>
+	</script></div>
 <%- include("../footer.ejs")%>
 <%- include("adminControls.ejs")%>
 </body>

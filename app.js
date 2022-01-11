@@ -539,8 +539,8 @@ app.post("/admin/dashboard/volunteers/:id/delete", connectEnsureLogin.ensureLogg
         }
     });
 });
-
-
+var donation = require("./routes/admin/donations.js")
+app.use(donation);
 
 app.get("/admin/dashboard/volunteers", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
     Volunteer.find({approved: "Yes"}, (err, volunteers)=>{
@@ -812,8 +812,8 @@ console.log(req.body)
                         from: "Donation - TecSo Foundation <" + process.env.USER + ">",
                         to: donation.email,
                         subject: 'Your contribution towards '+event.name,
-                        text: 'Dear '+donation.name+". We cannot thank you enough for your Rupees "+donation.amount +" contribution towards "+event.name+". It gives us immense pleasure to let you know that your donation has been utilised in this event. To know more about the event, please visit https://tecsoglobalfoundation.herokuapp.com/events/" +event._id+". Thank you, once again. Yours truly TecSo Foundation Team", 
-                        html: '<h1>Dear '+donation.name+".</h1> <p> We cannot thank you enough for your Rupees "+donation.amount +" contribution towards "+event.name+".</p> <p>It gives us immense pleasure to let you know that your donation has been utilised in this event.</p><br> To know more about the event, please visit <a href='https://tecsoglobalfoundation.herokuapp.com/events/" +event._id+"'>here</a>.<p> Thank you, once again.</p> <br><hr>Yours truly <br> <h3>The TecSo Foundation Team</h3>", 
+                        text: 'Dear '+donation.name+". We cannot thank you enough for your Rupees "+donation.amount/100 +" contribution towards "+event.name+". It gives us immense pleasure to let you know that your donation has been utilised in this event. To know more about the event, please visit https://tecsoglobalfoundation.herokuapp.com/events/" +event._id+". Thank you, once again. Yours truly TecSo Foundation Team", 
+                        html: '<h1>Dear '+donation.name+".</h1> <p> We cannot thank you enough for your Rupees "+donation.amount/100 +" contribution towards "+event.name+".</p> <p>It gives us immense pleasure to let you know that your donation has been utilised in this event.</p><br> To know more about the event, please visit <a href='https://tecsoglobalfoundation.herokuapp.com/events/" +event._id+"'>here</a>.<p> Thank you, once again.</p> <br><hr>Yours truly <br> <h3>The TecSo Foundation Team</h3>", 
                         
                     };
                     console.log(mailOptions)
@@ -827,24 +827,29 @@ console.log(req.body)
 //Actual Events
 app.get("/events/:id", (req, res)=>{
     Event.findById(req.params.id, (err, event)=>{
-        if(err){res.redirect("/")}
+        if(err){console.log(err)}
             else{
                 var volunteersArr = [];
-                event.volunteers.forEach(function(volunteer){
+                event.volunteers.forEach(function(volunteer, index){
                     console.log(volunteer)
-                    Volunteer.findById(volunteer.id, (err, volunteer)=>{
+                    Volunteer.findById(volunteer.id).populate("profilePic").exec((err, volunteer)=>{
                         if(err){console.log(err)}
                             else{
-
+                                console.log(volunteer.name)
                                 volunteersArr.push({
                                     name: volunteer.name,
                                     role: volunteer.role,
                                     profilePic: volunteer.profilePic
                                 })
+                                // console.log(volunteersArr)
+                                if((index+1) == event.volunteers.length ){
+                                    res.render("event.ejs",{event: event, volunteers: volunteersArr})
+                                }
                             }
                     })
                 })
-                res.render("event.ejs",{event: event, volunteers: volunteersArr})
+
+                
             }
     })
 });
