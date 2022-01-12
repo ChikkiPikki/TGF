@@ -7,6 +7,7 @@ var dotenv = require("dotenv");
 var multer = require('multer');
 var fs = require("fs");
 var multer = require('multer');
+var cloudinary = require("cloudinary").v2
 // var multer2 = require("multer");
 const flash = require('connect-flash');
 const session = require('express-session');  // session middleware
@@ -86,6 +87,13 @@ passport.serializeUser(Admin.serializeUser());
 passport.deserializeUser(Admin.deserializeUser());
 app.use(flash());
 
+
+//Cloud Storage config
+cloudinary.config({ 
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.CLOUD_API_KEY, 
+  api_secret: process.env.CLOUD_API_SECRET
+});
 
 
 
@@ -262,7 +270,7 @@ app.post("/queryposted", (req, res) => {
 
 
 app.post('/images', connectEnsureLogin.ensureLoggedIn(), upload.single('image'), (req, res, next) => {
-
+    
     var obj = {
         name: req.body.name,
         desc: req.body.desc,
