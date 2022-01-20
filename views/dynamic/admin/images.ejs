@@ -6,49 +6,49 @@
 	<style type="text/css">
 		img{
 			width: 40%;
-			object-fit: fill;
+			object-fit: cover;
 			object-position: center;
 		}
-		.container{
-			border: 3px solid black;
-			padding: 30px;
-		}
+		
 	</style>
 </head>
 <body>
 	<%- include("../header.ejs") %>
 	<div class="page-content">
-		<h1 class="ack display-1">To Upload images</h1>
+		<h1 class="ack display-1">Home Slider Images</h1>
 			<div class="container">
 				<form action="/images" style="" method="POST" enctype="multipart/form-data">
 					<div class="form-group" style="display: block;">
-						<label for="name">Image Title</label>
-						<input type="text" class="form-control" id="name" placeholder="Name"
-							value="" name="name" required>
+						
+							<div class="row">
+								<div class="container col-lg-6">
+								<ul class ="index">
+
+									<%images.forEach(function(image, index){%>
+
+											<li><%=index+1 %><br><img src="<%=image.link%>"></li>
+									<%})%>
+
+								</ul>
+								</div>
+								
+									
+							</div>
+						
 					</div>
-					<div class="form-group">
-						<label for="image">Upload Image</label>
+					<div class="form-group container d-block">
+						<label for="image">Upload Image (will be added at the end of the queue)</label>
 						<input type="file" class="form-control" id="image"
-							name="image" value="" required>
-					</div>
+							name="image" value="" required><br>
 						<button style="display: block !important;" type="submit">Submit</button>
+
+					</div>
 				</form>
 			</div>
 			<br><br>
-		<h1 class="ack display-1">Site images</h1><br><br>
-		<% images.forEach(function(image) { %>
-			<div class="row">
-				<div class="container col-sm-12 col-lg-6">
-					<img src="data:<%=image.img.contentType%>;base64,
-					<%=image.img.data.toString('base64')%>">
-				</div>
-				
-				<div class="container col-sm-12 col-lg-6">
-					<h5><%= image.name %></h5>
-					<p><%= image.desc %></p>
-				</div>
-			</div>
-			<hr>
+		<h1 class="ack display-1">Change Site Images</h1><br><br>
+		<% images.forEach(function(image, index) { %>
+			
 		<% }) %>
 		<hr>
 	</div>

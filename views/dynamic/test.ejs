@@ -100,42 +100,14 @@
     <%-include("header.ejs")%>
     
     <div class="owl-carousel owl-theme">
-        <div class="carousel-item item active active">
-      <img class="d-block h-100 w-100" src="../static/home/slider1.jpeg" alt="First slide">
-      <div class="carousel-caption d-none d-md-block">
-        <h1>Hello</h1>
+      <%images.forEach((image, index)=>{%>
+      <div class="carousel-item item active active">
+        <img class="d-block h-100 w-100" src="<%=image.link%>" alt="First slide">
+        <div class="carousel-caption d-none d-md-block">
+          <h1><%=image.context%></h1>
+        </div>
       </div>
-    </div>
-    <div class="carousel-item item active">
-      <img class="d-block h-100 w-100" src="../static/home/slider2.jpeg" alt="Second slide">
-      <div class="carousel-caption d-none d-md-block">
-        <h2>Hello</h2>
-      </div>
-    </div>
-    <div class="carousel-item item active">
-      <img class="d-block h-100 w-100" src="../static/home/slider3.jpeg" alt="Third slide">
-      <div class="carousel-caption d-none d-md-block">
-        hi
-      </div>
-    </div>
-    <div class="carousel-item item active">
-      <img class="d-block h-100 w-100" src="../static/home/slider4.jpeg" alt="Fourth slide">
-      <div class="carousel-caption d-none d-md-block">
-        hi
-      </div>
-    </div>
-    <div class="carousel-item item active">
-      <img class="d-block h-100 w-100" src="../static/home/slider5.jpeg" alt="Fifth slide">
-      <div class="carousel-caption d-none d-md-block">
-        hi
-      </div>
-    </div>
-    <div class="carousel-item item active">
-      <img class="d-block h-100 w-100" src="../static/home/slider6.jpeg" alt="Sixth slide">
-      <div class="carousel-caption d-none d-md-block">
-        hi
-      </div>
-    </div>
+      <%})%>
     </div>
 
     <div class="page-content">

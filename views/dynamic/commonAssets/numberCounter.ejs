@@ -5,17 +5,17 @@
    <div class="col-12">
     <h1 class="ack display-4">Our Numbers</h1>
    </div>
-   <div class="col-md-4 " style="border: 0px solid black; border-radius: 1px">
+   <div class="col-md-4 counterDiv " style="border: 0px solid black; border-radius: 1px">
 
-    <span id="count1" class="display-4">0</span><hr style="width: 102px; border: 3px solid lightgreen; border-radius: 4px;">
+    <span id="count1" class="display-4 counterDiv">0</span><hr style="width: 102px; border: 3px solid lightgreen; border-radius: 4px;">
     <h5 class="">Our Volunteers</h5>
    </div>
    <div class="col-md-4 " style="border: 0px solid black; border-radius: 1px">
-    <span id="count2" class="display-4">0</span><hr style="width: 102px; border: 3px solid lightgreen; border-radius: 4px;">
+    <span id="count2" class="display-4 counterDiv">0</span><hr style="width: 102px; border: 3px solid lightgreen; border-radius: 4px;">
    <h5 class="">Our Projects</h5>
    </div>
    <div class="col-md-4 " style="border: 0px solid black; border-radius: 1px">
-    <span id="count3" class="display-4">0</span><hr class="d-md-block d-none" style="width: 102px; border: 3px solid lightgreen; border-radius: 4px;">
+    <span id="count3" class="display-4 counterDiv">0</span><hr class="d-md-block d-none" style="width: 102px; border: 3px solid lightgreen; border-radius: 4px;">
     <h5 class="">Our <\data></h5>
    </div>
   </div>
@@ -39,33 +39,23 @@ $(document).ready(()=>{
  }
 var once = false;
 
-
-$(".count1").mousemove(()=>{
-   if(!once){
-counter("count1", 0, 400, 1000);
-counter("count2", 100, 50, 1000);
-counter("count3", 0, 40, 1000);
-   once=true
-
-}})
-$(".count1").on("touchstart",()=>{
-   if(!once){
-counter("count1", 0, 400, 1000);
-counter("count2", 100, 50, 1000);
-counter("count3", 0, 40, 1000);
-   once=true
-
-}})
-
-
-
-
-
-
- })
-
-
-
-
-
+  $(window).on("load",function() {
+  $(window).scroll(function() {
+    var windowBottom = $(this).scrollTop() + $(this).innerHeight();
+    $(".counterDiv").each(function() {
+      /* Check the location of each desired element */
+      var objectBottom = $(this).offset().top + $(this).outerHeight();
+      
+      /* If the element is completely within bounds of the window, fade it in */
+      if (objectBottom < windowBottom && once==false) { //object comes into view (scrolling down)
+        counter("count1", 0, 400, 1000);
+        counter("count2", 100, 50, 1000);
+        counter("count3", 0, 40, 1000);
+        once=true
+      } else { //object goes out of view (scrolling up)
+        // if ($(this).css("opacity")==1) {$(this).fadeTo(200,0);}
+      }
+    });
+  }).scroll(); //invoke scroll-handler on page-load
+});})
 </script>

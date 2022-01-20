@@ -161,7 +161,14 @@ var profUpload = multer({
     
 // });
 app.get("/", (req, res)=>{
-    res.render("test.ejs")
+    Image.find({}, (err, images)=>{
+        if(err){
+            req.flash("message", "Server Error: " + err.message)
+            res.redirect("/")
+        }else{
+            res.render("test.ejs", {images: images})            
+        }
+    })
 })
 app.get("/about", (req, res) => {
     res.render("about.ejs", {page: "about"});
@@ -208,6 +215,8 @@ app.post("/apply/volunteer",  pdfUpload.fields([
         else {
 
             item.save();
+            fs.unlinkSync(req.files.img[0].mimetype);
+            fs.unlinkSync(req.files.cv[0].path);
             req.flash("message", "Your application has been received, we will get in touch soon.");
             res.redirect('/apply/volunteer');
         }
@@ -270,57 +279,81 @@ app.post("/queryposted", (req, res) => {
 
 
 app.post('/images', connectEnsureLogin.ensureLoggedIn(), upload.single('image'), (req, res, next) => {
+    var imgPath = path.join(__dirname + '/src/img/' + req.file.filename);
+    const timestamp = Math.round((new Date).getTime()/1000);
+
+    var signature = cloudinary.utils.api_sign_request({
+        timestamp: timestamp,
     
-    var obj = {
-        name: req.body.name,
-        desc: req.body.desc,
-        location: req.body.location,
-        img: {
-            data: fs.readFileSync(path.join(__dirname + '/src/img/' + req.file.filename)), //Change this to an appropriate
-            //image file identifier synatx
-            contentType: 'image/png'
+        folder: 'site_images/homeslider',
+        public_id: req.file.originalname,
+        maxFileSize: 1000000
+    }, process.env.CLOUD_API_SECRET)
+  
+    //Clean this function to a general one later 
+    cloudinary.uploader.unsigned_upload(imgPath, "heh3ulpt",{
+            timestamp: timestamp,    
+            folder: 'site_images/slider_images',
+            public_id: req.file.originalname
+        }).then((upload)=>{
+       
+        var obj = {
+            link: upload.url,
+            context: req.body.desc,
+            number: req.body.number,
+            location: req.body.location,
+            originalname: req.file.originalname        
+      
         }
-    }
+        
     Image.create(obj, (err, item) => {
         if (err) {
             console.log(err);
         }
         else {
-            item.save();
-            res.redirect('/admin');
+            
+            res.redirect('/admin/dashboard/images');
         }
     });
+    }).catch((error)=>{
+
+            console.log(error.message);
+            req.flash("message", error.message);
+            res.redirect("/admin/dashboard/images");
+        
+    });
+
+    
+});
+app.post("/images/update/:id", connectEnsureLogin.ensureLoggedIn(), upload.single("image"),(req, res)=>{
+    Image.findById(req.params.id)
+    .then((image)=>{
+        var imgPath = path.join(__dirname + '/src/img/' + req.file.filename);
+        const timestamp = Math.round((new Date).getTime()/1000);
+
+        cloudinary.uploader.unsigned_upload(imgPath, "heh3ulpt", {
+            timestamp: timestamp,    
+            folder: 'site_images/slider_images',
+            public_id: image.originalname
+        }).then((response)=>{
+            image.link = response.url
+            image.save();
+            image.context = req.body.desc;
+            image.save();
+            res.redirect("/admin/dashboard/images");
+        }).catch((error)=>{
+
+            req.flash("message", "Cloud Upload Error: " + error.message);
+            res.redirect("/admin/dashboard/images");
+
+        })
+    })
+    .catch((error)=>{
+        req.flash("message", "Database Error: " + error.message);
+    })
 });
 
 
-//Razorpay Integration (currently testing)
-
-// var instance = new Razorpay({
-//   key_id: process.env.RZP_KEY_ID,
-//   key_secret: process.env.RZP_KEY_SECRET,
-// });
-
-// instance.orders.create({
-//   amount: 50000,
-//   currency: "INR",
-//   receipt: "receipt#1",
-//   notes: {
-//     key1: "value3",
-//     key2: "value2"
-//   }
-// })
-
-
-// var options = {
-//   amount: 50000,  // amount in the smallest currency unit
-//   currency: "INR",
-//   receipt: "order_rcptid_11",
-//   partial_payment: false,
-
-// };
-// instance.orders.create(options, function(err, order) {
-//   console.log(order);
-// });
 app.get("/testing", (req, res)=>{
     res.render("test.ejs", {page: "testing"});
 })
@@ -743,15 +776,13 @@ app.post("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), 
 
 
 
-
     // eventObj.content.img = image object array
     Event.create(eventObj, (err, event)=>{
-
         if(err){console.log(err)}
             else{
-                
                 event.published = false;
                 event.save();
+                fs.unlinkSync(path.join(__dirname+'src/img/'+img.filename));
                 req.flash("message", "Event created!")
                 res.redirect("/admin/dashboard/events/"+event._id+"/")
             }
@@ -820,8 +851,8 @@ console.log(req.body)
                         from: "Donation - TecSo Foundation <" + process.env.USER + ">",
                         to: donation.email,
                         subject: 'Your contribution towards '+event.name,
-                        text: 'Dear '+donation.name+". We cannot thank you enough for your Rupees "+donation.amount/100 +" contribution towards "+event.name+". It gives us immense pleasure to let you know that your donation has been utilised in this event. To know more about the event, please visit https://tecsoglobalfoundation.herokuapp.com/events/" +event._id+". Thank you, once again. Yours truly TecSo Foundation Team", 
-                        html: '<h1>Dear '+donation.name+".</h1> <p> We cannot thank you enough for your Rupees "+donation.amount/100 +" contribution towards "+event.name+".</p> <p>It gives us immense pleasure to let you know that your donation has been utilised in this event.</p><br> To know more about the event, please visit <a href='https://tecsoglobalfoundation.herokuapp.com/events/" +event._id+"'>here</a>.<p> Thank you, once again.</p> <br><hr>Yours truly <br> <h3>The TecSo Foundation Team</h3>", 
+                        text: 'Dear '+donation.name+". We cannot thank you enough for your Rupees "+donation.amount/100 +" contribution towards "+event.name+". It gives us immense pleasure to let you know that your donation has been utilised in this event. To know more about the event, please visit https://tecsoglobalfoundation.herokuapp.com/events/" +event._id+". Thank you, once again. Yours truly TecSo Global Foundation Team", 
+                        html: '<h1>Dear '+donation.name+".</h1> <p> We cannot thank you enough for your Rupees "+donation.amount/100 +" contribution towards "+event.name+".</p> <p>It gives us immense pleasure to let you know that your donation has been utilised in this event.</p><br> To know more about the event, please visit <a href='https://tecsoglobalfoundation.herokuapp.com/events/" +event._id+"'>here</a><img src='"+event.content.img[0].link+"' style='height: 40%;width:40%;'>.<p> Thank you, once again.</p> <br><hr>Yours truly <br> <h3>The TecSo Global Foundation Team</h3>", 
                         
                     };
                     console.log(mailOptions)

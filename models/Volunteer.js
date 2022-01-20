@@ -1,10 +1,12 @@
 var mongoose = require("mongoose");
 var Event = require("./Event.js");
 var Image = require("./ImageSchema.js");
-
+const passportLocalMongoose = require('passport-local-mongoose');
 
 var Volunteer = new mongoose.Schema({
 	name: String,
+	username: String,
+	password: String,
 	description: String,
 	email: String,
 	role: String,
@@ -15,20 +17,25 @@ var Volunteer = new mongoose.Schema({
 	tCode: Number,
 	phone: Number,
 	cv: {
-		data: Buffer,
-		contentType: String
+		link: String
 	},
 	profilePic:{
-		data: Buffer,
-		contentType: String
+		id:{
+			type:mongoose.Schema.Types.ObjectId,
+			ref:'Image'
+		},
+		link: String
 	},
 	events:[{
-		id:{type:mongoose.Schema.Types.ObjectId,
-		ref: 'Event'},
+		id:{
+			type:mongoose.Schema.Types.ObjectId,
+			ref: 'Event'
+		},
 		name: String
 	}]
 
 
-})
+});
+Admin.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('Volunteer', Volunteer);

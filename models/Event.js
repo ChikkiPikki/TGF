@@ -12,9 +12,8 @@ var Event = new mongoose.Schema({
 			String
 		],
 		img:[{
-			data: Buffer,
-			contentType: String
-			//add context 
+			link: String,
+			context: String
 		}]
 	},
 	volunteers: [{
