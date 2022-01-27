@@ -38,9 +38,7 @@ var options = {
     "image": "/static/siteFavicon.png",
     "order_id": data.donation.orderId , //This is a sample Order ID. Pass the `id` obtained in the previous step
     "handler": function (response){
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature);
+
         $.ajax({
         	type: "POST",
         	url: "/donate/verify",
@@ -50,7 +48,7 @@ var options = {
         	console.log(res)
         	if(res!=='verified'){
 $("#message").text("Invalid request, please try again");
-console.log("heyyy")
+
         	}else{
 
         		window.location.href = "/thankyou/"+data.donation.orderId;
@@ -99,7 +97,7 @@ rzp1.on('payment.failed', function (response){
 		<div class="contain">
 		  <div class="wrapper">
 		    <div class="form">
-		      <h2 class="form-headline">We would let you know on your mail when your donation has been used for a noble cause or event</h2>
+		      <h2 class="form-headline">We will let you know on your mail when your donation has been used for a noble cause or event</h2>
 		      <form id="submit-form" class="contact-form" >
 		        <p>
 		          <input id="name" name="name"  class="form-input" type="text" placeholder="Your Name*">

@@ -29,12 +29,11 @@ dotenv.config("./.env", (err) => {
     }
 });
 
-
+//Google Authentication
 const oAuth2Client = new google.auth.OAuth2(process.env.OAUTH_CLIENTID, process.env.OAUTH_CLIENT_SECRET, "https://developers.google.com/oauthplayground")
 google.options({
     auth: oAuth2Client
 })
-
 oAuth2Client.setCredentials({
     refresh_token: process.env.OAUTH_REFRESH_TOKEN
 })
@@ -51,11 +50,8 @@ app.set('views', path.join(__dirname, '/views/dynamic'));
 app.use("/", express.static("./views"));
 
 mongoose.connect(process.env.DB, {
-     // useCreateIndex: true,
-    // useFindAndModify: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    // autoIndex: true,
 }, (err) => {
     if (err) {
         console.log(err)
@@ -77,9 +73,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: { maxAge: 60 * 60 * 1000*72 } // 3 days
 }));
-// Admin.register({username: process.env.TGF, active: false}, process.env.TGFP)
 
-// app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(Admin.createStrategy());
@@ -87,6 +81,29 @@ passport.serializeUser(Admin.serializeUser());
 passport.deserializeUser(Admin.deserializeUser());
 app.use(flash());
 
+
+
+// Add headers before the routes are defined
+app.use(function (req, res, next) {
+    var origin = req.get('origin')
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', "*");
+
+    
+
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+app.use(function(req, res, next){
+    res.locals.error = req.flash("error");
+    res.locals.message = req.flash("message");
+    next();
+})
 
 //Cloud Storage config
 cloudinary.config({ 
@@ -96,7 +113,7 @@ cloudinary.config({
 });
 
 
-
+//Multer configs
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, __dirname + "/src/img");
@@ -112,13 +129,13 @@ const pdfStorage = multer.diskStorage({
     cb(null, __dirname + "/src/cv");
   },
   filename: function(req, file, cb) {
-    cb(console.log("hi"), new Date().toISOString().replace(/:/g, '-') + file.originalname);
+    cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
   },
 });
 
 const profStorage = multer.diskStorage({
     destination: function(req, file, cb){
-        cb(null, __dirname+ "/src/img/profile");
+        cb(null, __dirname+ "/src/img");
 
     },
     filename: function(req, file, cb){
@@ -133,57 +150,38 @@ var upload = multer({
 });
 var pdfUpload = multer({
     storage: pdfStorage
-})
-
-
-
+});
 var profUpload = multer({
     storage: profStorage
 })
 
 
-
-
-
-
-
-
-
-
-
-// app.get("/", (req, res) => {
-//     Event.find({}, (err, events)=>{
-//         if(err){console.log(err)}
-//             else{
-//                 res.render("test.ejs")
-//             }
-//     })
-    
-// });
 app.get("/", (req, res)=>{
     Image.find({}, (err, images)=>{
         if(err){
             req.flash("message", "Server Error: " + err.message)
-            res.redirect("/")
+            res.redirect("/404")
         }else{
-            res.render("test.ejs", {images: images})            
+            res.render("test.ejs", {images: images, page:"Home"})            
         }
     })
 })
 app.get("/about", (req, res) => {
-    res.render("about.ejs", {page: "about"});
+    res.render("about.ejs", {page: "About"});
 });
 
 app.get("/contact", (req, res) => {
-    var message = req.flash('message');
-    res.render("contact.ejs", {message: message, page: "contact"});
+
+    res.render("contact.ejs", {message: message, page: "Contact"});
 
 
 });
 app.get("/apply/volunteer", (req, res)=>{
-    var message = req.flash("message");
-    res.render("volunteers/volunteerApplication.ejs", {message: message, page: "apply"});
+
+    res.render("volunteers/volunteerApplication.ejs", {message: message, page: "Apply"});
 });
+
+//<-------------------Volunteer applications------------------------->
 app.post("/apply/volunteer",  pdfUpload.fields([
     {name: "cv", maxCount: 1 },{name: "img", maxCount: 1}
 ]), (req, res, next)=>{
@@ -240,7 +238,8 @@ app.post("/queryposted", (req, res) => {
     console.log(query);
     Query.create(query, (err, objj) => {
         if (err) {
-            console.log(err)
+            req.flash("message", "We cannot accept your query at this time. Kindly reach out to us via our mail, or via call");
+            res.redirect("/contact");
         }
         else {
 
@@ -251,21 +250,15 @@ app.post("/queryposted", (req, res) => {
                         subject: 'New Query',
                         text: objj.title+"\n"+objj.message+"\n"+objj.name+"\n"+objj.email+"\n"+ String("objj.date"),
                         html: '<div><h3>' + objj.title + '</h3><p>' + objj.message + '</p><br><b>Name:' + objj.name + "<br><b>Email:<a href=mailto:" + objj.email + ">" + query.email + "</a><br><b>Date:</b>" + String(objj.date) + "<hr></div>"
-
                     };
             sendMail(mailOptions)
                 .then((result) => {
                     req.flash("message", "Your message has been received, we will get in touch soon.");
-            res.redirect("/contact")
+                    res.redirect("/contact")
                 })
-                .catch((error) => console.log("errorororor"));
-            // var mailDetails = {
-            //     from: process.env.USER,
-            //     to: process.env.USER,
-            //     subject: 'Website Query:' + objj.title,
-            //     amp: '<div><h3>'+objj.title+'</h3><p>'+objj.message+'</p><br><b>Name:'+objj.name+"<br><b>Email:<a href=mailto:"+objj.email+">"+  query.email+"</a><br><b>Date:</b>"+String(objj.date)+"<hr></div>"
-            // };
-
+                .catch((error) => {
+                    req.flash("message", "")
+                });
         };
     })
 })
@@ -282,13 +275,7 @@ app.post('/images', connectEnsureLogin.ensureLoggedIn(), upload.single('image'),
     var imgPath = path.join(__dirname + '/src/img/' + req.file.filename);
     const timestamp = Math.round((new Date).getTime()/1000);
 
-    var signature = cloudinary.utils.api_sign_request({
-        timestamp: timestamp,
     
-        folder: 'site_images/homeslider',
-        public_id: req.file.originalname,
-        maxFileSize: 1000000
-    }, process.env.CLOUD_API_SECRET)
   
     //Clean this function to a general one later 
     cloudinary.uploader.unsigned_upload(imgPath, "heh3ulpt",{
@@ -709,6 +696,8 @@ app.get("/thankyou/:id", (req, res)=>{
 
 
 app.get("/admin/dashboard/donations", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
+
+
     Donation.find({completed: true, utilised:false}, (err, donations)=>{
         if(err){
             console.log(err)
@@ -717,7 +706,7 @@ app.get("/admin/dashboard/donations", connectEnsureLogin.ensureLoggedIn(), (req,
                 if(err){console.log(err)}
                     else{
                         console.log(events)
-            res.render("admin/donations.ejs", {donations: donations, events: events})
+            res.render("admin/donations.ejs", {donations: donations, events: events, message: message, error: error})
 
                     }
             })
@@ -729,12 +718,18 @@ app.post("/admin/dashboard/donations/:id", connectEnsureLogin.ensureLoggedIn(), 
     Event.findById(req.body.event, (err, event)=>{
         if(err){console.log(err)}
             else{
+                console.log(req.body);
+                console.log(req.params.id)
                 Donation.findByIdAndUpdate(req.params.id, {utilised: true}, (err, donation)=>{
-                    if(err){res.redirect("/admin/dashboard/donations")}
+                    if(err){
+                        req.flash("error", "Error "+err.message);
+                        res.redirect("/admin/dashboard/donations")
+                    }
                         else{
                             event.donations.push(donation)
                                         event.save();
-                                        res.redirect("/admin/dashboard/donations")
+                                        // req.flash("message", "Rupees "+donation.value + " donation added to "+event.name );
+                                        res.json({data:"got em"})
                         }
                 })
             }
@@ -743,8 +738,9 @@ app.post("/admin/dashboard/donations/:id", connectEnsureLogin.ensureLoggedIn(), 
 
 
 //Events
+
+
 app.get("/admin/dashboard/events/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
-    var message = req.flash("message");
 
     Event.find({published: false}, (err, events)=>{
         if(err){res.redirect("back")}
@@ -758,40 +754,57 @@ app.get("/admin/dashboard/events/", connectEnsureLogin.ensureLoggedIn(), (req, r
 
 
 app.get("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
-    res.render("admin/newEvent.ejs")
+    res.render("admin/newEvent.ejs", {error: error})
 })
 
 
 app.post("/admin/dashboard/events/create", connectEnsureLogin.ensureLoggedIn(), upload.array("images"), (req, res)=>{
     console.log(req.body.event);
     var eventObj = req.body.event;
-    var imgs = [];
-    req.files.forEach(function(img, index){
-         imgs.push({
-                data:fs.readFileSync(path.join(__dirname + '/src/img/' + img.filename)), 
-                contentType: img.mimetype
-            })
-    });
-    eventObj.content.img = imgs;
-
-
-
-    // eventObj.content.img = image object array
     Event.create(eventObj, (err, event)=>{
-        if(err){console.log(err)}
-            else{
-                event.published = false;
-                event.save();
-                fs.unlinkSync(path.join(__dirname+'src/img/'+img.filename));
-                req.flash("message", "Event created!")
-                res.redirect("/admin/dashboard/events/"+event._id+"/")
-            }
-    })
+        if(err){
+            req.flash("error", "Database error: "+error.message);
+            res.redirect("/admin/dashboard/events/create");
+        }
+        else{
+            event.published = false;
+            req.files.forEach(function(img, index){
+                var imgPath = path.join(__dirname + '/src/img/' + req.files[index].filename);
+                const timestamp = Math.round((new Date).getTime()/1000);
+                 cloudinary.uploader.unsigned_upload(imgPath, "heh3ulpt",{
+                    timestamp: timestamp,    
+                    folder: 'site_images/'+req.body.event.name,
+                    public_id: img.originalname
+                }).then((image)=>{
+                    Image.create({link:image.url}, (error, image)=>{
+                        if(error){
+                            req.flash("error", "Database error: "+error.message);
+                        }else{
+                            event.content.img.push(image);
+                        }
+                    })
+                    fs.unlinkSync(imgPath);
+                })
+                .catch((error)=>{
+                    fs.unlinkSync(imgPath);
+                    req.flash("error", "Cloud error: "+error.message)
+                    res.redirect("/admin/dashboard/events/create");
+                });
+            });
+            event.save();//hmm
+            req.flash("message", "Event created!")
+            res.redirect("/admin/dashboard/events/"+event._id+"/")
+
+        }
+    });
+    var imgs = [];
+    
+    eventObj.content.img = imgs;
+    
 });
 
 app.get("/admin/dashboard/events/:id/", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
-    var message = req.flash("message")
-
+    
     Event.findById(req.params.id, (err, event)=>{
         if(err){console.log(err)}
             else{
@@ -837,7 +850,7 @@ app.post("/test", (req, res)=>{
 app.post("/admin/dashboard/events/:id/publish", connectEnsureLogin.ensureLoggedIn(), (req, res)=>{
 res.header("Access-Control-Allow-Credentials", true);
 res.header("Access-Control-Allow-Headers","*");
-res.header("")
+
 console.log(req.body)
     var finalEvent = {
         volunteers: req.body,

@@ -12,8 +12,12 @@ var Event = new mongoose.Schema({
 			String
 		],
 		img:[{
-			link: String,
-			context: String
+			id:{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Image'
+			},
+			link: String
+			//add context in the future
 		}]
 	},
 	volunteers: [{
@@ -37,7 +41,7 @@ var Event = new mongoose.Schema({
 		amount: Number,
 		email: String
 	}],
-	type: String
+	tag: String
 })
 
 module.exports = mongoose.model('Event', Event);

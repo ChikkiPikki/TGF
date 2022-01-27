@@ -36,6 +36,6 @@ var Volunteer = new mongoose.Schema({
 
 
 });
-Admin.plugin(passportLocalMongoose);
+Volunteer.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('Volunteer', Volunteer);
