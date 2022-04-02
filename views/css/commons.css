@@ -189,6 +189,12 @@ button: hover, .submit-btn: hover,button: focus , .submit-btn: focus{
 }
 /*==================================================================================================================*/
 
+/*Home-page CSS*/
+
+.events{
+  border-radius: 30px;
+}
+/*==================================================================================================================*/
 /*Media Queries for text and content alignment*/
 
 @media only screen and (max-width: 992px){

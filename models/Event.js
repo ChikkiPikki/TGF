@@ -8,16 +8,9 @@ var Event = new mongoose.Schema({
 	date: String,
 	published: Boolean,
 	content: {
-		paragraphs: [
-			String
-		],
-		img:[{
-			id:{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Image'
-			},
+		paragraphs: [String],
+		img: [{
 			link: String
-			//add context in the future
 		}]
 	},
 	volunteers: [{
@@ -27,10 +20,7 @@ var Event = new mongoose.Schema({
 		},
 		name: String,
 		role: String,
-		profilePic:{
-			data: Buffer,
-			contentType: String
-		}
+		profilePic:{link:String}
 	}],
 	donations:[{
 		id:{

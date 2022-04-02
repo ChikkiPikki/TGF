@@ -51,6 +51,9 @@
 
 </head>
 <body>
+	<%if(error){%>
+	<div id="error"><%=error%></div>
+	<%}%>
 <div class="sharethis-sticky-share-buttons" style=""></div>
 
 	<%- include("header.ejs") %>
@@ -63,28 +66,34 @@
 				<div class="event-img-container container col-sm-12 col-md-10 col-lg-3 order-2 ">
 					<%event.content.img.forEach(function(image){ %>
 						<div class="paragraph-image">
-							<img src="data:<%=image.contentType%>;base64,<%=image.data.toString('base64')%>">
+							<img src="<%=image.link%>">
 						</div><br>
 					<%}) %>
 				</div>
 				<div class="container col-lg-9 col-md-10 col-sm-12 order-1">
-					<div class="page-text"></div>
+					<div class="page-text">
+						<% event.content.paragraphs.forEach(function(paragraph){ %>
+							<p><%-paragraph%></p>
+						<%}) %>
+
+					</div>
 				</div>
 			</div>
 			<br>
 			<hr>
 			<h1 class="display-1">The Team</h1>
 			<div class="row">
-				<%volunteers.forEach(function(volunteer){%>
+				<%event.volunteers.forEach(function(volunteer){%>
 					<div class="container col-lg-2 col-md-3 col-sm-4">
 						<div class="volunteer-card">
 							<center><div class="volunteer-image">
-								<img src="data:<%=volunteer.profilePic.contentType%>;base64,<%=volunteer.profilePic.data.toString('base64')%>">
+								<img src="<%=volunteer.profilePic.link%>">
 							</div>
 							<div>
 								<p><%=volunteer.name%></p>
 							
 								<p>(<%=volunteer.role%>)</p>
+								<p><a href="/volunteer/<%=String(volunteer.id)%>">Other Contributions</a></p>
 							</div></center>
 
 							
@@ -105,13 +114,6 @@
 			</div>	
 			
 		</div>
-<script type="text/javascript">
-		<% event.content.paragraphs.forEach(function(paragraph){ %>
-			var para = $.parseHTML("<p class='fade'><%=paragraph%></p>")
-			$(".page-text").append(para);
-		<%}) %>
-		console.log("<%=volunteers%>")
-	</script>
 	<%- include("footer.ejs") %>
 
 </body>

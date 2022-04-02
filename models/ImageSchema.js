@@ -1,10 +1,12 @@
 var mongoose = require('mongoose');
   
-var imageSchema = new mongoose.Schema({
+var ImageSchema = new mongoose.Schema({
     link:String,
     context: String,
-   	number: Number
+   	number: Number,
+   	home: Boolean,
+   	public_id: String
 });
 
   
-module.exports = new mongoose.model('Image', imageSchema);
+module.exports = new mongoose.model('Image', ImageSchema);

@@ -22,7 +22,7 @@
 					
 						<%volunteers.forEach(function(volunteer, index){%>
 						<div class="container col-lg-3 col-md-6 com-sm-12" style="border: 6px solid lightgreen; padding: 30px; border-radius: 15px;">
-					<img src="data:<%=volunteer.profilePic.contentType%>;base64,<%=volunteer.profilePic.data.toString('base64')%>"><br>
+					<img src="<%=volunteer.profilePic.link%>"><br>
 					<%=volunteer.name%><br><%= " ("+volunteer.role%>)
 					<input type="checkbox" id="<%=volunteer._id%>" value="<%=volunteer._id%>"><br><br>
 					</div>
@@ -74,9 +74,10 @@
 
 				if($("#<%=volunteer._id%>").is(':checked')){
 					volunteersData.push({
-						id: "<%=volunteer._id%>",
-
-
+						_id: "<%=volunteer._id%>",
+						name:"<%=volunteer.name%>",
+						profilePic: {link:"<%=volunteer.profilePic.link%>"},
+						role: "<%=volunteer.role%>"
 					})
 				}
 
@@ -95,7 +96,7 @@
 	            data: JSON.stringify(volunteers)
        	 	})
        	 	$( document ).ajaxStop(function() {
-  				window.location.href="/events/<%=event._id%>"
+  				window.location.href="/event/<%=event._id%>"
 			});
 
 		})

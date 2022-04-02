@@ -16,7 +16,7 @@
 	<div class="page-content">
 		<div class="container">
 			<h1 class="display-1 acl"><%- volunteer.name %> </h1>
-      <img src="data:<%=volunteer.profilePic.contentType%>;base64,<%=volunteer.profilePic.data.toString('base64')%>">
+      <img src="<%=volunteer.profilePic.link%>">
 			<div class="contain">
 
   <div class="wrapper">
@@ -40,8 +40,15 @@
           
         </p>
         <p>
-        	<label for="approved">Approve</label>
-        	<input type="text" id="approved" name="approved" value="<%= volunteer.approved %>" >
+          <select name="approved">
+            <%if(volunteer.approved){%>
+              <option value=true selected>Yes</option>
+              <option value=false>No</option>
+            <%}else{%>
+              <option value=true>Yes</option>
+              <option value=false selected>No</option>
+            <%}%>
+          </select>
         </p>
         <p class="full-width">
           <textarea   minlength="20"  name="description" id="description" cols="30" rows="7" placeholder="Description*"  required><%=volunteer.description%></textarea>
@@ -53,7 +60,11 @@
         </p>
       </form>
       <form  action="/admin/dashboard/volunteers/<%=volunteer._id%>/delete" method="POST">
-      	<input type="submit" class="submit-btn" value="DELETE"></form>
+      	<input type="submit" class="submit-btn" value="DELETE">
+      </form>
+      <%if(volunteer.approved){%>
+        <a href="/volunteers/<%=volunteer.name%>/<%=volunteer._id%>" class="btn btn-info">Volunteer Display</a>
+      <%}%>
     </div>
   </div>
 </div>

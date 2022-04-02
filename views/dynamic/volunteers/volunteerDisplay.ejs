@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%=volunteer.name%> | TecSo Global Foundation</title>
+	<%-include("../dynamicCommons.ejs")%>
+</head>
+<body>
+	<%-include("../header.ejs")%>
+
+		<div class="page-content">
+			<h1 class="ack display"><%=volunteer.name%></h1>
+			<div class="fade">
+				<%=volunteer.description%>
+			</div>
+			<div class="row">
+				<%volunteer.events.forEach(function(event, index){%>
+				<div class="container col-sm-12 col-md-12 col-lg-6">
+					<div class="column"><br>
+						<div class="demo-title"><%=event.tag%></div>
+						<br>
+						<div class="post-module">
+							<div class="thumbnail">
+								<div class="date">
+								<%=event.date%>
+								</div>
+								<img src="<%=volunteer.eventArr[index].eventImg%>"/>
+							</div>
+							<div class="post-content">
+								<div class="category">Event</div>
+								<h1 class="title"><%=event.name%></h1>
+								<h2 class="sub_title"><a href="/tags/<%=event.tag%>"><%=event.tag%></a></h2>
+								<p class="description"><span><%=volunteer.eventArr[index].firstPara%></span><br><br>   
+								<a href="/events/<%=event.id%>" class="btn btn-outline-info">Read More</a> </p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<%})%>
+			</div>
+
+		</div>
+	<%-include("../footer.ejs")%>
+
+</body>
+</html>

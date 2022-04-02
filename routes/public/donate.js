@@ -3,7 +3,6 @@ const Razorpay = require("razorpay");
 var auth = require("../commonFunctions/auth.js");
 var crypto = require("crypto");
 
-
 var instance = new Razorpay({
     key_id: process.env.RZP_KEY_ID,
     key_secret: process.env.RZP_KEY_SECRET
@@ -20,7 +19,6 @@ router.post("/donate", (req, res)=>{
         }
     }
     instance.orders.create(options, (err, order)=>{
-
         if(err){
             req.flash('error', "Donation error: We are unable to accept your donation at this moment. \nError message:"+err.message); 
             res.redirect("/donate");
@@ -84,7 +82,7 @@ router.get("/thankyou/:id", (req, res)=>{
             res.redirect("/donate")
         }
         else{
-            res.render("thankyou.ejs", {donation: donation})
+            res.render("thankyou.ejs", {donation: donation, page: ["Donations","Thank you, "+donation.name]});
         }
     })
 });

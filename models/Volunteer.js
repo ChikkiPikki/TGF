@@ -16,14 +16,8 @@ var Volunteer = new mongoose.Schema({
 	task: String,
 	tCode: Number,
 	phone: Number,
-	cv: {
-		link: String
-	},
-	profilePic:{
-		id:{
-			type:mongoose.Schema.Types.ObjectId,
-			ref:'Image'
-		},
+	cv: String,
+	profilePic: {
 		link: String
 	},
 	events:[{
@@ -31,11 +25,13 @@ var Volunteer = new mongoose.Schema({
 			type:mongoose.Schema.Types.ObjectId,
 			ref: 'Event'
 		},
-		name: String
+		name: String,
+		date: String,
+		tag: String
 	}]
 
 
 });
-Volunteer.plugin(passportLocalMongoose);
+// Volunteer.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('Volunteer', Volunteer);

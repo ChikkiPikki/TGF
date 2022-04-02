@@ -9,7 +9,11 @@
 	<div class="page-content">
 		<center> <% if(message){ %>
  		 <div id="message"><%= message %></div>
- 		 <% } %></center>
+ 		 <% } %>
+     <%if(error){%>
+     <div id="error"><%=error%></div>
+     <%}%>
+    </center>
 
 
 		<h1 class="display-1 ack">Apply for the post of Volunteer/Intern</h1>
@@ -34,7 +38,7 @@
           
         </p>
         <p>
-          <label for="img">Upload a clear image of yourself</label>
+          <label for="img">Upload a clear image of yourself<small>(file size should be less than 2MB)</small></label>
           <input type="file" class="form-control" name="img" id="img" required>
         </p>
         <p class="full-width">
@@ -42,9 +46,9 @@
           <small></small>
         </p>
         <p class="full-width">
-        	<label for="cv">Upload your CV</label>
+        	<label for="cv">Upload your CV <small>(file size should be less than 2MB)</small></label>
 				<input type="file" class="form-control" id="cv"
-					name="cv" value="">
+					name="cv" value="" required accept="application/pdf">
         </p>
         
         <p class="full-width">
