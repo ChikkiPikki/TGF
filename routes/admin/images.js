@@ -103,9 +103,10 @@ router.get("/admin/dashboard/images/volunteers", auth, (req, res)=>{
                     public_id: volunteer.profilePic.public_id,
                     _id: volunteer._id
                 })
-            res.render("admin/images.ejs", {images: images, page: ["Admin", "Images", "Volunteers"]}
-            )}
-        )}
+            }
+        )
+        res.render("admin/images.ejs", {images: images, page: ["Admin", "Images", "Volunteers"]})
+        }
     })
 })
 
