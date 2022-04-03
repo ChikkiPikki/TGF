@@ -5,12 +5,15 @@ var Donation = require("./Donation.js")
 
 var Event = new mongoose.Schema({
 	name: String,
-	date: String,
+	date: Date,
 	published: Boolean,
 	content: {
+		subtitle: String,
 		paragraphs: [String],
 		img: [{
-			link: String
+			link: String,
+			public_id: String,
+			context: String
 		}]
 	},
 	volunteers: [{

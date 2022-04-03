@@ -2,12 +2,12 @@ var router = require("express").Router({mergeParams: true});
 var upload = require("../commonFunctions/upload.js");
 var Volunteer = require("../../models/Volunteer.js");
 var Event = require("../../models/Event.js");
-
+var path = require("path")
 var multer = require("multer");
 var fs = require("fs")
 const pdfStorage = multer.diskStorage({
   destination: function (req, file, cb)  {
-    cb(null, __dirname + "/src/cv");
+    cb(null, path.join(__dirname + "/src/cv"));
   },
   filename: function(req, file, cb) {
     cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
@@ -27,7 +27,7 @@ router.post("/apply/volunteer",  pdfUpload.fields([
     {name: "img", maxCount: 1}
     ]), (req, res, next)=>{
         
-        upload.imgUpload("/apply/volunteer", req.files.img[0].path, req.body.name, "profilePic", req, res, function(){
+        upload.imgUpload("/apply/volunteer", req.files.img[0].path, req.body.name, "profilePic", req, res, String(req.body.name), function(){
             upload.cvUpload("/apply/volunteer", req.body.name, req, res, function(){
             
 
@@ -39,7 +39,7 @@ router.post("/apply/volunteer",  pdfUpload.fields([
                 phone: req.body.phone,
                 date: String(today),
                 cv: req.body.cvLink,
-                profilePic: {link:req.body.imgLink}
+                profilePic: {link:req.body.imgLink, public_id: req.body.public_id}
             }
             console.log(req.body.imgLink)
             Volunteer.create(volunteerObj, (err, volunteer) => {

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Replace An Image - <%=image.context%> | TecSo Global Foundation</title>
+	<%-include("../dynamicCommons.ejs")%>
+</head>
+<body>
+	<%-include("../header.ejs")%>
+	<div class="page-content">
+		<h1 class="ack display-1">Replace - <%=image.context%></h1>
+		<img src="<%=image.link%>">
+		<%if(page[2]=="Volunteers"){%>
+		<br>
+		<br>
+
+		<form enctype="multipart/form-data" action="/admin/dashboard/images/volunteers/<%=image._id%>" method="POST">
+			<input type="file" accept="image/*" name="image">
+			<button type="submit">Update</button>			
+			
+		</form>
+		<% }else{%>
+		<form enctype="multipart/form-data" action="/admin/dashboard/images/slider/<%=image._id%>" method="POST">
+			<input type="file" accept="image/*" name="image">
+
+			<input type="text" name="context" value="<%=image.context%>">
+			<button type="submit">Update</button>			
+		</form>
+		<%} %>
+		
+	</div>
+		
+	<%-include("../footer.ejs")%>
+
+</body>
+</html>

@@ -46,6 +46,7 @@
 	.display-1{
 		text-align: center;
 	}
+
 	</style>
 	
 
@@ -60,7 +61,7 @@
 
 		<div class="page-content">
 			<h1 class="display-1"><%=event.name%></h1>
-			<div class="container"><p><%=event.date%></p>
+			<div class="container"><p class="event-date"><%=event.date%></p>
 			<hr></div>
 			<div class="row">
 				<div class="event-img-container container col-sm-12 col-md-10 col-lg-3 order-2 ">
@@ -115,6 +116,8 @@
 			
 		</div>
 	<%- include("footer.ejs") %>
-
+	<script type="text/javascript">
+		$(".event-date").text(formatDate(new Date("<%=event.date%>")))
+	</script>
 </body>
 </html>

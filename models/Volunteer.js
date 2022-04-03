@@ -17,8 +17,11 @@ var Volunteer = new mongoose.Schema({
 	tCode: Number,
 	phone: Number,
 	cv: String,
+	cv_public_id: String,
 	profilePic: {
-		link: String
+		link: String,
+		public_id: String,
+		context: String
 	},
 	events:[{
 		id:{
@@ -29,8 +32,6 @@ var Volunteer = new mongoose.Schema({
 		date: String,
 		tag: String
 	}]
-
-
 });
 // Volunteer.plugin(passportLocalMongoose);
 

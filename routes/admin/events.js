@@ -45,7 +45,7 @@ router.post("/create", auth, upload.array("images"), (req, res)=>{
     req.files.forEach(function(img, index){
         var imgPath = __dirname + '/src/img/' + req.files[index].filename;
         //Needs testing; try using async:
-        uploadImg.imgUpload("/admin/dashboard/events/create", imgPath, req.files[index].originalname, "eventUpload", req, res, function(){
+        uploadImg.imgUpload("/admin/dashboard/events/create", imgPath, req.files[index].originalname, "eventUpload", req, res, String(eventObj.name + " - ")+String(index+1), function(){
             imgLinks.push({link: req.body.imgLink, public_id: req.body.public_id});
             console.log("hi1")
             console.log(req.files.length)

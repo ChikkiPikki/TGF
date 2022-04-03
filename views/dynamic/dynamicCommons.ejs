@@ -165,6 +165,26 @@ window.onload = function(){ document.getElementById("loading").style.display = "
 }
 
 </style>
+<script type="text/javascript">
+    function padTo2Digits(num) {
+      return num.toString().padStart(2, '0');
+    }
 
+    function formatDate(date) {
+      return [
+        padTo2Digits(date.getDate()),
+        padTo2Digits(date.getMonth() + 1),
+        date.getFullYear(),
+      ].join('/');
+    }
+</script>
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6Le49j0fAAAAAHP3lHm0VhK3bl1kcGfcBiTG9GzF"></script>
+<script>
+grecaptcha.enterprise.ready(function() {
+    grecaptcha.enterprise.execute('6Le49j0fAAAAAHP3lHm0VhK3bl1kcGfcBiTG9GzF', {action: 'login'}).then(function(token) {
+       
+    });
+});
+</script>
 
 

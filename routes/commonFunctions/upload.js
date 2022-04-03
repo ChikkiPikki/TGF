@@ -4,14 +4,14 @@ var fs = require("fs");
 
 
 
-var imgUpload = function(errRed, imgPath, public_id, preset, req, res, successCallback){
+var imgUpload = function(errRed, imgPath, public_id, preset, req, res, context, successCallback){
     const timestamp = Math.round((new Date).getTime()/1000);
 	cloudinary.uploader.unsigned_upload(imgPath, preset, {
 		timestamp: timestamp,    
 		public_id: public_id
     })
 	.then((upload)=>{
-		Image.create({link: upload.url, public_id: upload.public_id})
+		Image.create({link: upload.url, public_id: upload.public_id, context: context, preset: preset})
 		.then((image)=>{
 			fs.rmSync(imgPath,{
 				force: true
@@ -49,6 +49,7 @@ var cvUpload = function(errRed, public_id, req, res, successCallback){
 			force: true
 		});
 		req.body.cvLink = upload.url;
+		req.body.public_id_cv = upload.public_id
 		
 		successCallback();
 	})

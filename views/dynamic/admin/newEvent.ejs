@@ -13,19 +13,21 @@
 		<form action="/admin/dashboard/events/create" class="contact-form" method="POST" enctype="multipart/form-data">
 		<input type="text" name="event[name]" placeholder="Title" class="form-input" required><br>
 			<div class="row">
-				<div class="container col-sm-12 col-md-6 col-lg-6">
+				<div class="container">
 					<div class="form-content">
 						<div class="text">
 					
 						</div>
 					</div>
 				</div>
-				<div class="container col-sm-12 col-md-6 col-lg-6">
+				<div class="container">
 					<input type="date" class="date" name="event[date]"><br><br>
+					<label for="subtitle">Subtitle</label>
+					<input type="text" id="subtitle" name="event[subtitle]" class="form-input" required placeholder="Subtitle">
 					<label for="images">Upload images</label>
-					<input type="file" class="form-input" id="images" name="images" accept='image/*' multiple><br><br>
+					<input type="file" class="form-input" id="images" name="images" accept='image/*' multiple required><br><br>
 					<a class="btn btn-outline-warning" onclick="addPara()">Add paragraph +</a><br><br>
-					<select name="event[tag]">
+					<select name="event[tag]" required>
 						<option value="Education">Education</option>
 						<option value="Health and Hygiene">Health and Hygiene</option>
 						<option value="Promotion of Sports and Music">Promotion of Sports and Music</option>

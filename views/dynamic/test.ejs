@@ -3,6 +3,9 @@
 <head>
 
     <title>Welcome | TecSo Global Foundation</title>
+    <script type="text/javascript">
+      
+    </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <%- include("dynamicCommons.ejs") %>
     <style type="text/css">
@@ -89,7 +92,9 @@
 .width100{
 
 }
-
+.context{
+  color: red;
+}
 
 
 
@@ -104,7 +109,7 @@
       <div class="carousel-item item active active">
         <img class="d-block h-100 w-100" src="<%=image.link%>" alt="First slide">
         <div class="carousel-caption d-none d-md-block">
-          <h1><%=image.context%></h1>
+          <h1 class="context"><%=image.context%></h1>
         </div>
       </div>
       <%})%>
@@ -173,16 +178,20 @@
   <div class="post-module">
     <div class="thumbnail">
       <div class="date">
-      <%=event.date%>
+      <small class="date-<%=event._id%>"><%=event.date%></small>
+      <script type="text/javascript">
+      $(".date-<%=event._id%>").text(formatDate(new Date("<%=event.date%>")))
+        
+      </script>
       </div>
       <img src="<%=event.content.img[0].link%>"/>
     </div>
     <div class="post-content">
-      <div class="category">Event</div>
-      <h1 class="title"><%=event.name%></h1>
-      <h2 class="sub_title"><a href="/tags/<%=event.tag%>"><%=event.tag%></a></h2>
+      <div class="category"><a href="/event/<%=event.tag%>" class="btn "><%=event.tag%></a></div>
+      <h1 class="title"><a href="/event/<%=event.id%>"><%=event.name%></a></h1>
+      <h2 class="sub_title"><a href="/tags/<%=event.tag%>"><%=event.subtitle%></a></h2>
       <p class="description"><span><%=event.content.paragraphs[0].substring(0, 120)%>...</span><br><br>   
-      <a href="/events/<%=event.id%>" class="btn btn-outline-info">Read More</a></p>
+      <a href="/event/<%=event.id%>" class="btn btn-outline-info">Read More</a></p>
     </div>
   </div>
 </div>
@@ -215,7 +224,7 @@ $(window).load(function() {
 
     responsiveClass:true,
     autoplay:true,
-    autoplayTimeout:1000,
+    autoplayTimeout:2000,
     autoplayHoverPause:true,
     nav: true,
     navText: ["<img>","<img src='/static/arr.png'>"],
@@ -239,6 +248,10 @@ $(window).load(function() {
 particlesJS.load('particles-js', '/js/particles.json', function() {
   console.log('callback - particles.js config loaded');
 });
+
+
+// 👇️ 24/10/2021 (mm/dd/yyyy)
+console.log(formatDate(new Date()));
 </script>
 </body>
 </html>

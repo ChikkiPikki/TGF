@@ -5,7 +5,8 @@ var ImageSchema = new mongoose.Schema({
     context: String,
    	number: Number,
    	home: Boolean,
-   	public_id: String
+   	public_id: String,
+   	preset: String
 });
 
   
