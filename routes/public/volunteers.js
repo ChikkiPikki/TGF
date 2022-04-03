@@ -28,9 +28,7 @@ router.post("/apply/volunteer",  pdfUpload.fields([
     ]), (req, res, next)=>{
         
         upload.imgUpload("/apply/volunteer", req.files.img[0].path, req.body.name, "profilePic", req, res, String(req.body.name), function(){
-            upload.cvUpload("/apply/volunteer", req.body.name, req, res, function(){
-            
-
+            upload.cvUpload("/apply/volunteer", req.files.cv[0].path, req.body.name, req, res, function(){
             var today = new Date()
             var volunteerObj = {
                 name: req.body.name,

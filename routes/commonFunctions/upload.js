@@ -36,8 +36,7 @@ var imgUpload = function(errRed, imgPath, public_id, preset, req, res, context, 
     })
 }
 
-var cvUpload = function(errRed, public_id, req, res, successCallback){
-	var cvPath = req.files.cv[0].path;
+var cvUpload = function(errRed, cvPath, public_id, req, res, successCallback){
     const timestamp = Math.round((new Date).getTime()/1000);
 	cloudinary.uploader.unsigned_upload(cvPath, "cvUpload", {
 		timestamp: timestamp,
