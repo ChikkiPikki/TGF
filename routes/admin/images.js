@@ -17,7 +17,6 @@ dotenv.config()
 cloudinary.config({ 
     cloud_name: "tecso-foundation", 
     api_key: "869436858694119",
-
     api_secret: "zYBZoO_pNBaVxiFB2rUqh3t4SDE" ,
 });
 var shasum = crypto.createHash('sha1')
@@ -56,39 +55,6 @@ router.post('/images', auth, upload.single('image'), (req, res, next) => {
     });
     
 });
-
-// router.get("/admin/dashboard/images", auth, (req, res)=>{
-//      Image.find({}, (err, items) => {
-//         if (err) {
-//             req.flash("error", "Database error: Cannot retrieve images. "+err.message);
-//             res.redirect("/admin/dashboard/images");
-//         }
-//         else {
-//             res.render("admin/images.ejs", {images: items.reverse(), page: ["Admin", "Images", "Site Images"]});
-//         }
-// })});
-
-
-
-
-
-// router.get("/admin/dashboard/images/events", auth, (req, res)=>{
-//     var images = []
-//     Event.find({}, (err, events)=>{
-//         if(err){
-//             req.flash("error", "Database error: Cannot retrieve events. There may not be any")
-//         }else{
-//             events.forEach(function(event){
-//                 event.content.img.forEach(function(img, index){
-//                     images.push({context: event.name + String(index+1), 
-//                         public_id: img.public_id
-//                     })
-//                 })
-//             })        
-//             res.render("admin/images.ejs", {images: images, page: ["Admin", "Images", "Events"]});
-//         }
-//     })
-// })
 
 router.get("/admin/dashboard/images/volunteers", auth, (req, res)=>{
     var images = []

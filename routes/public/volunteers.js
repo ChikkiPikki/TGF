@@ -10,7 +10,7 @@ const pdfStorage = multer.diskStorage({
     cb(null, path.join(__dirname + "/src/cv"));
   },
   filename: function(req, file, cb) {
-    cb(null, req.body.name);
+    cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
   },
 });
 var pdfUpload = multer({
@@ -27,8 +27,8 @@ router.post("/apply/volunteer",  pdfUpload.fields([
     {name: "img", maxCount: 1}
     ]), (req, res, next)=>{
         
-        upload.imgUpload("/apply/volunteer", path.join(__dirname+"/src/cv/"+req.body.name), req.body.name, "profilePic", req, res, String(req.body.name), function(){
-            upload.cvUpload("/apply/volunteer", path.join(__dirname+"/src/cv/"+req.body.name), req.body.name, req, res, function(){
+        upload.imgUpload("/apply/volunteer", req.files.img[0].path, req.body.name, "profilePic", req, res, String(req.body.name), function(){
+            upload.cvUpload("/apply/volunteer", req.files.cv[0].path, req.body.name, req, res, function(){
             var today = new Date()
             var volunteerObj = {
                 name: req.body.name,
