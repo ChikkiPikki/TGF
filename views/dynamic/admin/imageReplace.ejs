@@ -3,26 +3,32 @@
 <head>
 	<title>Replace An Image - <%=image.context%> | TecSo Global Foundation</title>
 	<%-include("../dynamicCommons.ejs")%>
+	<style type="text/css">
+		.imgDiv {
+			object-fit: contain;	
+		}
+		
+	</style>
 </head>
 <body>
 	<%-include("../header.ejs")%>
 	<div class="page-content">
-		<h1 class="ack display-1">Replace - <%=image.context%></h1>
-		<img src="<%=image.link%>">
+		<h1 class="ack display-1">Replace <%=image.context%></h1>
+		<div class="imgDiv"><img src="<%=image.link%>"></div>
 		<%if(page[2]=="Volunteers"){%>
 		<br>
 		<br>
 
 		<form enctype="multipart/form-data" action="/admin/dashboard/images/volunteers/<%=image._id%>" method="POST">
-			<input type="file" accept="image/*" name="image">
+			<input type="file" accept="image/*" name="image"><br>
 			<button type="submit">Update</button>			
 			
 		</form>
 		<% }else{%>
 		<form enctype="multipart/form-data" action="/admin/dashboard/images/slider/<%=image._id%>" method="POST">
 			<input type="file" accept="image/*" name="image">
-
-			<input type="text" name="context" value="<%=image.context%>">
+			<label for="context">Context</label>
+			<input id="context" type="text" placeholder="context" name="context" value="<%=image.context%>">
 			<button type="submit">Update</button>			
 		</form>
 		<%} %>

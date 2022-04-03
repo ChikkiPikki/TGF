@@ -11,33 +11,36 @@
 	<div class="page-content">
 		<h1 class="display-1 ack">Make a new event</h1>
 		<form action="/admin/dashboard/events/create" class="contact-form" method="POST" enctype="multipart/form-data">
-		<input type="text" name="event[name]" placeholder="Title" class="form-input" required><br>
 			<div class="row">
-				<div class="container">
+			<div class="container col-lg-6 col-md-12">
+				<input type="date" class="date" name="event[date]"><br><br>
+				<label for="subtitle">Subtitle</label>
+				<input type="text" id="subtitle" name="event[content][subtitle]" class="form-input" required placeholder="Subtitle"><br><Br>
+				<label for="images">Upload images</label>
+				<input type="file" class="form-input" id="images" name="images" accept='image/*' multiple required><br><br>
+				<select name="event[tag]" required>
+					<option value="Education">Education</option>
+					<option value="Health and Hygiene">Health and Hygiene</option>
+					<option value="Promotion of Sports and Music">Promotion of Sports and Music</option>
+					<option value="Livelihood Enhancement Projects">Livelihood Enhancement Projects</option>
+					<option value="Smile: Distribution of Life-essential Items">Smile: Distribution of Life-essential Items</option>
+					<option value="Art and Craft for Children">Art and Craft for Children</option>
+					<option value="Visit">Visit</option>
+				</select>
+				<br><br>
+				
+			</div>		
+				<div class="container col-lg-6 col-md-12">
+				<input type="text" name="event[name]" placeholder="Title" class="form-input" required><br>
 					<div class="form-content">
 						<div class="text">
 					
 						</div>
 					</div>
+					<br>
+					<a class="btn btn-outline-warning" style="margin-right: 1.5rem" onclick="addPara()">Add paragraph +</a><span ></span><button type="submit btn btn-success">Create</button><br><br><br><hr>
 				</div>
-				<div class="container">
-					<input type="date" class="date" name="event[date]"><br><br>
-					<label for="subtitle">Subtitle</label>
-					<input type="text" id="subtitle" name="event[subtitle]" class="form-input" required placeholder="Subtitle">
-					<label for="images">Upload images</label>
-					<input type="file" class="form-input" id="images" name="images" accept='image/*' multiple required><br><br>
-					<a class="btn btn-outline-warning" onclick="addPara()">Add paragraph +</a><br><br>
-					<select name="event[tag]" required>
-						<option value="Education">Education</option>
-						<option value="Health and Hygiene">Health and Hygiene</option>
-						<option value="Promotion of Sports and Music">Promotion of Sports and Music</option>
-						<option value="Livelihood Enhancement Projects">Livelihood Enhancement Projects</option>
-						<option value="Smile: Distribution of Life-essential Items">Smile: Distribution of Life-essential Items</option>
-						<option value="Art and Craft for Children">Art and Craft for Children</option>
-						<option value="Visit">Visit</option>
-					</select>
-					<button type="submit btn btn-success">Create</button><br>
-				</div>
+				
 			</div>
 		</form>	
 	</div>
@@ -46,7 +49,7 @@
 	<script type="text/javascript">
 		var i = 0;
 		function addPara(){
-			$(".text").append("<label for='"+String(i)+"'>Paragraph"+String(i+1)+"</label><textarea required class='form-input' id="+String(i)+" name=event[content][paragraphs][" + String(i) + "]></textarea><br>")
+			$(".text").append("<br><label for='"+String(i)+"'>Paragraph"+String(i+1)+"</label><textarea required class='form-input' id="+String(i)+" name=event[content][paragraphs][" + String(i) + "]></textarea><br>")
 			i = i+1;
 			console.log($(".date").val())
 		}

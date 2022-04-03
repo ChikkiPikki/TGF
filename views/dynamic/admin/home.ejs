@@ -17,11 +17,12 @@
 		<h1 class="display-1 ack">Site Controls</h1>
 		<div class="row">
 			<div class="container  col-lg-3 col-md-6 col-sm-12">
-				<a class="btn btn-outline-success" href="/admin/dashboard/volunteers">Volunteers</a><br>
+				<a class="btn btn-outline-success" href="/admin/dashboard/volunteers">Volunteers</a><br><br>
 				<a class="btn btn-outline-success" href="/admin/dashboard/volunteers/applications">Volunteer Applications</a>
 			</div>
 			<div class="container col-sm-12 col-md-6 col-lg-3">
-				<a class="btn btn-outline-success" href="/admin/dashboard/images">Site Images and Their Locations</a>
+				<a class="btn btn-outline-success" href="/admin/dashboard/images/volunteers">Edit volunteer images</a><br><br>
+				<a class="btn btn-outline-success" href="/admin/dashboard/images/slider">Edit home-slider images</a>
 			</div>
 			<div class="container col-lg-3 col-md-6 col-sm-12">
 				<a class="btn btn-outline-success" href="/admin/dashboard/queries">Site Queries</a>
@@ -29,8 +30,21 @@
 			<div class="container col-sm-12 col-md-6 col-lg-3 col-sm-12">
 				<a class="btn btn-outline-success" href="/admin/dashboard/traffic">Site Traffic</a>
 			</div>
+			<div class="container col-sm-12 col-md-6 col-lg-3 col-sm-12">
+                <a class = "btn btn-outline-success" href="/admin/dashboard/donations">View and assign Donations</a>
+			</div>
+			<div class="container col-sm-12 col-md-6 col-lg-3 col-sm-12">
+                <a class = "btn btn-outline-success" href="/admin/dashboard/events/create">Create a new event</a><br><br>
+                <a class = "btn btn-outline-success" href="/admin/dashboard/events/">Publish existing events</a><br><br>
+			</div>
+			<div class="container col-sm-12 col-md-6 col-lg-3 col-sm-12">
+                <a class = "btn btn-outline-success" href="/admin/meta/Volunteers">Change number of volunteers</a><br><br>
+                <a class = "btn btn-outline-success" href="/admin/meta/Events">Change number of events</a><br><br>
+                <a class = "btn btn-outline-success" href="/admin/meta/Data">Change number of data</a><br><br>
+			</div>
 		</div>
-		<iframe src="https://www.google.com/maps/embed/v1/streetview?key=AIzaSyDjgF-YwYvHfyHkLhlsNtHmXuOYll7eutQ&location=46.414382,10.013988&heading=210&pitch=10&fov=35"></iframe>
+
+		<!-- <iframe src="https://www.google.com/maps/embed/v1/streetview?key=AIzaSyDjgF-YwYvHfyHkLhlsNtHmXuOYll7eutQ&location=46.414382,10.013988&heading=210&pitch=10&fov=35"></iframe> -->
 	</div>
 
 	<%- include("../footer.ejs") %>

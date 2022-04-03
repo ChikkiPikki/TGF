@@ -128,38 +128,41 @@ router.post("/:id/publish", auth, (req, res)=>{
                             event.volunteers.push(vol)
                             if(index+1 == req.body.length){
                                 event.published = true
-                                event.save()
-                                console.log("?>?>")
-                                event.donations.forEach(function(donation){
-                                    var mailOptions = {
-                                        from: "Donations - TecSo Foundation <" + process.env.USER + ">",
-                                        to: donation.email,
-                                        subject: 'Re: Your contribution to "'+event.name+'"',
-                                        text: 'Dear '+donation.name+". We cannot thank you enough for your Rupees "+donation.amount/100 +" contribution towards "+event.name+". It gives us immense pleasure to let you know that your donation has been utilised in this event. To know more about the event, please visit https://tecsoglobalfoundation.herokurouter.com/events/" +event._id+". Thank you, once again. Yours truly TecSo Global Foundation Team", 
-                                        html: '<h1>Dear '+donation.name+".</h1> <p> We cannot thank you enough for your Rupees "+String(donation.amount/100 )+" contribution towards "+event.name+".</p> <p>It gives us immense pleasure to let you know that your donation has been utilised in this event.</p><br> To know more about the event, please visit <a href='https://tecsoglobalfoundation.herokurouter.com/events/" +event._id+"'>here</a><img src='"+String(event.content.img[0].link)+"' style='height: 40%;width:40%;'>.<p> Thank you, once again.</p> <br><hr>Yours truly <br> <h3>The TecSo Global Foundation Team</h3>", 
-                                    };
-                                    console.log(mailOptions)
-                                    sendMail(mailOptions).then((resut)=>{}).catch((error)=>{})
-                                    console.log("hi010101")
-                                });
-
-                                req.body.forEach((volunteer, index)=>{
-                                    console.log("!!!!!!")
-                                    console.log("yooooooooooo")
-                                    Volunteer.findById(volunteer._id, (err, volunteer2)=>{
-                                        if(err){
-                                            req.flash("error", "Database Error: Unable to update volunteers")
-                                        }else{
-                                            //Volunteer's event updation
-                                            volunteer2.events.push(event);
-                                            volunteer2.save()
-                                            console.log("hellp")
-                                            
-                                        }
-                                        req.flash("message","Event published");
-                                        res.redirect("/event/"+event._id)
+                                event.save(()=>{
+                                    event.donations.forEach(function(donation){
+                                        var mailOptions = {
+                                            from: "Donations - TecSo Foundation <" + process.env.USER + ">",
+                                            to: donation.email,
+                                            subject: 'Re: Your contribution to "'+event.name+'"',
+                                            text: 'Dear '+donation.name+". We cannot thank you enough for your Rupees "+donation.amount/100 +" contribution towards "+event.name+". It gives us immense pleasure to let you know that your donation has been utilised in this event. To know more about the event, please visit https://tecsoglobalfoundation.herokurouter.com/events/" +event._id+". Thank you, once again. Yours truly TecSo Global Foundation Team", 
+                                            html: '<h1>Dear '+donation.name+".</h1> <p> We cannot thank you enough for your Rupees "+String(donation.amount/100 )+" contribution towards "+event.name+".</p> <p>It gives us immense pleasure to let you know that your donation has been utilised in this event.</p><br> To know more about the event, please visit <a href='https://tecsoglobalfoundation.herokurouter.com/events/" +event._id+"'>here</a><img src='"+String(event.content.img[0].link)+"' style='height: 40%;width:40%;'>.<p> Thank you, once again.</p> <br><hr>Yours truly <br> <h3>The TecSo Global Foundation Team</h3>", 
+                                        };
+                                        console.log(mailOptions)
+                                        sendMail(mailOptions).then((resut)=>{}).catch((error)=>{})
+                                        console.log("hi010101")
+                                    });
+                                    req.body.forEach((volunteer, ind)=>{
+                                        console.log("!!!!!!")
+                                        console.log("yooooooooooo")
+                                        Volunteer.findById(volunteer._id, (err, volunteer2)=>{
+                                            if(err){
+                                                req.flash("error", "Database Error: Unable to update volunteers")
+                                            }else{
+                                                //Volunteer's event updation
+                                                volunteer2.events.push(event);
+                                                volunteer2.save(()=>{
+                                                    if(ind+1 == req.body.length){
+                                                        req.flash("message","Event published");
+                                                        res.redirect("/event/"+event._id)
+                                                    }
+                                                })
+                                                console.log("hellp")
+                                                
+                                            }
+                                        })
                                     })
                                 })
+                                console.log("?>?>")
 
                             }
                         }

@@ -47,7 +47,11 @@ var cvUpload = function(errRed, cvPath, public_id, req, res, successCallback){
 		fs.rmSync(cvPath,{
 			force: true
 		});
-		req.body.cvLink = upload.url;
+		if(!(upload.url.search("https:"))){
+			req.body.cvLink = upload.url.replace("http:", "https:");
+		}else{
+			req.body.cvLink = upload.url
+		}
 		req.body.public_id_cv = upload.public_id
 		
 		successCallback();

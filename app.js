@@ -57,6 +57,7 @@ var Admin = require("./models/Admin.js");
 var Image = require("./models/ImageSchema.js");
 var Event = require("./models/Event.js");
 var Volunteer = require("./models/Volunteer.js");
+var Meta = require("./models/Meta.js")
 var Donation = require("./models/Donation.js");
 
 
@@ -107,6 +108,18 @@ app.get("*", (req, res)=>{
     res.render("404.ejs")
 })
 
+Meta.create({
+  name: "Volunteers",
+  value: 100  
+})
+Meta.create({
+  name: "Events",
+  value: 100
+})
+Meta.create({
+  name: "Data",
+  value: 100
+})
 
 app.listen(process.env.PORT, () => {
     console.log("process begun");

@@ -58,7 +58,7 @@ router.post('/images', auth, upload.single('image'), (req, res, next) => {
 
 router.get("/admin/dashboard/images/volunteers", auth, (req, res)=>{
     var images = []
-    Volunteer.find({}, (err, volunteers)=>{
+    Volunteer.find({approved: true}, (err, volunteers)=>{
         if(err||!(volunteers)){
             req.flash("error", "Database error: Cannot retrieve volunteers. There may not be any.")
             res.redirect("back");

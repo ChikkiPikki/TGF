@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><%=event.name%> | TecSo Foundation</title>
+	<title><%=event.name%> | TecSo Global Foundation</title>
 	<script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=61dd50d34c0de5001236c556&product=sticky-share-buttons' async='async'></script>
 	<%- include("dynamicCommons.ejs") %>
 	<style type="text/css">
@@ -61,8 +61,17 @@
 
 		<div class="page-content">
 			<h1 class="display-1"><%=event.name%></h1>
-			<div class="container"><p class="event-date"><%=event.date%></p>
-			<hr></div>
+			<center><h5><%=event.content.subtitle%></h5></center>
+			<div class="container">
+				<p class="pull-left">Domain: 
+					<span class="" style="padding:5px; border-radius: 10px; background-color: <%=tagColour%>; color: white"><a style="color:white" href="/events/<%=event.tag%>"><%=event.tag%></a></span>
+				</p>
+				<p>
+					<span class="pull-right event-date"><%=event.date%></span>
+				</p>
+			</div>
+			<br>
+			<hr>
 			<div class="row">
 				<div class="event-img-container container col-sm-12 col-md-10 col-lg-3 order-2 ">
 					<%event.content.img.forEach(function(image){ %>
@@ -84,7 +93,7 @@
 			<hr>
 			<h1 class="display-1">The Team</h1>
 			<div class="row">
-				<%event.volunteers.forEach(function(volunteer){%>
+				<%volunteers.forEach(function(volunteer){%>
 					<div class="container col-lg-2 col-md-3 col-sm-4">
 						<div class="volunteer-card">
 							<center><div class="volunteer-image">

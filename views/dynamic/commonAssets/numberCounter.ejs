@@ -48,9 +48,9 @@ var once = false;
       
       /* If the element is completely within bounds of the window, fade it in */
       if (objectBottom < windowBottom && once==false) { //object comes into view (scrolling down)
-        counter("count1", 0, 400, 1000);
-        counter("count2", 100, 50, 1000);
-        counter("count3", 0, 40, 1000);
+        counter("count1", 0, <%=meta[2].value%>, 1000);
+        counter("count2", 0, <%=meta[1].value%>, 1000);
+        counter("count3", 0, <%=meta[0].value%>, 1000);
         once=true
       } else { //object goes out of view (scrolling up)
         // if ($(this).css("opacity")==1) {$(this).fadeTo(200,0);}
