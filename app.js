@@ -48,7 +48,7 @@ app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, '/views/dynamic'));
 app.use("/", express.static("./views"));
 
-app.use(helmet())
+// app.use(helmet())
 mongoose.connect(process.env.DB, {useNewUrlParser: true,useUnifiedTopology: true}, (err) => {if(err){console.log(err)}})
 
 //Importing routes, mongodb and mongoose schemas from models folder
