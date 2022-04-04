@@ -30,7 +30,7 @@ router.post("/donate", (req, res)=>{
         }
         else{
             console.log("...")
-            var today = String(new Date());
+            var today = new Date();
             Donation.create({
                 amount: req.body.amount*100,
                 name: req.body.name,

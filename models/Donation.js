@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 var Donation = new mongoose.Schema({
 	amount: Number,
 	name: String,
-	date: String,
+	date: Date,
 	email: String,
 	orderId: String,
 	completed: Boolean,
