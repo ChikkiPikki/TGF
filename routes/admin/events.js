@@ -19,6 +19,17 @@ const storage = multer.diskStorage({
 var upload = multer({
     storage: storage
 });
+var colours = {
+    "Education": "brown",
+    "Health and Hygiene": "green",
+    "Promotion of Sports and Music": "red",
+    "Livelihood Enhancement Projects": "yellow",
+    "Smile: Distribution of Life-essential Items": "violet",
+    "Art and Craft for Children": "purple", 
+    "Visit": "black",
+    "Festivities": "orange",
+    "Articles and Thoughts": "pink"
+}
 
 router.get("/", auth, (req, res)=>{
 
@@ -97,7 +108,7 @@ router.get("/:id/", auth, (req, res)=>{
                                     profilePic: volunteer.profilePic
                                 })
                             })
-                            res.render("admin/eventPage.ejs", {event: event, volunteers: eventVolunteers, page: ["Admin", "Events", event.tag, event.name]})
+                            res.render("admin/eventPage.ejs", {event: event, volunteers: eventVolunteers, page: ["Admin", "Events", event.tag, event.name], tagColour: colours[event.tag]})
                         }
                 })
                 
@@ -124,6 +135,7 @@ router.post("/:id/delete", auth, (req, res)=>{
                 }, process.env.CLOUDINARY_API_SECRET)
                 cloudinary.uploader.destroy(image.public_id, signature)
                 .then((result)=>{
+                    console.log("deleted")
                     if(index+1 == event.content.img.length){
                         Event.deleteOne({_id: event._id}, (error)=>{
                             if(error){

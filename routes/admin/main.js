@@ -91,13 +91,14 @@ router.get("/admin/generate-site-report", auth,(req, res)=>{
 				volunteer.events.slice(1,).forEach((ev, index)=>{
 						volunteers.addRow(["\'\'","\'\'","\'\'","\'\'","\'\'","\'\'",ev.name])						
 				})
+				volunteers.addRow([" - ", " - ", " - ", " - ", " - ", " - ", " - "])
 			})
 			Event.find({}, (err, eves)=>{
 				if(err){
 					req.flash("error", "Database error.")
 					res.redirect("back")
 				}else{
-					eves.forEach((event, num)=>{
+					eves.reverse().forEach((event, num)=>{
 						var tot=0 
 						event.donations.forEach(function(donation){tot=tot+Number(donation.amount/100)});
 						if(event.donations.length>0){
@@ -114,7 +115,7 @@ router.get("/admin/generate-site-report", auth,(req, res)=>{
 							req.flash("Database error.")
 							res.redirect("back")
 						}else{
-							dons.forEach(function(don, numuu){
+							dons.reverse().forEach(function(don, numuu){
 								donations.addRow([numuu+1,don.name, don.amount/100, dateConvert(don.date), don.phone, don.email, approve[don.utilised]])
 							})
 							res.setHeader(

@@ -32,7 +32,8 @@ var Event = new mongoose.Schema({
 		},
 		name: String,
 		amount: Number,
-		email: String
+		email: String,
+		phone: Number 
 	}],
 	tag: String
 })
