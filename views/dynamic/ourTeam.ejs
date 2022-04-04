@@ -18,12 +18,12 @@
 						</div>
 						<div>
 							<p><h3><%=volunteer.name%></h3></p>
+							<p>(<%=volunteer.role%>)</p>
 							<%if(volunteer.description.length>120){%>
 							<p><%=volunteer.description.substring(0, 120)%>...</p>
 							<%}else{%>
 							<p><%=volunteer.description%></p>
 							<%}%>
-							<p>(<%=volunteer.role%>)</p>
 							<p><a class="btn btn-warning" href="/volunteer/<%=String(volunteer._id)%>">View <%=volunteer.events.length%> Contributions</a></p>
 						</div></center>
 					</div>
