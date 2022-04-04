@@ -5,7 +5,7 @@
 	<%- include("../dynamicCommons.ejs") %>
 </head>
 <body>
-
+<%-include("../header.ejs")%>
 	<div class="page-content">
 		<center> <% if(message){ %>
  		 <div id="message"><%= message %></div>
@@ -73,6 +73,12 @@
 </div>
 	</div>
   <%- include("../footer.ejs") %>
+<script type="text/javascript">
+$(".nav__name")[6].classList.toggle("active")
+$(".nav__icon")[6].classList.toggle("active__icon")
+$("#toChange").css("color", "black")
 
+    
+  </script>
 </body>
 </html>

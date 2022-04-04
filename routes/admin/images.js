@@ -127,6 +127,7 @@ var imgUpdateVolunteer = function(id, imgPath, req, res){
             console.log("?????")
             var signature = cloudinary.utils.api_sign_request({
                 timestamp: cloudinary.utils.timestamp(),
+                public_id: volunteer.profilePic.public_id
             }, process.env.CLOUDINARY_API_SECRET)
             // var signature = shasum.update("public_id="+image.public_id+"&timestamp="+String(timestamp)).digest("hex")
 
@@ -191,7 +192,7 @@ var imgUpdateSlider = function(id, imgPath, req, res){
                         image.save()
                         fs.rmSync(imgPath)
                         req.flash("message", "Image updated!")
-                        res.redirect("back")
+                        res.redirect("/admin/dashboard/images/slider")
                     })
                     .catch((error)=>{
                         console.log(error)

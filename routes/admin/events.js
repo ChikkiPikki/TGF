@@ -30,6 +30,16 @@ router.get("/", auth, (req, res)=>{
     })
 });
 
+router.get("/published", auth, (req, res)=>{
+
+    Event.find({published: true}, (err, events)=>{
+        if(err){res.redirect("back")}
+            else{
+                res.render("admin/events.ejs", {events: events.reverse(), page: ["Admin", "Events", "Published Events"]})
+            }
+    })
+});
+
 
 
 
@@ -71,7 +81,9 @@ router.post("/create", auth, upload.array("images"), (req, res)=>{
 
 router.get("/:id/", auth, (req, res)=>{
     Event.findById(req.params.id, (err, event)=>{
-        if(err){console.log(err)}
+        if(err||!(event)){
+            req.flash("error", "Event not found.")
+        }
             else{
                 Volunteer.find({approved: true}, (err, volunteers)=>{
                     if(err){console.log(err)}
@@ -85,24 +97,49 @@ router.get("/:id/", auth, (req, res)=>{
                                     profilePic: volunteer.profilePic
                                 })
                             })
-                            res.render("admin/eventPage.ejs", {event: event, volunteers: eventVolunteers, page: ["Admin", "Events", event.name]})
+                            res.render("admin/eventPage.ejs", {event: event, volunteers: eventVolunteers, page: ["Admin", "Events", event.tag, event.name]})
                         }
                 })
                 
             }
     })
 })
-
+var cloudinary = require("cloudinary").v2
+cloudinary.config({ 
+    cloud_name: "tecso-foundation", 
+    api_key: "869436858694119",
+    api_secret: "zYBZoO_pNBaVxiFB2rUqh3t4SDE" ,
+});
 
 
 router.post("/:id/delete", auth, (req, res)=>{
     Event.findById(req.params.id, (err, event)=>{
-        if(err){
-            req.flash("error", "Database Error: Unable to delete event. "+err.message )
+        if(err||!(event)){
+            req.flash("error", "Database Error: Unable to find event." )
         }else{
-            event.content.img.forEach
-            req.flash("message", "Event removed")
-            res.redirect("/admin/dashboard/events")
+            event.content.img.some(async function(image, index){
+                var signature = cloudinary.utils.api_sign_request({
+                    timestamp: cloudinary.utils.timestamp(),
+                    public_id: image.public_id
+                }, process.env.CLOUDINARY_API_SECRET)
+                await cloudinary.uploader.destroy(image.public_id, signature)
+                .then((result)=>{
+                    if(index+1 == event.content.img.length){
+                        Event.deleteOne({_id: event._id}, (error)=>{
+                            if(error){
+                                req.flash("error", "Database error: Couldn't delete event")
+                            }else{
+                                req.flash("message", "Event removed")
+                                res.redirect("/admin/dashboard/events")
+                            }
+                        })
+                    }
+                })
+                .catch((error)=>{
+                    req.flash("error", "Cloud error: Couldn't delete event")
+                    return res.redirect("back")
+                })
+            })
         }
     })
 });
@@ -114,8 +151,8 @@ router.post("/:id/publish", auth, (req, res)=>{
     res.header("Access-Control-Allow-Headers","*");
     console.log(req.body)
     Event.findById(req.params.id,  (err, event)=>{
-        if(err){
-            req.flash("error", "Event cannot be published; Database error: "+err.message)
+        if(err||!(event)){
+            req.flash("error", "Event cannot be published; Database error")
             }else{
                 req.body.forEach(function(v, index){
                     Volunteer.findById(v._id, (err, vol)=>{

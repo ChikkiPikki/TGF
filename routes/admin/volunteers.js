@@ -29,20 +29,22 @@ router.get("/volunteers/:id", auth, (req, res)=>{
         	req.flash("error", err.message); 
         	res.redirect("back"); 
         }else{
-                res.render("volunteers/volunteerPage.ejs", {volunteer: volunteer, page: ["Admin", volunteer.name]});
+                res.render("volunteers/volunteerPage.ejs", {volunteer: volunteer, page: ["Admin", "Profile", volunteer.name]});
         }
     });
 });
 
 router.post("/volunteers/:id", auth, (req, res)=>{
     var idd =req.params.id;
+    var today = new Date()
     Volunteer.findByIdAndUpdate(idd, {
         description: req.body.description,
         role: req.body.role,
         approved: req.body.approved,
         name: req.body.name,
         email: req.body.email,
-        phone: req.body.phone
+        phone: req.body.phone,
+        date: today
     }, (err, volunteer)=>{
         if(err){
         	req.flash("error", "Database Error: Unable to update volunteer "+err.message);

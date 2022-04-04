@@ -20,14 +20,16 @@ router.get("/", (req, res)=>{
                             res.redirect("/contact")
                         }else{
                             console.log(entries)
-                            res.render("test.ejs", {images: images, page:["Home"], colours: {
+                            res.render("test.ejs", {images: images, page:["Home - TecSo Global Foundation"], colours: {
                                     "Education": "brown",
-                                "Health and Hygiene": "green",
-                                "Promotion of Sports and Music": "red",
-                                "Livelihood Enhancement Projects": "yellow",
-                                "Smile: Distribution of Life-essential Items": "violet",
-                                "Art and Craft for Children": "purple", 
-                                "Visit": "black"
+                                    "Health and Hygiene": "green",
+                                    "Promotion of Sports and Music": "red",
+                                    "Livelihood Enhancement Projects": "yellow",
+                                    "Smile: Distribution of Life-essential Items": "violet",
+                                    "Art and Craft for Children": "purple", 
+                                    "Visit": "black",
+                                    "Festivities": "orange",
+                                    "Articles and Thoughts": "pink"
                             }, events: events.reverse().slice(0, 12), meta: entries});
                         }
                     })
@@ -37,6 +39,12 @@ router.get("/", (req, res)=>{
         }
     })
 });
+router.get("/privacy-policy", (req, res)=>{
+    res.render("privacy-policy.ejs", {page: ["Website", "Privacy policy"]})
+})
+router.get("/terms-conditions", (req, res)=>{
+    res.render("tc.ejs", {page: ["Website", "Terms and Conditions"]})
+})
 
 
 

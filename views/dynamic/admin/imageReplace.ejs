@@ -20,15 +20,15 @@
 		<br>
 
 		<form enctype="multipart/form-data" action="/admin/dashboard/images/volunteers/<%=image._id%>" method="POST">
-			<input type="file" accept="image/*" name="image"><br>
+			<input type="file" accept="image/*" name="image" required><br>
 			<button type="submit">Update</button>			
 			
 		</form>
 		<% }else{%>
 		<form enctype="multipart/form-data" action="/admin/dashboard/images/slider/<%=image._id%>" method="POST">
-			<input type="file" accept="image/*" name="image">
-			<label for="context">Context</label>
-			<input id="context" type="text" placeholder="context" name="context" value="<%=image.context%>">
+			<hr><br><input type="file" accept="image/*" name="image" required><br><br>
+			<label for="context"><h3>Context</h3></label><br>
+			<input id="context" type="text" placeholder="context" name="context" value="<%=image.context%>"><br>
 			<button type="submit">Update</button>			
 		</form>
 		<%} %>

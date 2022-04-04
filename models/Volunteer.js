@@ -11,7 +11,7 @@ var Volunteer = new mongoose.Schema({
 	email: String,
 	role: String,
 	approved: String,
-	date: String,
+	date: Date,
 	hours: Number,
 	task: String,
 	tCode: Number,

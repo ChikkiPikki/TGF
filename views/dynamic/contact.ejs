@@ -24,7 +24,9 @@
 
     <div class="form">
       <h4>Contact Us</h4>
-      <h2 class="form-headline">Send us a message</h2>
+      <h2 class="form-headline">Send us a message! </h2>
+      <h5>We would love to hear from you - suggestions, issues, queries - anything.</h5>
+      <br>
       <form id="submit-form" class="contact-form"  action="/queryposted" method="POST">
         <p>
           <input id="name" name="name"  class="form-input" type="text" placeholder="Your Name*">
@@ -68,6 +70,11 @@
 		
 
 	</div>
+  <script type="text/javascript">
+$(".nav__name")[4].classList.toggle("active")
+$(".nav__icon")[4].classList.toggle("active__icon")
+
+  </script>
 
 	<%- include("footer.ejs") %>
 

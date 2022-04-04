@@ -45,14 +45,10 @@
 	</div>
 	<%-include("footer.ejs")%>
 	<script type="text/javascript">
-$(window).load(function() {
-  $('.post-module').hover(function() {
-    $(this).find('.description').stop().animate({
-      height: "toggle",
-      opacity: "toggle"
-    }, 300);
-  });
-});
+
+$(".nav__name")[1].classList.toggle("active")
+$(".nav__icon")[1].classList.toggle("active__icon")
+
     </script>
 </body>
 </html>

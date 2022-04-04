@@ -111,6 +111,7 @@ function reset() {
 
 
 
+
 // document.querySelector('.nav__link').forEach(
 //   this.classList.remove("active"), (err)=>{
 //     if(err){continue}

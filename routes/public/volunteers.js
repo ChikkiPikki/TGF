@@ -35,7 +35,7 @@ router.post("/apply/volunteer",  pdfUpload.fields([
                 description: req.body.description,
                 email: req.body.email,
                 phone: req.body.phone,
-                date: String(today),
+                date: today,
                 cv: req.body.cvLink,
                 profilePic: {link:req.body.imgLink, public_id: req.body.public_id}
             }
@@ -58,45 +58,61 @@ router.post("/apply/volunteer",  pdfUpload.fields([
 })
 router.get("/volunteer/:id", (req, res)=>{
     Volunteer.findById(req.params.id, (err, volunteer)=>{
-        if(!(volunteer)){
+        if(!(volunteer)||err){
             console.log("bruh")
             console.log(req.params.id)
             req.flash("error", "We are sorry, but no such volunteer is affiliated with us.");
-            res.redirect("back");
+            res.redirect("/");
         }else{
+            console.log(volunteer)
             console.log("hi")
             var eventArr = [];
+            var ids = []
             volunteer.events.forEach(function(event, index){
                 console.log("hi0")
-                Event.findById(event.id, (err, eve)=>{
-                    if(err || !(eve)){
-                        req.flash("error", "Something went wrong while loading the requested page. Please try again later.")
-                        res.redirect("back")
-                    }else{
-                        eventArr.push({
-                            firstPara: eve.content.paragraph[0].substring(0,120)+"...",
-                            eventImage: eve.content.img[0].link
-                        });
-                        console.log("hi2")
-                        if(index+1 == volunteer.events.length){
-                            volunteer.eventArr = eventArr
-                            res.render("volunteers/volunteerDisplay.ejs", {volunteer: volunteer, page: ["Volunteers", volunteer.name]});
-                        }
-                    }
-                })
+                ids.push(event._id)
             })
+            Event.find({published: true}).where("_id").in(ids).exec((error, eve)=>{
+                if(error){
+                    req.flash("error", "Something went wrong while loading the requested page. Please try again later.")
+                    res.redirect("back")
+                }else if(!(eve)){
+                    req.flash("message", volunteer.name+" has no participated in no events yet.")
+                    res.redirect("back")
+                }
+                else{
+                    eventArr.push(eve);
+                    console.log(eve)
+                    volunteer.eventArr = eventArr
+                    res.render("volunteers/volunteerDisplay.ejs", {volunteer: volunteer, eventArr: eve, page: ["Volunteer contribution", volunteer.name], 
+                        colours:{
+                        "Education": "brown",
+                        "Health and Hygiene": "green",
+                        "Promotion of Sports and Music": "red",
+                        "Livelihood Enhancement Projects": "yellow",
+                        "Smile: Distribution of Life-essential Items": "violet",
+                        "Art and Craft for Children": "purple", 
+                        "Visit": "black",
+                        "Festivities": "orange",
+                        "Articles and Thoughts": "pink"
+                        } 
+                    });
+                }
+            })
+            
         }
     })
 })
 
-router.get("/testing/aaa/volunteer/:id", (req, res)=>{
-    Volunteer.findById(req.params.id, (err, volunteer)=>{
+router.get("/team-tgf", (req, res)=>{
+    Volunteer.find({approved: true}, (err, volunteers)=>{
         if(err){
-            res.send("err")
+            req.flash("error", "Unable to display team page at this time, please try again later")
+            res.redirect("back")
         }else{
-            res.json(volunteer)
+            res.render("ourTeam.ejs", {volunteers: volunteers, page: ["Team - TecSo Global Foundation"]})
         }
     })
-})
+});
 
 module.exports = router;

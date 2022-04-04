@@ -64,6 +64,61 @@ html, body {
 }
 /*==================================================================================================================*/
 
+/*Privacy and cookie policy modal*/
+.cookie-banner {
+  position: fixed;
+  z-index: 100;
+  bottom: 40px;
+  left: 10%;
+  right: 10%;
+  width: 80%;
+  padding: 5px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(0, 255, 255, 1);
+  border-radius: 5px;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+.close {
+  height: 20px;
+  background-color: #777;
+  border: none;
+  color: white;
+  border-radius: 2px;
+  cursor: pointer;
+}
+/*==================================================================================================================*/
+
+
+/*Volunteer card*/
+.volunteer-image>img{
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      object-position: top;
+
+      border-radius: 30px;
+      
+    }
+    .volunteer-card{
+      padding: 20px;
+      border-radius: 30px;
+      background-color: rgba(225,225,225,0.5);
+    }
+    @media(max-width: 600px){
+      .volunteer-card{
+        padding: 10px;
+        margin-bottom: 30px;
+        margin-left: 10px;
+        margin-right: 10px;
+        height: 80%;
+        width: 80%;
+
+      }
+    }
+/*==================================================================================================================*/
+
 /*Contact and Application forms*/
 
 .contain {

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title><%=event.name%> | TecSo Global Foundation</title>
-	<script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=61dd50d34c0de5001236c556&product=sticky-share-buttons' async='async'></script>
+	
 	<%- include("dynamicCommons.ejs") %>
 	<style type="text/css">
 		.paragraph-image>img{
@@ -15,31 +15,7 @@
 			font-size:2em !important;
 		}
 	
-		.volunteer-image>img{
-			height: 100%;
-			width: 100%;
-			object-fit: cover;
-			object-position: top;
-
-			border-radius: 30px;
-			
-		}
-		.volunteer-card{
-			padding: 20px;
-			border-radius: 30px;
-			background-color: rgba(225,225,225,0.5);
-		}
-		@media(max-width: 600px){
-			.volunteer-card{
-				padding: 10px;
-				margin-bottom: 30px;
-				margin-left: 10px;
-				margin-right: 10px;
-				height: 80%;
-				width: 80%;
-
-			}
-		}
+		
 	.page-text{
 		padding-left: 10%;
 	}	
@@ -54,6 +30,9 @@
 <body>
 	<%if(error){%>
 	<div id="error"><%=error%></div>
+	<%}%>
+	<%if(message){%>
+	<div id="message"><%=message%></div>
 	<%}%>
 <div class="sharethis-sticky-share-buttons" style=""></div>
 
@@ -91,6 +70,7 @@
 			</div>
 			<br>
 			<hr>
+			<%if(event.volunteers.length>0){%>
 			<h1 class="display-1">The Team</h1>
 			<div class="row">
 				<%volunteers.forEach(function(volunteer){%>
@@ -103,7 +83,7 @@
 								<p><%=volunteer.name%></p>
 							
 								<p>(<%=volunteer.role%>)</p>
-								<p><a href="/volunteer/<%=String(volunteer.id)%>">Other Contributions</a></p>
+								<p><a href="/volunteer/<%=String(volunteer._id)%>">Other Contributions</a></p>
 							</div></center>
 
 							
@@ -111,6 +91,8 @@
 					</div>
 				<%})%>
 			</div><hr>
+			<%}%>
+			<%if(event.donations.length>0){%>
 			<center><h5 class="fade">We are grateful to the monetary contributors to the event</h5></center>
 			<div class="row">
 				<%event.donations.forEach(function(donation){%>
@@ -122,11 +104,15 @@
 					</div>
 					<%}) %>
 			</div>	
+			<%}%>
 			
 		</div>
 	<%- include("footer.ejs") %>
 	<script type="text/javascript">
 		$(".event-date").text(formatDate(new Date("<%=event.date%>")))
+		$(".nav__name")[1].classList.toggle("active")
+		$(".nav__icon")[1].classList.toggle("active__icon")
+
 	</script>
 </body>
 </html>

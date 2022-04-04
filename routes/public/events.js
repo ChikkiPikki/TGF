@@ -2,15 +2,17 @@ var router = require("express").Router({mergeParams: true});
 var Event = require("../../models/Event.js");
 var Volunteer = require("../../models/Volunteer.js");
 
-var colours = {
+var colours= {
     "Education": "brown",
-"Health and Hygiene": "green",
-"Promotion of Sports and Music": "red",
-"Livelihood Enhancement Projects": "yellow",
-"Smile: Distribution of Life-essential Items": "violet",
-"Art and Craft for Children": "purple", 
-"Visit": "black"
-}
+    "Health and Hygiene": "green",
+    "Promotion of Sports and Music": "red",
+    "Livelihood Enhancement Projects": "yellow",
+    "Smile: Distribution of Life-essential Items": "violet",
+    "Art and Craft for Children": "purple", 
+    "Visit": "black",
+    "Festivities": "orange",
+    "Articles and Thoughts": "pink"
+} 
 console.log(colours["Education"])
 
 // router.get("/event/:id", async(req, res)=>{
@@ -43,9 +45,9 @@ console.log(colours["Education"])
 
 router.get("/event/:id", (req, res)=>{
     Event.findById(req.params.id, (err, event)=>{
-        if(err || event.length<1){
+        if(err || !(event)){
             req.flash("error", "We are unable to display this event at this time, please try again later");
-            res.redirect("/")
+            res.redirect("back")
         }else{
             var ids = []
             event.volunteers.forEach(function(volunteer){
@@ -66,7 +68,7 @@ router.get("/event/:id", (req, res)=>{
 
 router.get("/events/:tag", (req, res)=>{
     Event.find({tag: req.params.tag, published: true}, (err, events)=>{
-        if(err || events.length<1){
+        if(err || !(events)){
             req.flash("error", "Sorry, but we are unable to get the requested page at the moment. Please try again later.");
             res.redirect("back");
         }else{
@@ -75,7 +77,5 @@ router.get("/events/:tag", (req, res)=>{
     })
 })
 
-router.get("/test/events/:tag", (req,res)=>{
-    res.send(req.params.tag)
-})
+
 module.exports = router;

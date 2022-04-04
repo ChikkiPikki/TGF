@@ -105,21 +105,9 @@ app.use("/admin/dashboard", require("./routes/admin/volunteers.js"));
 app.use("/admin/dashboard/events", require("./routes/admin/events.js"));
 
 app.get("*", (req, res)=>{
-    res.render("404.ejs")
+    res.render("404.ejs", {page: ["Page not found"]})
 })
 
-Meta.create({
-  name: "Volunteers",
-  value: 100  
-})
-Meta.create({
-  name: "Events",
-  value: 100
-})
-Meta.create({
-  name: "Data",
-  value: 100
-})
 
 app.listen(process.env.PORT, () => {
     console.log("process begun");

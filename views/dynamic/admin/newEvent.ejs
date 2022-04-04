@@ -25,7 +25,9 @@
 					<option value="Livelihood Enhancement Projects">Livelihood Enhancement Projects</option>
 					<option value="Smile: Distribution of Life-essential Items">Smile: Distribution of Life-essential Items</option>
 					<option value="Art and Craft for Children">Art and Craft for Children</option>
-					<option value="Visit">Visit</option>
+					<option value="Visits">Visit</option>
+					<option value="Articles and Thoughts">Articles and Thoughts</option>
+					<option value="Festivities">Festivities</option>
 				</select>
 				<br><br>
 				
@@ -34,7 +36,9 @@
 				<input type="text" name="event[name]" placeholder="Title" class="form-input" required><br>
 					<div class="form-content">
 						<div class="text">
-					
+							<br>
+							<label for='1'>Paragraph 1</label>
+							<textarea required class='form-input' id="1" name=event[content][paragraphs][0]></textarea><br>
 						</div>
 					</div>
 					<br>
@@ -49,7 +53,7 @@
 	<script type="text/javascript">
 		var i = 0;
 		function addPara(){
-			$(".text").append("<br><label for='"+String(i)+"'>Paragraph"+String(i+1)+"</label><textarea required class='form-input' id="+String(i)+" name=event[content][paragraphs][" + String(i) + "]></textarea><br>")
+			$(".text").append("<br><label for='"+String(i+1)+"'>Paragraph"+String(i+1+1)+"</label><textarea required class='form-input' id="+String(i+1)+" name=event[content][paragraphs][" + String(i+1) + "]></textarea><br>")
 			i = i+1;
 			console.log($(".date").val())
 		}

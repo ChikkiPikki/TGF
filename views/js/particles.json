@@ -1,10 +1,10 @@
 {
   "particles": {
     "number": {
-      "value": 70,
+      "value": 500,
       "density": {
         "enable": true,
-        "value_area": 800
+        "value_area": 2000
       }
     },
     "color": {
@@ -67,12 +67,12 @@
     "detect_on": "canvas",
     "events": {
       "onhover": {
-        "enable": false,
-        "mode": "repulse"
+        "enable": true,
+        "mode": "bubble"
       },
       "onclick": {
         "enable": true,
-        "mode": "push"
+        "mode": "bubble"
       },
       "resize": true
     },
@@ -85,10 +85,10 @@
       },
       "bubble": {
         "distance": 800,
-        "size": 80,
-        "duration": 2,
+        "size": 10,
+        "duration": 1,
         "opacity": 0.8,
-        "speed": 3
+        "speed": 2
       },
       "repulse": {
         "distance": 400,

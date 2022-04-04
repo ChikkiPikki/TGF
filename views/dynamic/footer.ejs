@@ -1,3 +1,24 @@
+
+<div class="page-content">
+    <div class='cookie-banner' style='display: none'>
+        <center>
+        <p>
+            By using our website, you agree to our use of cookies, as described in our <a href='/privacy-policy'>Privacy Policy</a>, and our <a href="/terms-conditions"> Terms of Use</a>
+            <button class="cross-bt btn-danger" style="margin: auto">Close</button>
+        </p>
+        </center>
+    </div>
+    <script type="text/javascript">
+        if (localStorage.getItem('cookieSeen') != 'shown') {
+          $('.cookie-banner').delay(2000).fadeIn();
+          localStorage.setItem('cookieSeen','shown')
+        };
+        $('.cross-bt').click(function() {
+          $('.cookie-banner').fadeOut();
+        })
+    </script>
+</div>
+
 <footer class="footer-section">
         <div class="container">
             <div class="row">
@@ -8,7 +29,7 @@
                                 <img src="/static/siteLogo.png" alt="" style="">
                             </a>
                         </div>
-                        <p style="text-align:justify">An non-profitable company based on charity, works on education and healthcare for the underprivileged in India, founded on 7th Sept. 2016 by TecSo Global Ltd. The "TecSo Global Foundation" invests in people and ideas that can change the world.</p>
+                        <p style="text-align:justify">A non-profitable company based on charity, working on education and healthcare for the underprivileged in India, founded on 7th Sept. 2016 by TecSo Global Ltd., the "TecSo Global Foundation" invests in people and ideas that can change the world.</p>
                         <!--<div class="fa-social">
                             <a href="#"><i class="fa fa-facebook"></i></a>
                             <a href="#"><i class="fa fa-twitter"></i></a>
@@ -42,9 +63,9 @@
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="fs-widget">
                         <h5>Contact Us</h5>
-                        <p><i class="fa fa-address-card"></i> 401, Benison Complex, Opp Shiv Mahal Palace, Old Padra Road, Vadodara-390007, Gujarat.</p>
-                        <p class="email"><i class="fa fa-envelope"></i>Email:<a href="">  tgf@tecsoglobal.com</a></p>
-                        <p ><i class="fa fa-phone"></i> <a href="" class="phone">+ (91) 98989 98390</a></p>
+                        <p><i class="fa fa-address-card"></i> 401, Banison Complex, Opp Shiv Mahal Palace, Old Padra Road, Vadodara-390007, Gujarat.</p>
+                        <p class="email"><i class="fa fa-envelope"></i> Email:<a href="#" class="email">  tgf@tecsoglobal.com</a></p>
+                        <p ><i class="fa fa-phone"></i> <a href="#" class="phone contact">+ (91) 98989 98390</a></p>
                     </div>
                 </div>
                 
@@ -61,10 +82,18 @@
     </footer>
 <script type="text/javascript">
     document.getElementById("year").innerHTML = new Date().getFullYear();
-    $(".contact").click(function(){
+    $(".contact, #contact, #phone, .phone").click(function(){
           window.location.href = 'tel:+(91)9898998390' 
     });
-    $(".email").click(function(){
+    $(".email, #email").click(function(){
         window.location.href = 'mailto:tgf@tecsoglobal.com'
+    });
+    $(window).load(function() {
+      $('.post-module').hover(function() {
+        $(this).find('.description').stop().animate({
+          height: "toggle",
+          opacity: "toggle"
+        }, 300);
+      });
     });
 </script>
