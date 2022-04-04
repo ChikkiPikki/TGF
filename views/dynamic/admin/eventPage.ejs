@@ -16,6 +16,7 @@
   		<% } %></center>
 		<h1 class="display-1 ack"><%=event.name%></h1>
 		<div class="contact-form" >
+			<%if(!(event.published)){%>
 			<div class="volunteers">
 				<h3>Volunteers invloved</h3>
 				<div class="row">
@@ -57,7 +58,7 @@
 
 <hr>
 			<button type="submit" class="submit btn btn-success">Publish Event</button><br><br><Br>
-			
+	<%}%>		
 			
 		
 

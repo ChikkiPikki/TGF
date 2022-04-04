@@ -117,12 +117,12 @@ router.post("/:id/delete", auth, (req, res)=>{
         if(err||!(event)){
             req.flash("error", "Database Error: Unable to find event." )
         }else{
-            event.content.img.some(async function(image, index){
+            event.content.img.some(function(image, index){
                 var signature = cloudinary.utils.api_sign_request({
                     timestamp: cloudinary.utils.timestamp(),
                     public_id: image.public_id
                 }, process.env.CLOUDINARY_API_SECRET)
-                await cloudinary.uploader.destroy(image.public_id, signature)
+                cloudinary.uploader.destroy(image.public_id, signature)
                 .then((result)=>{
                     if(index+1 == event.content.img.length){
                         Event.deleteOne({_id: event._id}, (error)=>{
