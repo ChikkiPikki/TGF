@@ -29,19 +29,23 @@
       <br>
       <form id="submit-form" class="contact-form"  action="/queryposted" method="POST">
         <p>
+          <label for="name">Your Full Name</label>
           <input id="name" name="name"  class="form-input" type="text" placeholder="Your Name*">
           <small class="name-error"></small>
         </p>
         <p>
+          <label for="email">Your email</label>
           <input id="email" name="email"  class="form-input" type="email" placeholder="Your Email*">
           <small class="name-error"></small>
         </p>
         <p class="full-width">
-          <input id="title" name="title"  class="form-input" type="text" placeholder="Title*" required>
+          <label for="title">Title</label>
+          <input id="title" name="title"  class="form-input" type="text" maxlength="50" placeholder="Title*" required>
           <small></small>
         </p>
         <p class="full-width">
-          <textarea  minlength="20"  name="message" id="" cols="30" rows="7" placeholder="Your Message*" required></textarea>
+          <label for="message">Your Message</label>
+          <textarea  minlength="20" maxlength="1000" name="message" id="" cols="30" rows="7" placeholder="Your Message*" required></textarea>
           <small></small>
         </p>
         

@@ -1,4 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+var buildMail = function(donation, event){
+	return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml">
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -153,7 +154,7 @@
     <tbody>
       <tr>
         <td style="font-size:6px; line-height:10px; padding:0px 300px 0px 0px;" valign="top" align="center">
-          <img class="max-width" border="0" style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px;" width="200" alt="" data-proportionally-constrained="true" data-responsive="false" src="http://cdn.mcauto-images-production.sendgrid.net/ff991f1b4f8ad8c4/9b5f906c-4150-4f0d-a75a-67fffe592eeb/2000x800.png" height="80">
+          <img class="max-width" border="0" style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px;" width="200" alt="" data-proportionally-constrained="true" data-responsive="false" src="`+process.env.SITE_LINK+`"/static/siteLogo.png height="80">
         </td>
       </tr>
     </tbody>
@@ -169,19 +170,19 @@
       <tr>
         <td style="font-size:6px; line-height:10px; padding:0px 0px 0px 0px;" valign="top" align="center">
           
-        <a href="http://event.content.img[0].link"><img class="max-width" border="0" style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px; max-width:100% !important; width:100%; height:auto !important;" width="NaN" alt="" data-proportionally-constrained="true" data-responsive="true" src="http://cdn.mcauto-images-production.sendgrid.net/954c252fedab403f/2f4f10c1-9db3-446f-87cc-e45e0b7e8136/501x376.png"></a></td>
+        <a href="`+event.content.img[0].link+`"><img class="max-width" border="0" style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px; max-width:100% !important; width:100%; height:auto !important;" width="NaN" alt="" data-proportionally-constrained="true" data-responsive="true" src="`+event.content.img[0].link+`"></a></td>
       </tr>
     </tbody>
   </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="76aba600-d791-4059-a0dc-edee0b6e316e" data-mc-module-version="2019-10-22">
     <tbody>
       <tr>
-        <td style="padding:40px 20px 18px 20px; line-height:28px; text-align:inherit; background-color:#49dbbf;" height="100%" valign="top" bgcolor="#49dbbf" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="color: #ffffff; font-size: 24px">Thank you, donation.name, for your donation dowards "event.name".</span></div><div></div></div></td>
+        <td style="padding:40px 20px 18px 20px; line-height:28px; text-align:inherit; background-color:#49dbbf;" height="100%" valign="top" bgcolor="#49dbbf" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="color: #ffffff; font-size: 24px">Thank you, `+donation.name+`, for your donation to TecSo Global Foundation. We are happy to inform you that your contribution of &#8377;` +String(donation.amount/100)+ ` that you made has been used in the event "`+event.name+`".</span></div><div></div></div></td>
       </tr>
     </tbody>
   </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="76aba600-d791-4059-a0dc-edee0b6e316e.1" data-mc-module-version="2019-10-22">
     <tbody>
       <tr>
-        <td style="padding:18px 20px 18px 20px; line-height:20px; text-align:inherit; background-color:#49dbbf;" height="100%" valign="top" bgcolor="#49dbbf" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="color: #000000; font-size: 16px">We are grateful for your help, and would love if you could take a look at the event blog. You have been credited for your support.</span></div><div></div></div></td>
+        <td style="padding:18px 20px 18px 20px; line-height:20px; text-align:inherit; background-color:#49dbbf;" height="100%" valign="top" bgcolor="#49dbbf" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="color: #000000; font-size: 16px">We are grateful for your help, and would love if you could take a look at the event blog. You have been credited on the event page for your support.</span></div><div></div></div></td>
       </tr>
     </tbody>
   </table><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="4f464443-70c7-4c57-958c-abbeeb11d420">
@@ -192,7 +193,7 @@
               <tbody>
                 <tr>
                 <td align="center" bgcolor="#000000" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;">
-                  <a href="/event/event.url" style="background-color:#000000; border:1px solid #000000; border-color:#000000; border-radius:30px; border-width:1px; color:#ffffff; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:10px 50px 10px 50px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Visit</a>
+                  <a href="`+process.env.SITE_LINK+`/event/`+event._id+`" style="background-color:#000000; border:1px solid #000000; border-color:#000000; border-radius:30px; border-width:1px; color:#ffffff; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:10px 50px 10px 50px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Visit</a>
                 </td>
                 </tr>
               </tbody>
@@ -216,21 +217,21 @@
   </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="76aba600-d791-4059-a0dc-edee0b6e316e.1.1" data-mc-module-version="2019-10-22">
     <tbody>
       <tr>
-        <td style="padding:18px 30px 40px 30px; line-height:20px; text-align:inherit; background-color:#000000;" height="100%" valign="top" bgcolor="#000000" role="module-content"><div><div style="font-family: inherit; text-align: center">A</div>
-<div style="font-family: inherit; text-align: center">Au</div>
+
 <div style="font-family: inherit; text-align: center"><span style="color: #ffffff; font-size: 24px; font-family: verdana,geneva,sans-serif"><u>About - &nbsp;TecSo Global Foundation</u></span></div>
 <div style="font-family: inherit; text-align: center"><span style="color: #ffffff; font-size: 16px">A non-profitable company based on charity, working on education and healthcare for the underprivileged in India, founded on 7th Sept. 2016 by TecSo Global Ltd., the "TecSo Global Foundation" invests in people and ideas that can change the world.</span></div><div></div></div></td>
       </tr>
     </tbody>
-  </table><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="4f464443-70c7-4c57-958c-abbeeb11d420.1">
+  </table>
+  <table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="4f464443-70c7-4c57-958c-abbeeb11d420.1">
       <tbody>
         <tr>
-          <td align="center" bgcolor="#FFC500" class="outer-td" style="padding:0px 0px 40px 0px; background-color:#FFC500;">
+          <td align="center" bgcolor="#000000" class="outer-td" style="padding:0px 0px 40px 0px; background-color:#000000;">
             <table border="0" cellpadding="0" cellspacing="0" class="wrapper-mobile" style="text-align:center;">
               <tbody>
                 <tr>
-                <td align="center" bgcolor="#000000" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;">
-                  <a href="" style="background-color:#000000; border:1px solid #000000; border-color:#000000; border-radius:30px; border-width:1px; color:#ffffff; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:10px 50px 10px 50px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Learn More</a>
+                <td align="center" bgcolor="#000000" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; ;">
+                  <a href="`+process.env.SITE_LINK+`" style="background-color:blue; border:1px solid #000000; border-color:#000000; border-radius:30px; border-width:1px; color:#ffffff; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:10px 50px 10px 50px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Learn More</a>
                 </td>
                 </tr>
               </tbody>
@@ -244,15 +245,14 @@
     </table></td>
       </tr>
     </tbody>
-  </table><div data-role="module-unsubscribe" class="module" role="module" data-type="unsubscribe" style="color:#444444; font-size:12px; line-height:20px; padding:16px 16px 16px 16px; text-align:Center;" data-muid="4e838cf3-9892-4a6d-94d6-170e474d21e5"><div class="Unsubscribe--addressLine"></div><p style="font-size:12px; line-height:20px;"><a class="Unsubscribe--unsubscribeLink" href="{{{unsubscribe}}}" target="_blank" style="">Unsubscribe</a></p></div><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="38b8b16b-3e01-4e16-bfb8-61afe8ab1957">
+  </table><div data-role="module-unsubscribe" class="module" role="module" data-type="unsubscribe" style="color:#444444; font-size:12px; line-height:20px; padding:16px 16px 16px 16px; text-align:Center;" data-muid="4e838cf3-9892-4a6d-94d6-170e474d21e5"><div class="Unsubscribe--addressLine"></div><p style="font-size:12px; line-height:20px;">This email has been sent as an announcement of an event publication wherein your donation had been used.</p></div><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="38b8b16b-3e01-4e16-bfb8-61afe8ab1957">
       <tbody>
         <tr>
           <td align="center" bgcolor="" class="outer-td" style="padding:0px 0px 20px 0px;">
             <table border="0" cellpadding="0" cellspacing="0" class="wrapper-mobile" style="text-align:center;">
               <tbody>
                 <tr>
-                <td align="center" bgcolor="#f5f8fd" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;"><a href="https://sendgrid.com/" style="background-color:#f5f8fd; border:1px solid #f5f8fd; border-color:#f5f8fd; border-radius:25px; border-width:1px; color:#a8b9d5; display:inline-block; font-size:10px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:5px 18px 5px 18px; text-align:center; text-decoration:none; border-style:solid; font-family:helvetica,sans-serif;" target="_blank">♥ POWERED BY TWILIO SENDGRID</a></td>
-                </tr>
+               	<p><a href="`+process.env.SITE_LINK+`/contact">Contact</a></p><br><p><a href="`+process.env.SITE_LINK+`/apply/volunteer">Join Us</a></p>
               </tbody>
             </table>
           </td>
@@ -279,4 +279,7 @@
         </div>
       </center>
     </body>
-  </html>
+  </html>`
+}
+
+module.exports = buildMail

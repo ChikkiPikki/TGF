@@ -73,7 +73,7 @@
 			<%if(event.volunteers.length>0){%>
 			<h1 class="display-1">The Team</h1>
 			<div class="row">
-				<%volunteers.forEach(function(volunteer){%>
+				<%volunteers.forEach(function(volunteer, ind){%>
 					<div class="container col-lg-2 col-md-3 col-sm-4">
 						<div class="volunteer-card">
 							<center><div class="volunteer-image">
@@ -82,7 +82,7 @@
 							<div>
 								<p><%=volunteer.name%></p>
 							
-								<p>(<%=volunteer.role%>)</p>
+								<p>(<%=event.volunteers[ind].role%>)</p>
 								<p><a href="/volunteer/<%=String(volunteer._id)%>">Other Contributions</a></p>
 							</div></center>
 

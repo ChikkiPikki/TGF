@@ -4,6 +4,7 @@ var Volunteer = require("../../models/Volunteer.js");
 var Image = require("../../models/ImageSchema.js");
 var auth = require("../commonFunctions/auth.js");
 var uploadImg = require("../commonFunctions/upload.js");
+var mailBuilder = require("../commonFunctions/mailBuilder.js")
 var sendMail = require("../commonFunctions/sendMail.js");
 var multer = require("multer");
 var fs = require("fs");
@@ -180,12 +181,13 @@ router.post("/:id/publish", auth, (req, res)=>{
                                 event.save(()=>{
                                     event.donations.forEach(function(donation){
                                         var mailOptions = {
-                                            from: "Donations - TecSo Foundation <" + process.env.USER + ">",
+                                            from: "noreply.tgf@tecsoglobal.com",
                                             to: donation.email,
                                             subject: 'Re: Your contribution to "'+event.name+'"',
                                             text: 'Dear '+donation.name+". We cannot thank you enough for your Rupees "+donation.amount/100 +" contribution towards "+event.name+". It gives us immense pleasure to let you know that your donation has been utilised in this event. To know more about the event, please visit https://tecsoglobalfoundation.herokurouter.com/events/" +event._id+". Thank you, once again. Yours truly TecSo Global Foundation Team", 
-                                            html: '<h1>Dear '+donation.name+".</h1> <p> We cannot thank you enough for your Rupees "+String(donation.amount/100 )+" contribution towards "+event.name+".</p> <p>It gives us immense pleasure to let you know that your donation has been utilised in this event.</p><br> To know more about the event, please visit <a href='https://tecsoglobalfoundation.herokurouter.com/events/" +event._id+"'>here</a><img src='"+String(event.content.img[0].link)+"' style='height: 40%;width:40%;'>.<p> Thank you, once again.</p> <br><hr>Yours truly <br> <h3>The TecSo Global Foundation Team</h3>", 
+                                            html: mailBuilder(donation, event)
                                         };
+                                        
                                         console.log(mailOptions)
                                         sendMail(mailOptions).then((resut)=>{}).catch((error)=>{})
                                         console.log("hi010101")
