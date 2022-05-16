@@ -110,7 +110,7 @@ router.get("/admin/generate-site-report", auth,(req, res)=>{
 							events.addRow([num+1, event.name, dateConvert(event.date), tot, "...", approve[event.published]])
 						}
 					})
-					Donation.find({}, (err, dons)=>{
+					Donation.find({completed: true}, (err, dons)=>{
 						if(err){
 							req.flash("Database error.")
 							res.redirect("back")

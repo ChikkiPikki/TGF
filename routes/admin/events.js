@@ -143,7 +143,7 @@ router.post("/:id/delete", auth, (req, res)=>{
                                 req.flash("error", "Database error: Couldn't delete event")
                             }else{
                                 req.flash("message", "Event removed")
-                                res.redirect("/admin/dashboard/events")
+                                res.redirect("/admin")
                             }
                         })
                     }
