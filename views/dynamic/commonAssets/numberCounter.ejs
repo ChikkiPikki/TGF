@@ -1,0 +1,73 @@
+
+<section class=" py-5 min-vh-30">
+ <div class="container">
+  <div class="row justify-content-center text-center">
+   <div class="col-12">
+    <h1 class="ack display-4">Our Reach</h1>
+   </div>
+   <div class="col-md-4 counterDiv " style="border: 0px solid black; border-radius: 1px">
+    <span id="count1" class="display-4 counterDiv">0</span>
+
+
+    <hr class="d-md-block d-none" style="width: 102px; border: 3px solid lightgreen; border-radius: 4px;">
+    
+    <h5 class="">Our Volunteers</h5>
+    <hr class="d-md-none d-block" style="width: 102px; border: 3px solid lightgreen; border-radius: 4px;">
+
+   </div>
+   <div class="col-md-4 " style="border: 0px solid black; border-radius: 1px">
+    <span id="count2" class="display-4 counterDiv">0</span>
+
+    <hr class="d-md-block d-none" style="width: 102px; border: 3px solid lightgreen; border-radius: 4px;">
+   <h5 class="">Our Projects</h5>
+    <hr class="d-md-none d-block" style="width: 102px; border: 3px solid lightgreen; border-radius: 4px;">
+
+   </div>
+   <div class="col-md-4 " style="border: 0px solid black; border-radius: 1px">
+    <span id="count3" class="display-4 counterDiv">0</span>
+
+    <hr class="d-md-block d-none" style="width: 102px; border: 3px solid lightgreen; border-radius: 4px;">
+    
+    <h5 class="">Our <\data></h5>
+   </div>
+  </div>
+ </div>
+</section>
+<script type="text/javascript">
+$(document).ready(()=>{
+	 async function counter(id, start, end, duration) {
+  let obj = document.getElementById(id),
+   current = start,
+   range = end - start,
+   increment = end > start ? 1 : -1,
+   step = Math.abs(Math.floor(duration / range)),
+   timer = setInterval(() => {
+    current += increment;
+    obj.textContent = current;
+    if (current == end) {
+     clearInterval(timer);
+    }
+   }, step);
+ }
+var once = false;
+
+  $(window).on("load",function() {
+  $(window).scroll(function() {
+    var windowBottom = $(this).scrollTop() + $(this).innerHeight();
+    $(".counterDiv").each(function() {
+      /* Check the location of each desired element */
+      var objectBottom = $(this).offset().top + $(this).outerHeight();
+      
+      /* If the element is completely within bounds of the window, fade it in */
+      if (objectBottom < windowBottom && once==false) { //object comes into view (scrolling down)
+        counter("count1", 0, <%=meta[2].value%>, 1000);
+        counter("count2", 0, <%=meta[1].value%>, 1000);
+        counter("count3", 0, <%=meta[0].value%>, 1000);
+        once=true
+      } else { //object goes out of view (scrolling up)
+        // if ($(this).css("opacity")==1) {$(this).fadeTo(200,0);}
+      }
+    });
+  }).scroll(); //invoke scroll-handler on page-load
+});})
+</script>

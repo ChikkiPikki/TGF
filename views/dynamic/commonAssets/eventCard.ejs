@@ -1,0 +1,22 @@
+  
+<div class="column"><br>
+  <div class="demo-title"><%=event.tag%></div>
+  <br>
+  <div class="post-module">
+    <div class="thumbnail">
+      <div class="date">
+      <%=event.date%>
+      </div>
+      <img src="<%=event.content.img[0].link%>"/>
+    </div>
+    <div class="post-content">
+      <div class="category">Event</div>
+      <h1 class="title"><%=event.name%></h1>
+      <h2 class="sub_title"><a href="/tags/<%=event.tag%>"><%=event.tag%></a></h2>
+      <p class="description"><span><%=event.content.paragraphs[0].substring(0, 120)%>...</span><br><br>   
+      <a href="/events/<%=event.id%>" class="btn btn-outline-info">Read More</a></p>
+    </div>
+  </div>
+</div>
+
+

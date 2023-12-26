@@ -1,0 +1,117 @@
+#carouselIndicator{
+  height: 70%;
+  width: 100%;
+  margin-top: 60px;
+  border-radius: 100%;
+  margin-left: 39px;
+}
+@media only screen and (max-width: 768px){
+  #carouselIndicator{
+    height: 100%;
+    width: 100%;
+    border-radius: 0%;
+    margin-top: 0px;
+    margin: auto;
+  }
+  .homeTopRow{
+    margin: 0;
+  }
+}
+.carousel-item{
+  height: 150vh;
+  width: 100%;
+}
+@media only screen and (max-width: 768px){
+  .carousel-item{
+    height: 75vh;
+    width: 100%;
+    margin-top: 60px;
+    border-radius: 100%;
+  }
+}
+@media only screen and (max-width: 320px ){
+  .carousel-item{
+    height: 60vh;
+  }
+}
+.carousel-item > img {
+  object-fit: cover !important;
+  object-position: center;
+}
+@media only screen and (min-width: 768px){
+  .owl-carousel{
+    height: 70%;
+    width: 100%;
+    margin-top: 60px;
+    border-radius: 100%;
+    margin-left: 39px;
+  }
+}
+.owl-carousel{
+  width: 100%;
+}
+#acknowledgements{
+}
+.carousel-wrap {
+  width: 1000px;
+  margin: auto;
+  position: relative;
+}
+}
+.owl-carousel .owl-nav{
+overflow: hidden;
+height: 0px;
+}
+.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
+background: #2caae1;
+}
+.owl-carousel .item {
+text-align: center;
+}
+.owl-carousel .nav-btn{
+height: 47px;
+position: absolute;
+width: 26px;
+cursor: pointer;
+top: 100px !important;
+}
+.owl-carousel .owl-prev.disabled, .owl-carousel .owl-next.disabled{
+pointer-events: none;
+opacity: 0.2;
+}
+.owl-carousel .prev-slide{
+background: url(/static/arr.png) no-repeat scroll 0 0;
+left: -33px;
+}
+.owl-carousel .next-slide{
+background: url(/static/arr.png) no-repeat scroll -24px 0px;
+right: -33px;
+}
+.owl-carousel .prev-slide:hover{
+background-position: 0px -53px;
+}
+.owl-carousel .next-slide:hover{
+background-position: -24px -53px;
+}
+span.img-text {
+text-decoration: none;
+outline: none;
+transition: all 0.4s ease;
+-webkit-transition: all 0.4s ease;
+-moz-transition: all 0.4s ease;
+-o-transition: all 0.4s ease;
+cursor: pointer;
+width: 100%;
+font-size: 23px;
+display: block;
+text-transform: capitalize;
+}
+span.img-text:hover {
+color: #2caae1;
+}
+.width100{
+}
+.context{
+color: red;
+font-family: roboto;
+}

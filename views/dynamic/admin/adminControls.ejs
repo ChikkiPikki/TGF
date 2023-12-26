@@ -1,0 +1,87 @@
+
+<div class="floatingButtonWrap">
+    <div class="floatingButtonInner">
+        <a href="#" class="floatingButton">
+            <i class="fa fa-plus icon-default"></i>
+        </a>
+        <ul class="floatingMenu">
+            
+            <li>
+                <a href="/admin/dashboard/volunteers/applications">See & Approve Volunteer Applications </a>
+            </li>
+            <li>
+            	<a href="/apply/volunteer">Create a New Volunteer</a>
+            </li>
+            <li>
+            	<a href="/admin/dashboard/volunteers">See Approved Volunteers</a>
+            </li>
+            <li>
+                <a href="/admin/dashboard/queries">Check queries</a>
+            </li>
+            <li>
+                <a href="/admin/dashboard/images/slider">View & Edit home-slider images</a>
+            </li>
+            <li>
+                <a href="/admin/dashboard/donations">View and assign Donations</a>
+            </li>
+            <li>
+                <a href="/admin/dashboard/events/create">Create an Event</a>
+            </li>
+            <li>
+                <a href="/admin/dashboard/events">View, edit, or publish unpublished events</a>
+            </li>
+            <li>
+                <a href="/admin/generate-site-report">Generate site report (Excel Sheet)</a>
+            </li>
+            <li>
+                <a href="/admin">Dashboard</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+        $('.floatingButton').on('click',
+            function(e){
+                e.preventDefault();
+                $(this).toggleClass('open');
+                if($(this).children('.fa').hasClass('fa-plus'))
+                {
+                    $(this).children('.fa').removeClass('fa-plus');
+                    $(this).children('.fa').addClass('fa-close');
+                } 
+                else if ($(this).children('.fa').hasClass('fa-close')) 
+                {
+                    $(this).children('.fa').removeClass('fa-close');
+                    $(this).children('.fa').addClass('fa-plus');
+                }
+                $('.floatingMenu').stop().slideToggle();
+            }
+        );
+        $(this).on('click', function(e) {
+          
+            var container = $(".floatingButton");
+            // if the target of the click isn't the container nor a descendant of the container
+            if (!container.is(e.target) && $('.floatingButtonWrap').has(e.target).length === 0) 
+            {
+                if(container.hasClass('open'))
+                {
+                    container.removeClass('open');
+                }
+                if (container.children('.fa').hasClass('fa-close')) 
+                {
+                    container.children('.fa').removeClass('fa-close');
+                    container.children('.fa').addClass('fa-plus');
+                }
+                $('.floatingMenu').hide();
+            }
+          
+            // if the target of the click isn't the container and a descendant of the menu
+            if(!container.is(e.target) && ($('.floatingMenu').has(e.target).length > 0)) 
+            {
+                $('.floatingButton').removeClass('open');
+                $('.floatingMenu').stop().slideToggle();
+            } 
+        });
+    });
+</script>

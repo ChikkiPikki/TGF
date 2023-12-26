@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Queries | TecSo Foundation</title>
+	<%- include("../dynamicCommons.ejs") %>
+</head>
+<body>
+	<%- include("../header.ejs") %>
+	<div class="page-content">
+		<h1 class="display-1 ack">Queries</h1><br><br>
+		<div class="container ">
+			<form action="/admin/dashboard/clear/queries" method="POST">
+			<button class="submit btn btn-danger">Clear Queries</button>
+		</form>
+
+		</div> <br><br><hr>
+		
+		<% queries.forEach(function(query){ %>
+			<div class="container">
+				<h1 class="display-4"><%= query.title %></h1>
+				<p><%= query.message %></p><br>
+				<b>Name</b>: <%= query.name %><br>
+				<b>Email</b>:<a href="mailto:<%= query.email %>" > <%= query.email %></a><br>
+				<b>Date:</b> <%= query.date %><hr>
+			</div>
+		<% }) %>
+	</div>
+	<%- include("../footer.ejs") %>
+	<%- include("adminControls.ejs") %>
+</body>
+</html>

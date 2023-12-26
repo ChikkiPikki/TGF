@@ -1,0 +1,45 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Volunteers Associated | TecSo Global Foundation</title>
+	<%- include("../dynamicCommons.ejs") %>
+	<style type="text/css">
+		img{
+			height: 10%;
+			width: 10%;
+		}
+	</style>
+</head>
+<body>
+	<%- include("../header.ejs") %>
+
+<div class="page-content">
+	<h1 class="display-1 ack">
+		Active (Approved) Volunteers 
+	</h1>
+	<br>
+	<ol><center>
+		<% volunteers.forEach(function(volunteer){ %>
+		<div class="container">
+			<h1 class="display-4 ack"><%= volunteer.name %></h1>
+			 <img src="<%=volunteer.profilePic.link%>"><br>
+			<p><%= volunteer.description %></p><br>
+			<b>Role:</b> <%= volunteer.role %> <br>
+			<b>Email:</b><a href="mailto:<%= volunteer.email %>" > <%= volunteer.email %></a><br>
+			<b>Number:</b><a href="tel:<%= volunteer.phone %>"> <%= volunteer.phone %></a><br>
+			<b>Date:</b> <%= volunteer.date %><br>
+			<b>CV:</b><iframe src="<%=volunteer.cv%>"></iframe>
+					<a href="/admin/dashboard/volunteers/<%= volunteer._id %>" class="btn btn-warning">Edit</a>
+					<hr>
+</div>
+		<%})%></center>
+	</ul>
+</div>
+	<%- include("../footer.ejs") %>
+	<%- include("../admin/adminControls.ejs") %>
+	
+
+</body>
+</html>

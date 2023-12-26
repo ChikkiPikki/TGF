@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Website Images | TecSo Foundation</title>
+	<%- include("../dynamicCommons.ejs") %>
+	<style type="text/css">
+		img{
+			width: 40%;
+			object-fit: cover;
+			object-position: center;
+		}
+		
+	</style>
+</head>
+<body>
+	<%- include("../header.ejs") %>
+	<div class="page-content">
+		<%if(page[2]=="Volunteers"){%>
+		<h1 class="ack display-1">Volunteer Images</h1>
+		<%}else{%>
+		<h1 class="ack display-1">Slider Images</h1>
+
+		<% }%>
+			<div class="container">
+				<form action="/images" style="" method="POST" enctype="multipart/form-data">
+					<div class="form-group" style="display: block;">
+							<div class="row">
+								<div class="container col-lg-6">
+									<ul class ="index">
+										<%images.forEach(function(image, index){%>
+												<li>
+													<%= index+1 %>.<br>
+													<h4><%=image.context%></h4><br>
+													<img src="<%=image.link%>">
+													<br>
+													<%if(page[2]=="Volunteers"){%>
+													<a href="/admin/dashboard/images/volunteers/<%=image._id%>" class="btn btn-outline-info">Replace</a>
+													<%}else{%>
+													<a href="/admin/dashboard/images/slider/<%=image._id%>" class="btn btn-outline-info">Replace</a>
+
+													<%}%>
+													<hr>
+												</li>
+										<%})%>
+									</ul>
+								</div>
+							</div>
+					</div>
+					<%if(page[2] !=="Volunteers"){%>
+					<div class="form-group container d-block">
+						<label for="image"><h4>Upload Image for home slider </h2><br>(will be added at the end of the queue)</label>
+						<input type="file" class="form-control" id="image"
+							name="image" value="" required accept="image/*"><br>
+						<button style="display: block !important;" type="submit">Submit</button>
+					</div>
+					<%}%>
+				</form>
+			</div>
+			<br><br>
+		<hr>
+	</div>
+
+	<%- include("../footer.ejs") %>
+	<%- include("adminControls.ejs") %>
+</body>
+</html>

@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Our Team | TecSo Global Foundation</title>
+	<%-include("dynamicCommons.ejs")%>
+</head>
+<body>
+	<%-include("header.ejs")%>
+	<div class="page-content">
+		<h1 class="display-3 ack">The Team</h1>
+		<div class="row">
+			<%volunteers.forEach(function(volunteer){%>
+				<div class="container col-lg-2 col-md-3 col-sm-4">
+					<div class="volunteer-card">
+						<center><div class="volunteer-image">
+							<img src="<%=volunteer.profilePic.link%>">
+						</div>
+						<div>
+							<p><h3><%=volunteer.name%></h3></p>
+							<p>(<%=volunteer.role%>)</p>
+							<%if(volunteer.description.length>120){%>
+							<p><%=volunteer.description.substring(0, 120)%>...</p>
+							<%}else{%>
+							<p><%=volunteer.description%></p>
+							<%}%>
+							<p><a class="btn btn-warning" href="/volunteer/<%=String(volunteer._id)%>">View <%=volunteer.events.length%> Contributions</a></p>
+						</div></center>
+					</div>
+				</div>
+			<%})%>
+		</div><hr>
+	</div>
+	<%-include("footer.ejs")%>
+	<script type="text/javascript">
+		$(".nav__name")[3].classList.toggle("active")
+		$(".nav__icon")[3].classList.toggle("active__icon")
+	</script>
+</body>
+</html>
+
+

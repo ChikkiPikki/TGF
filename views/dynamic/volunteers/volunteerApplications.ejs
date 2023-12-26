@@ -1,0 +1,48 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Volunteer Applications | TecSo Global Foundation</title>
+	<%- include("../dynamicCommons.ejs") %>
+	<style type="text/css">
+		img{
+			height: 10%;
+			width: 10%;
+		}
+	</style>
+</head>
+<body>
+	<%- include("../header.ejs") %>
+
+<div class="page-content">
+	<h1 class="display-1 ack">
+		Volunteer Applications
+	</h1>
+	<br>
+	<ol><center>
+		<% volunteers.forEach(function(volunteer){ %>
+		<div class="container">
+			<h1 class="display-4 ack"><%= volunteer.name %></h1>
+			 <img src="<%=volunteer.profilePic.link%>">
+			<p><%= volunteer.description %></p><br>
+			<b>Email:</b><a href="mailto:<%= volunteer.email %>" > <%= volunteer.email %></a><br>
+			<b>Number:</b><a href="tel:<%= volunteer.phone %>"><%= volunteer.phone %></a><br>
+			<b id="date-<%=index%>" class="date">Date:</b> <%= volunteer.date %><br>
+			<script type="text/javascript">
+				$(".date-<%=volunteer._id%>").text(formatDate(new Date("<%=volunteer.date%>")))
+			</script>
+			<b>CV:</b><iframe  type="application/pdf" style="height:500px; width: 100%;" src="<%= volunteer.cv%>"></iframe><br>
+				<a href="/admin/dashboard/volunteers/<%= volunteer._id %>" class="btn btn-warning">Approve/Edit</a>
+					<hr>
+</div>
+		<%})%></center>
+	</ul>
+</div>
+	<%- include("../footer.ejs") %>
+	<%- include("../admin/adminControls.ejs") %>
+	
+	
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Contact Us |TecSo Global Foundation</title>
+	<%- include("dynamicCommons.ejs") %>
+
+</head>
+<body>
+	<%- include("header.ejs") %>
+  
+	<div class="page-content">
+   <center> <% if(message){ %>
+  <div id="message"><%= message %></div>
+  <% } %></center>
+		<center><div class="row">
+			<div class="container col-sm-12 col-lg-7">
+        <h1 class="display-1 ack">Find us on <a href="https://goo.gl/maps/Fmr2KbZ1QTTCXRui7"><span class="img__span"><img src="../static/map.png"></span></a> </h1>
+			<center><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.2650708277183!2d73.16334514905779!3d22.305812785248627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395fc61ddf939203%3A0xcadbf2e28110ed38!2sTecso%20Global!5e0!3m2!1sen!2sin!4v1639563708165!5m2!1sen!2sin"  style="border:0; margin-top: 1.2rem !important; margin-right: 1.3rem;" allowfullscreen="" loading="lazy"></iframe></center>
+		</div>
+
+<div class="contain">
+
+  <div class="wrapper">
+
+    <div class="form">
+      <h4>Contact Us</h4>
+      <h2 class="form-headline">Send us a message! </h2>
+      <h5>We would love to hear from you - suggestions, issues, queries - anything.</h5>
+      <br>
+      <form id="submit-form" class="contact-form"  action="/queryposted" method="POST">
+        <p>
+          <label for="name">Your Full Name</label>
+          <input id="name" name="name"  class="form-input" type="text" placeholder="Your Name*">
+          <small class="name-error"></small>
+        </p>
+        <p>
+          <label for="email">Your email</label>
+          <input id="email" name="email"  class="form-input" type="email" placeholder="Your Email*">
+          <small class="name-error"></small>
+        </p>
+        <p class="full-width">
+          <label for="title">Title</label>
+          <input id="title" name="title"  class="form-input" type="text" maxlength="50" placeholder="Title*" required>
+          <small></small>
+        </p>
+        <p class="full-width">
+          <label for="message">Your Message</label>
+          <textarea  minlength="20" maxlength="1000" name="message" id="" cols="30" rows="7" placeholder="Your Message*" required></textarea>
+          <small></small>
+        </p>
+        
+        <p class="full-width">
+          <input type="submit" class="submit-btn" value="Submit" onclick="checkValidations()">
+          <button class="reset-btn" onclick="reset()">Reset</button>
+        </p>
+      </form>
+    </div>
+
+    <div class="contacts contact-wrapper">
+
+      <ul>
+        
+        <span class="hightlight-contact-info">
+          <li class="email-info" class=""><i class="fa fa-envelope" aria-hidden="true"></i> 
+          	<a href="" class="email">tgf@tecsoglobal.com</a></li>
+          <li><i class="fa fa-phone" aria-hidden="true"></i> <span class="highlight-text phone"> <a class="phone" href="">+ (91) 98989 98390</a></span></li>
+        </span>
+      </ul>
+    </div>
+  </div>
+</div>
+		</div>
+		</div>
+		
+
+	</div>
+  <script type="text/javascript">
+$(".nav__name")[4].classList.toggle("active")
+$(".nav__icon")[4].classList.toggle("active__icon")
+
+  </script>
+
+	<%- include("footer.ejs") %>
+
+</body>
+</html>

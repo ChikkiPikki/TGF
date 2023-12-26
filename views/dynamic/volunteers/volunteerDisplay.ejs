@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%=volunteer.name%> | TecSo Global Foundation</title>
+	<%-include("../dynamicCommons.ejs")%>
+</head>
+<body>
+	<%-include("../header.ejs")%>
+
+		<div class="page-content">
+			<div class="container col-lg-2 col-md-3 col-sm-4">
+				<div class="volunteer-card">
+					<center><div class="volunteer-image">
+						<img src="<%=volunteer.profilePic.link%>">
+					</div>
+					<div>
+						<p><h3><%=volunteer.name%></h3></p>
+						<p>(<%=volunteer.role%>)</p>
+						<p><%=volunteer.description%></p>
+						<p>Joined:<b><span class="date-<%=volunteer._id%>"></span></b></p>
+						<script type="text/javascript">
+							$(".date-<%=volunteer._id%>").text(formatDate(new Date("<%=volunteer.date%>")))
+						</script>
+						<p>Contributions: <b><%=volunteer.events.length%></b></p>
+					</div></center>
+				</div>
+			</div>
+			<div class="row">
+
+				<%eventArr.forEach(function(event, index){%>
+					<div class="container events col-lg-4 col-md-6 col-sm-12">
+					<div class="column" style=""><br>
+						<%if(event.tag.length>30){%>
+					<div class="demo-title" style="padding-left: 15px;"><%=event.tag.substring(0, 30)%>...</div>
+						<%}else{%>
+					<div class="demo-title" style="padding-left: 15px;"><%=event.tag%></div>
+						<%}%>
+					<br>
+					<div class="post-module">
+					<div class="thumbnail">
+					<div class="date" style="background-color: <%=colours[event.tag]%>;">
+					<small class="date-<%=event._id%>" style="color: white"><%=event.date%></small>
+					<script type="text/javascript">
+					$(".date-<%=event._id%>").text(formatDate(new Date("<%=event.date%>")))
+					</script>
+					</div>
+					<img src="<%=event.content.img[0].link%>"/>
+					</div>
+					<div class="post-content">
+					<div class="category"  style="background-color: <%=colours[event.tag]%>;"><a href="/events/<%=event.tag%>" style="color: white" class="btn"><%=event.tag%></a></div><br>
+					<h1 class="title"><a href="/event/<%=event.id%>"><%=event.name%></a></h1><br>
+					<h2 class="sub_title"><%=event.content.subtitle%></h2>
+					<p class="description"><span><%=event.content.paragraphs[0].substring(0, 120)%>...</span><br><br>   
+					<a href="/event/<%=event.id%>" class="btn btn-outline-info">Read More</a></p>
+					</div>
+					</div>
+					</div>
+					<hr style="width: 250px; border: 2px solid <%=colours[event.tag]%>; border-radius: 30%;">
+					</div>
+				<%})%>			
+			</div>
+
+		</div>
+	<%-include("../footer.ejs")%>
+<script type="text/javascript">
+$(".nav__name")[3].classList.toggle("active")
+$(".nav__icon")[3].classList.toggle("active__icon")
+
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Change <%=meta.name%></title>
+	<%-include("../dynamicCommons.ejs")%>
+</head>
+<body>
+	<%-include("../header.ejs")%>
+	<div class="page-content">
+		<h1>Change<%=meta.name%></h1>
+		<h4>Current value: <%=meta.value%></h4>
+		<form action="/admin/meta/<%=meta.name%>" method="POST">
+			<label for="number">Value</label>
+			<input type="number" name="number" id="number" placeholder="Value of <%=meta.name%>" min=0 required>
+			<button class="btn btn-outline-info" type="submit">Change</button>
+		</form>
+	</div>
+	<%-include("../footer.ejs")%>
+</body>
+</html>

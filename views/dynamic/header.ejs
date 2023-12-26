@@ -1,0 +1,163 @@
+
+
+<!--========== HEADER ==========-->
+<script type="text/javascript">
+   document.querySelectorAll("page-content").innerHTML = <%if(error){%>"<div id='error'><%=error%></div>"+document.querySelectorAll("page-content").innerHTML<%}%>
+document.querySelectorAll("page-content").innerHTML = <%if(message){%>"<div id='message'><%=message%></div>"+document.querySelectorAll("page-content").innerHTML<%}%> 
+</script>
+<header class="header">
+   <div class="header__container">
+      <a href="/"><img src="/static/siteLogo.png" alt="" class="header__img" ></a>
+      <div class="header__toggle">
+         <i class='bx bx-menu pull-right' id="header-toggle"></i>
+      </div>
+      <div class="d-md-block d-none">
+         <%page.forEach(function(entry, index){%>
+         <%if(index+1 == page.length){%>
+            <%=entry%>
+         <%}else{%>
+            <%=entry%> <i class='bx bxs-right-arrow-circle' style="color: blue"></i>
+         <%}%>
+         <%})%>
+      </div>
+      
+   </div>
+</header>
+<!--========== NAV ==========-->
+<div class="nav" id="navbar" style="overflow: auto !important;">
+   <nav class="nav__container">
+      <div>
+         <a href="/" class="nav__link nav__logo">
+            <img id="fav__logo_" class= "fav__logo" src="/static/siteLogo.png">
+         <!-- <i class='nav__icon'></i> -->
+         <!-- <span class="nav__logo-name">TecSo Global <br>  Foundation</span> -->
+         </a>
+         <div class="nav__list">
+            <div class="nav__items">
+               <h3 class="nav__subtitle">About Us</h3>
+               <a href="/" class="nav__link ">
+               <i class='bx bxs-home nav__icon'></i>
+               <span class="nav__name">Home</span>
+               </a>
+               <div class="nav__dropdown">
+                  <a href="#" class="nav__link">
+                  <i class='bx bx-compass nav__icon' style="color: black"></i>
+                  <span class="nav__name">Our Ventures</span>
+                  <i class='bx bx-chevron-down nav__dropdown-icon'></i>
+                  </a>
+                  <div class="nav__dropdown-collapse">
+                     <div class="nav__dropdown-content">
+                        <a href="/events/Education" class="nav__dropdown-item">Education</a>
+                        <a href="/events/Health and Hygiene" class="nav__dropdown-item">Health and Hygiene</a>
+                        <a href="/events/Promotion of Sports and Music" class="nav__dropdown-item">Promotion of Sports and Music</a>
+                        <a href="/events/Livelihood Enhancement Projects" class="nav__dropdown-item">Livelihood Enhancement Projects</a>
+                        <a href="/events/Smile: Distribution of Life-essential Items" class="nav__dropdown-item">Smile: Distribution of Life-essential Items</a>
+                        <a href="/events/Art and Craft for Children" class="nav__dropdown-item">Art and Craft for Children</a>
+                        <a href="/events/Visit" class="nav__dropdown-item">Visits</a>
+                     </div>
+                  </div>
+               </div>
+               <a href="/about" class="nav__link">
+               <i class='bx bxs-quote-alt-left nav__icon'></i>
+               <span class="nav__name">Our Vision and Mission</span>
+               </a>
+               <a href="/team-tgf" class="nav__link">
+               <i class='bx bx-group nav__icon' style="color: purple"></i>
+               <span class="nav__name">Our Team</span>
+               </a>
+            </div>
+            <div class="nav__items">
+               <h3 class="nav__subtitle">Get in touch</h3>
+               <a href="/contact" class="nav__link">
+               <i class='bx bx-message-rounded nav__icon' style="color: brown"></i>
+               <span class="nav__name">Contact us</span>
+               </a>
+               <a href="/donate" class="nav__link">
+               <img class="nav__icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAWtJREFUSEvNVMFRwzAQ3PPHT8IHnBeiAkIFuAKsdBA6IB3QAXRAqACZBjAVEDrQD8OH8ORjMQq2kT1y5uzBM+il0Zx2b+/2jjDyoZHx8X8I5IeYmC/cA4gBZBRgadWbAtf1W4i52tcbtypsBTIXygCJ87kCmlRvBKQq0nIQQZILw+lXGulG0mwF57nICDjbRWKAp4dI2xLWh00g38XMFMgA7HWQfFKAWB3o9SAC+6kkefYRUIDTNriNYyuoQOWrWBjCbSNLgws11SsvMadx7RiXhHaAD1LgKrH3rswd6/5cOS4BoCnA3FfrUlViCOuAkFYxdQ+4PgewoRDH1cSWE/4IYFZnTbhTh3rRKFEPAuuMpYr0TekqC/47zQ44m6A9nVvLetxkgJcgROzuoyEl8hrPB85WwLCyd4r/iqATvE2gARwxsm2EsAdNvglZGFwRcMIh2dbc4FJNtV2Anaf3LuKQN/ZU3w9940dX8A2P65QZUG1zVwAAAABJRU5ErkJggg=="/>
+               <span class="nav__name"> Donate</span>
+               </a>
+               <a href="/apply/volunteer" class="nav__link">
+               <i class='bx bx-group nav__icon' id="toChange" style="color: blue"></i>
+               <span class="nav__name">Join us</span>
+               </a>
+            </div>
+            <div class="nav__items">
+               <h3 class="nav__subtitle">Website</h3>
+               <a href="/terms-conditions" class="nav__link">
+               <i class='bx bxs-note nav__icon'></i>
+               <span class="nav__name">Terms and Conditions</span>
+               </a>
+               <a href="/privacy-policy" class="nav__link">
+               <i class='bx bxs-cabinet nav__icon'></i>
+               <span class="nav__name">Privacy policy</span>
+               </a>
+            </div>
+            <div class="nav__items">
+               <h3 class="nav__subtitle">About <br>TecSo Global</h3>
+               <a href="http://tecsoglobal.com" class="nav__link">
+               <i class='bx bxs-right-top-arrow-circle nav__icon'></i>
+               <span class="nav__name">Visit</span>
+               </a>
+      </div>
+         </div>
+
+      </div>
+      
+   </nav>
+</div>
+<!--========== CONTENTS ==========-->
+<!--========== MAIN JS ==========-->
+<script type="text/javascript">
+ 
+  const showMenu = (headerToggle, navbarId) => {
+   const toggleBtn = document.getElementById(headerToggle),
+   nav = document.getElementById(navbarId)
+   
+   // Validate that variables exist
+   if (headerToggle && navbarId) {
+   toggleBtn.addEventListener('click', () => {
+      // We add the show-menu class to the div tag with the nav__menu class
+      nav.classList.toggle('show-menu')
+      
+      // change icon
+      toggleBtn.classList.toggle('bx-x')
+   })
+   }
+   }
+   showMenu('header-toggle', 'navbar')
+   
+   /*==================== LINK ACTIVE ====================*/
+   const linkColor = document.querySelectorAll('.nav__link')
+   function colorLink() {
+   linkColor.forEach(l => l.classList.remove('active'))
+   this.classList.add('active')
+   }
+   $("#header-toggle").click(function(e){
+      $("navbar").toggleClass("show-menu");
+      e.stopPropagation();
+
+   })
+   $('#navbar').click(function(e){
+    e.stopPropagation();
+});
+   $('body,html').click(function(e){
+   $('#navbar').removeClass('show-menu');
+   $("#header-toggle").removeClass("bx-x");
+
+
+   // e.stopPropagation() is not to be used here
+});
+
+   
+   linkColor.forEach(l => l.addEventListener('click', colorLink));
+   $("#navbar").on("swipeleft", function(e){
+      this.removeClass("show-menu");
+      $("#header-toggle").removeClass("bx-x");
+      console.log("SWIPED")
+   })
+
+
+   
+
+   
+</script>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Apply | TecSo Global Foundation</title>
+	<%- include("../dynamicCommons.ejs") %>
+</head>
+<body>
+<%-include("../header.ejs")%>
+	<div class="page-content">
+		<center> <% if(message){ %>
+ 		 <div id="message"><%= message %></div>
+ 		 <% } %>
+     <%if(error){%>
+     <div id="error"><%=error%></div>
+     <%}%>
+    </center>
+
+
+		<h1 class="display-1 ack">Apply</h1>
+		<div class="contain">
+
+  <div class="wrapper">
+
+    <div class="form">
+      <h4>Apply to volunteer/join us</h4>
+      <h2 class="form-headline">We will get in touch soon soon</h2>
+      <form id="submit-form" class="contact-form"  action="/apply/volunteer" method="POST" enctype="multipart/form-data">
+        <p>
+          <input id="name" name="name"  class="form-input" type="text" placeholder="Your Name*" required>
+          <small class="name-error"></small>
+        </p>
+        <p>
+          <input id="email" name="email"  class="form-input" type="email" placeholder="Your Email*" required>
+          <small class="name-error"></small>
+        </p>
+        <p>
+          <input id="phone" name="phone"  class="form-input" type="number" maxlength="10" placeholder="Your Phone Number*" required>
+          
+        </p>
+        <p>
+          <label for="img">Upload a clear image of yourself<small>(file size should be less than 2MB)</small></label>
+          <input type="file" accept="image/*" class="form-control" name="img" id="img" required>
+        </p>
+        <p class="full-width">
+          <textarea  minlength="20"  name="description" id="description" cols="30" rows="7" placeholder="Describe your expertise/interest*" required></textarea>
+          <small></small>
+        </p>
+        <p class="full-width">
+        	<label for="cv">Upload your CV or certificate <small>(file size should be less than 2MB)</small></label>
+				<input type="file" class="form-control" id="cv"
+					name="cv" value="" required accept="application/pdf">
+        </p>
+        
+        <p class="full-width">
+          <input type="submit" class="submit-btn" value="Submit" onclick="checkValidations()">
+          <button class="reset-btn" onclick="reset()">Reset</button>
+        </p>
+      </form>
+    </div>
+
+    <div class="contacts contact-wrapper">
+
+      <ul>
+        
+        <span class="hightlight-contact-info">
+          <li class="email-info" class=""><i class="fa fa-envelope" aria-hidden="true"></i> 
+          	<a href="" class="email">tgf@tecsoglobal.com</a></li>
+          <li><i class="fa fa-phone" aria-hidden="true"></i> <span class="highlight-text phone"> <a class="phone" href="">+ (91) 98989 98390</a></span></li>
+        </span>
+      </ul>
+    </div>
+  </div>
+</div>
+	</div>
+  <%- include("../footer.ejs") %>
+<script type="text/javascript">
+$(".nav__name")[6].classList.toggle("active")
+$(".nav__icon")[6].classList.toggle("active__icon")
+$("#toChange").css("color", "black")
+
+    
+  </script>
+</body>
+</html>

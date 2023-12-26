@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%=event.name%> | TecSo Global Foundation</title>
+	<%- include("../dynamicCommons.ejs") %>
+	<style type="text/css">
+
+			.paragraph-image>img{
+				height: 100px;
+				width: 100px;
+				object-fit: cover;
+				object-position: center;
+			}
+			.display-1{
+				font-size:2em !important;
+			}
+		
+			
+		.page-text{
+			padding-left: 10%;
+		}	
+		.display-1{
+			text-align: center;
+		}
+		.preview{
+			border: 3px solid black;
+		}
+	</style>
+</head>
+<body>
+<%-include("../header.ejs")%>
+	<div class="page-content">
+		<center> 
+        <% if(message){ %>
+  		<div id="message"><%= message %></div>
+  		<% } %></center>
+		<h1 class="display-1 ack"><%=event.name%></h1>
+		<div class="contact-form" >
+			<%if(!(event.published)){%>
+			<div class="volunteers">
+				<h3>Volunteers invloved</h3>
+				<div class="row">
+					
+						<%volunteers.forEach(function(volunteer, index){%>
+						<div class="container col-lg-3 col-md-6 com-sm-12" style="border: 6px solid lightgreen; padding: 30px; border-radius: 15px;">
+					<img src="<%=volunteer.profilePic.link%>"><br>
+					<%=volunteer.name%><br><%= " ("+volunteer.role%>)
+					<input type="checkbox" id="<%=volunteer._id%>" value="<%=volunteer._id%>"><br><br>
+					</div>
+
+				<%})%>
+				</div>
+
+				
+			</div>
+			<br><hr><br>
+			<h3>Donations</h3>
+			<div class="row">
+				<%var total=0%>
+					<%event.donations.forEach(function(donation){total=total+Number(donation.amount); %>
+					
+				<div class="container col-lg-3 col-md-6 col-sm-12" style="border: 6px solid lightblue;margin:30px; padding: 30px; border-radius: 15px;">
+
+				<h5><%=donation.name%></h5>
+				<p><b>Amount: </b><%=donation.amount/100%></p>
+				<a href="mailto:<%=donation.email%>"><%=donation.email%></a>
+				</div><br><hr>
+				
+			<%})%><br><br><hr><br>
+						<div class="container" style="margin-right: 30%; margin-top: 30px;">
+							
+							<div style="border: 6px solid pink; padding: 10px; border-radius: 15px; width: 20%;">Total Amount: <%=total/100%> </div><br>
+			<a href="/admin/dashboard/donations" class="btn btn-outline-success">Add more</a>
+				
+			</div><hr>
+			<br>
+</div>
+
+<hr>
+			<button type="submit" class="submit btn btn-success">Publish Event</button><br><br><br>
+	<%}%><br>
+		<form class="contact-form" action="/admin/dashboard/events/<%=event._id%>/delete" method="POST">
+			<button type="submit" class="btn btn-danger">Delete Event</button>
+			
+		</form>
+	</div><br><br>
+	<script type="text/javascript">
+		$(".submit").click(function(event){
+			var volunteersData = [];
+
+			<% volunteers.forEach(function(volunteer, index){ %>
+
+				if($("#<%=volunteer._id%>").is(':checked')){
+					volunteersData.push({
+						_id: "<%=volunteer._id%>",
+						name:"<%=volunteer.name%>",
+						profilePic: {link:"<%=volunteer.profilePic.link%>"},
+						role: "<%=volunteer.role%>"
+					})
+				}
+
+			<%})%>
+			console.log(volunteersData)
+			var volunteers=volunteersData
+
+			$.ajax({
+	            url: '/admin/dashboard/events/<%=event._id%>/publish',
+	            type: 'post',
+	            dataType: 'json',
+	            contentType: 'application/json',
+	           	xhrFields:{
+	           		withCredentials: true
+	           	},
+	            data: JSON.stringify(volunteers)
+       	 	})
+       	 	$( document ).ajaxStop(function() {
+  				window.location.href="/event/<%=event._id%>"
+			});
+
+		})
+	</script>
+	<h3>Event preview:</h3>
+	<div class="preview">
+		<h1 class="display-1"><%=event.name%></h1>
+		<center><h5><%=event.content.subtitle%></h5></center>
+		<div class="container">
+			<p class="pull-left">Domain: 
+				<span class="" style="padding:5px; border-radius: 10px; background-color: <%=tagColour%>; color: white"><a style="color:white" href="/events/<%=event.tag%>"><%=event.tag%></a></span>
+			</p>
+			<p>
+				<span class="pull-right event-date"><%=event.date%></span>
+			</p>
+		</div>
+		<br>
+		<hr>
+		<div class="row">
+			<div class="event-img-container container col-sm-12 col-md-10 col-lg-3 order-2 ">
+				<%event.content.img.forEach(function(image){ %>
+					<div class="paragraph-image">
+						<img src="<%=image.link%>">
+					</div><br>
+				<%}) %>
+			</div>
+			<div class="container col-lg-9 col-md-10 col-sm-12 order-1">
+				<div class="page-text">
+					<% event.content.paragraphs.forEach(function(paragraph){ %>
+						<p><%-paragraph%></p>
+					<%}) %>
+
+				</div>
+			</div>
+		</div>
+		<br>
+		<hr>
+		<%if(event.volunteers.length>0){%>
+		<h1 class="display-1">The Team</h1>
+		<div class="row">
+			<%volunteers.forEach(function(volunteer){%>
+				<div class="container col-lg-2 col-md-3 col-sm-4">
+					<div class="volunteer-card">
+						<center><div class="volunteer-image">
+							<img src="<%=volunteer.profilePic.link%>">
+						</div>
+						<div>
+							<p><%=volunteer.name%></p>
+						
+							<p>(<%=volunteer.role%>)</p>
+							<p><a href="/volunteer/<%=String(volunteer._id)%>">Other Contributions</a></p>
+						</div></center>
+
+						
+					</div>
+				</div>
+			<%})%>
+		</div><hr>
+		<%}%>
+		<%if(event.donations.length>0){%>
+		<center><h5 class="fade">We are grateful to the monetary contributors to the event</h5></center>
+		<div class="row">
+			<%event.donations.forEach(function(donation){%>
+				<div class="container col-lg-3 col-md-4 col-sm-6">
+					<div class="donation-card">
+						<P class="fade"><%=donation.name%></P>
+						
+					</div>
+				</div>
+				<%}) %>
+		</div>	
+		<%}%></div>
+</div>
+<script type="text/javascript">
+		$(".event-date").text(formatDate(new Date("<%=event.date%>")))
+	
+</script>
+<%- include("../footer.ejs")%>
+<%- include("adminControls.ejs")%>
+</body>
+</html>

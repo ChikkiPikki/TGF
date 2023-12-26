@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%=event.name%> | TecSo Global Foundation</title>
+	
+	<%- include("dynamicCommons.ejs") %>
+	<style type="text/css">
+		.paragraph-image>img{
+			height: 100px;
+			width: 100px;
+			object-fit: cover;
+			object-position: center;
+		}
+		.display-1{
+			font-size:2em !important;
+		}
+	
+		
+	.page-text{
+		padding-left: 10%;
+	}	
+	.display-1{
+		text-align: center;
+	}
+
+	</style>
+	
+
+</head>
+<body>
+	<%if(error){%>
+	<div id="error"><%=error%></div>
+	<%}%>
+	<%if(message){%>
+	<div id="message"><%=message%></div>
+	<%}%>
+<div class="sharethis-sticky-share-buttons" style=""></div>
+
+	<%- include("header.ejs") %>
+
+		<div class="page-content">
+			<h1 class="display-1"><%=event.name%></h1>
+			<center><h5><%=event.content.subtitle%></h5></center>
+			<div class="container">
+				<p class="pull-left">Domain: 
+					<span class="" style="padding:5px; border-radius: 10px; background-color: <%=tagColour%>; color: white"><a style="color:white" href="/events/<%=event.tag%>"><%=event.tag%></a></span>
+				</p>
+				<p>
+					<span class="pull-right event-date"><%=event.date%></span>
+				</p>
+			</div>
+			<br>
+			<hr>
+			<div class="row">
+				<div class="event-img-container container col-sm-12 col-md-10 col-lg-3 order-2 ">
+					<%event.content.img.forEach(function(image){ %>
+						<div class="paragraph-image">
+							<img src="<%=image.link%>">
+						</div><br>
+					<%}) %>
+				</div>
+				<div class="container col-lg-9 col-md-10 col-sm-12 order-1">
+					<div class="page-text">
+						<% event.content.paragraphs.forEach(function(paragraph){ %>
+							<p><%-paragraph%></p>
+						<%}) %>
+
+					</div>
+				</div>
+			</div>
+			<br>
+			<hr>
+			<%if(event.volunteers.length>0){%>
+			<h1 class="display-1">The Team</h1>
+			<div class="row">
+				<%volunteers.forEach(function(volunteer, ind){%>
+					<div class="container col-lg-2 col-md-3 col-sm-4">
+						<div class="volunteer-card">
+							<center><div class="volunteer-image">
+								<img src="<%=volunteer.profilePic.link%>">
+							</div>
+							<div>
+								<p><%=volunteer.name%></p>
+							
+								<p>(<%=event.volunteers[ind].role%>)</p>
+								<p><a href="/volunteer/<%=String(volunteer._id)%>">Other Contributions</a></p>
+							</div></center>
+
+							
+						</div>
+					</div>
+				<%})%>
+			</div><hr>
+			<%}%>
+			<%if(event.donations.length>0){%>
+			<center><h5 class="fade">We are grateful to the monetary contributors to the event</h5></center>
+			<div class="row">
+				<%event.donations.forEach(function(donation){%>
+					<div class="container col-lg-3 col-md-4 col-sm-6">
+						<div class="donation-card">
+							<P class="fade"><%=donation.name%></P>
+							
+						</div>
+					</div>
+					<%}) %>
+			</div>	
+			<%}%>
+			
+		</div>
+	<%- include("footer.ejs") %>
+	<script type="text/javascript">
+		$(".event-date").text(formatDate(new Date("<%=event.date%>")))
+		$(".nav__name")[1].classList.toggle("active")
+		$(".nav__icon")[1].classList.toggle("active__icon")
+
+	</script>
+</body>
+</html>

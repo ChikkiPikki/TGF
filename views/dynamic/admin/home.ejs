@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin | TecSo Global Foundation</title>
+	<%- include("../dynamicCommons.ejs") %>
+	<style type="text/css">
+		.container{
+			border: 3px solid black;
+			padding: 30px;
+		}
+	</style>
+</head>
+<body>
+	<%- include("../header.ejs")%>
+	<div class="page-content">
+		<h1 class="display-1 ack">Site Controls</h1>
+		<div class="row">
+			<div class="container  col-lg-3 col-md-6 col-sm-12">
+				<a class="btn btn-success" href="/admin/dashboard/volunteers">Volunteers</a><br><br>
+				<a class="btn btn-success" href="/admin/dashboard/volunteers/applications">Volunteer Applications</a>
+			</div>
+			<div class="container col-sm-12 col-md-6 col-lg-3">
+				<a class="btn btn-warning" href="/admin/dashboard/images/volunteers">Edit volunteer images</a><br><br>
+				<a class="btn btn-warning" href="/admin/dashboard/images/slider">Edit home-slider images</a>
+			</div>
+			<div class="container col-lg-3 col-md-6 col-sm-12">
+				<a class="btn btn-success" href="/admin/dashboard/queries">Site Queries</a>
+			</div>
+			<div class="container col-sm-12 col-md-6 col-lg-3 col-sm-12">
+				<a class="btn btn-warning" href="https://analytics.google.com/analytics/web/#/p295507273/realtime/overview?params=_u..nav%3Dmaui%26_u..pageSize%3D25">Check site traffic</a><br><br>
+				<a class="btn btn-success" href="/admin/generate-site-report">Generate Site Report (Excel Sheet)</a>
+			</div>
+			<div class="container col-sm-12 col-md-6 col-lg-3 col-sm-12">
+                <a class = "btn btn-success" href="/admin/dashboard/donations">View and assign Donations</a>
+			</div>
+			<div class="container col-sm-12 col-md-6 col-lg-3 col-sm-12">
+                <a class = "btn btn-success" href="/admin/dashboard/events/create">Create a new event</a><br><br>
+                <a class = "btn btn-warning" href="/admin/dashboard/events/">View, delete, or publish unpublished events</a><br><br>
+                <a class = "btn btn-danger" href="/admin/dashboard/events/published">Delete published events</a><br><br>
+
+			</div>
+			<div class="container col-sm-12 col-md-6 col-lg-3 col-sm-12">
+                <a class = "btn btn-warning" href="/admin/meta/Volunteers">Change number of volunteers</a><br><br>
+                <a class = "btn btn-warning" href="/admin/meta/Events">Change number of events</a><br><br>
+                <a class = "btn btn-warning" href="/admin/meta/Data">Change number of data</a><br><br>
+			</div>
+		</div>
+
+		<!-- <iframe src="https://www.google.com/maps/embed/v1/streetview?key=AIzaSyDjgF-YwYvHfyHkLhlsNtHmXuOYll7eutQ&location=46.414382,10.013988&heading=210&pitch=10&fov=35"></iframe> -->
+	</div>
+
+	<%- include("../footer.ejs") %>
+	<%- include("adminControls.ejs") %>
+</body>
+</html>

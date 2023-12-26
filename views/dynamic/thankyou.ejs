@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Thank You, <%=donation.name%>! | TecSo Global Foundation</title>
+	<%- include("dynamicCommons.ejs") %>
+</head>
+<body>
+	
+<div class="sharethis-sticky-share-buttons" style=""></div>
+
+	<%- include("header.ejs") %>
+	<div class="page-content">
+		<h4 class=" ack">Dear <%= donation.name%>,</h1>
+		<div class="container"><p class="fade">
+			Your donation has been received and verified.
+			We thank you from the bottom our hearts for your Rupees <%= donation.amount / 100%> donation.
+			Your donation will be used in our future projects and ventures towards the betterment of the youth.
+		</p>
+		<p class="fade">You will receive a notification on your email when your donation has been put to use in the betterment of the people. It will contain a link to the event blog, where you will be credited for your contribution.</p>
+		<p class="fade">Thank you for making someone's life better.</p>
+		<p class="fade">To know more about our ventures, our mission, and our work, please get in touch by visiting the following pages.</p>
+		<a href="/contact" class="btn btn-outline-info nav__dropdown-item">Contact us</a>
+		<br>
+		<hr>
+		<ul style="margin-left: 40px;">
+			<li>	<a href="/about" class="nav__dropdown-item">Our Vision and Mission</a></li>
+			<li>	<a href="/events/Education" class="nav__dropdown-item">Education</a></li>
+			<li>	<a href="/events/Health and Hygiene" class="nav__dropdown-item">Health and Hygiene</a></li>
+			<li>	<a href="/events/Promotion of Sports and Music" class="nav__dropdown-item">Promotion of Sports and Music</a></li>
+			<li>	<a href="/events/Livelihood Enhancement Projects" class="nav__dropdown-item">Livelihood Enhancement Projects</a></li>
+			<li>	<a href="/events/Smile: Distribution of Life-essential Items" class="nav__dropdown-item">Smile: Distribution of Life-essential Items</a></li>
+			<li>	<a href="/events/Art and Craft for Children" class="nav__dropdown-item">Art and Craft for Children</a></li>
+			<li>	<a href="/events/Visit" class="nav__dropdown-item">Visits</a></li>
+			</li>
+		</ul>
+	</div>
+	</div>
+	<%- include("footer.ejs") %>
+	<script type="text/javascript">
+		$(".nav__name")[6].classList.toggle("active")    
+		$(".nav__icon")[6].classList.toggle("active__icon")
+
+	</script>
+
+</body>
+</html>
